@@ -1,6 +1,6 @@
 package com.test.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.test.game.states.GameStateManager;
 import com.test.game.states.MenuState;
 
-public class Khartoosha extends ApplicationAdapter {
+public class Khartoosha extends Game {
 
 	public static final float Gwidth= 800, Gheight = 480;
 	public static final String title = "Khartoosha";

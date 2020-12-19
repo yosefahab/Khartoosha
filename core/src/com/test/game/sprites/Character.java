@@ -14,11 +14,16 @@ public class Character {
     private Animation animation;
 
     private Sound bulletSound;
-    public Character(int x,int y){
+    public Character(int x,int y, boolean k){
         position = new Vector2(x,y);
         velocity= new Vector2(0,0);
-        character = new Texture("mando.png");
-        animation = new Animation(new TextureRegion(character), 1, .5f);
+        if (k){
+            character = new Texture("bruceSprite.png");
+            animation = new Animation(new TextureRegion(character), 1, .5f);}
+        else{
+            character = new Texture("mandoSprite.png");
+            animation = new Animation(new TextureRegion(character), 4, .5f);}
+
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("9mm.ogg"));
     }
     public void update(float delta){
@@ -28,7 +33,7 @@ public class Character {
         velocity.scl(delta);
         position.add(velocity.x,velocity.y);
 
-    velocity.scl(1/delta);
+        velocity.scl(1/delta);
     }
     public Vector2 getPosition(){
         return position;

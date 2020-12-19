@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.test.game.Khartoosha;
 
-
-
 public class MenuState extends State {
     private Texture background, character;
 

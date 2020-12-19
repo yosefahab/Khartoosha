@@ -18,7 +18,13 @@ public abstract class State {
     public abstract void update(float delta);
     public abstract void render(SpriteBatch sb);
     public abstract void dispose();
-    public abstract void resize(int width, int height);
+
+    public void resize(int width, int height){
+        aspectRatio = (float) width / height;
+        gameCam.setToOrtho(false,width,height);
+        gameCam.viewportWidth = width;
+        gameCam.viewportHeight = aspectRatio * gameCam.viewportWidth;
+    }
 
 }
 
