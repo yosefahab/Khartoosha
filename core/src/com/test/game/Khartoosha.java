@@ -10,7 +10,7 @@ import com.test.game.states.MenuState;
 
 public class Khartoosha extends ApplicationAdapter {
 
-	public static final int Gwidth= 800, Gheight = 480;
+	public static final float Gwidth= 800, Gheight = 480;
 	public static final String title = "Khartoosha";
 	private GameStateManager gsm;
 	private SpriteBatch batch;
@@ -21,10 +21,10 @@ public class Khartoosha extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		//music = Gdx.audio.newMusic(Gdx.files.internal("" ));
-		//music.setLooping(true);
-		//music.setVolume(0.1f);
-		//music.play();
+		music = Gdx.audio.newMusic(Gdx.files.internal("Castor.mp3" ));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
 		gsm.push(new MenuState(gsm));
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 	}

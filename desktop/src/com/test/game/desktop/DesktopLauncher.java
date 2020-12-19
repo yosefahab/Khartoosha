@@ -7,8 +7,8 @@ import com.test.game.Khartoosha;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height=Khartoosha.Gheight;
-		config.width=Khartoosha.Gwidth;
+		config.height=(int)Khartoosha.Gheight;
+		config.width=(int)Khartoosha.Gwidth;
 		config.title=Khartoosha.title;
 		new LwjglApplication(new Khartoosha(), config);
 	}

@@ -33,7 +33,7 @@ public class MenuState extends State {
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Khartoosha.Gwidth, Khartoosha.Gheight);
-        sb.draw(character, Khartoosha.Gwidth / 2 - character.getWidth() / 2, Khartoosha.Gheight / 2);
+        sb.draw(character, Khartoosha.Gwidth / 2 - (float)character.getWidth() / 2, Khartoosha.Gheight / 2);
         sb.end();
     }
 
@@ -41,5 +41,12 @@ public class MenuState extends State {
     public void dispose() {
         background.dispose();
         character.dispose();
+    }
+    @Override
+    public void resize(int width, int height){
+        aspectRatio = (float) width / height;
+        gameCam.setToOrtho(false,width,height);
+        gameCam.viewportWidth = width;
+        gameCam.viewportHeight = aspectRatio * gameCam.viewportWidth;
     }
 }

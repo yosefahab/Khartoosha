@@ -24,10 +24,13 @@ public class PlayState extends State {
             chrc.jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            chrc.moveLeft();;
+            chrc.moveLeft();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            chrc.moveRight();;
+            chrc.moveRight();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            chrc.fire();
         }
     }
 
@@ -39,9 +42,8 @@ public class PlayState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(gameCam.combined);
         sb.begin();
-        sb.draw(background,gameCam.position.x - (gameCam.viewportWidth/ 2),gameCam.position.y);
+        sb.draw(background, 0, 0, Khartoosha.Gwidth, Khartoosha.Gheight);
         sb.draw(chrc.getTexture(),chrc.getPosition().x,chrc.getPosition().y);
         sb.end();
     }
@@ -49,5 +51,12 @@ public class PlayState extends State {
     public void dispose(){
         background.dispose();
         chrc.dispose();
+    }
+    @Override
+    public void resize(int width, int height){
+        aspectRatio = (float) width / height;
+        gameCam.setToOrtho(false,width,height);
+        gameCam.viewportWidth = width;
+        gameCam.viewportHeight = aspectRatio * gameCam.viewportWidth;
     }
 }

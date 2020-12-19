@@ -1,5 +1,6 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,7 +19,7 @@ public class Character {
         velocity= new Vector2(0,0);
         character = new Texture("mando.png");
         animation = new Animation(new TextureRegion(character), 1, .5f);
-        //bulletSound = Gdx.audio.newSound(Gdx.files.internal(""));
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("9mm.ogg"));
     }
     public void update(float delta){
 
