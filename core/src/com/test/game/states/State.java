@@ -15,7 +15,7 @@ public abstract class State {
         gameCam.setToOrtho(false,400,240);
     }
     public abstract void handleInput();
-    public abstract void update(float delta);
+    public abstract void update();
     public abstract void render(SpriteBatch sb);
     public abstract void dispose();
 

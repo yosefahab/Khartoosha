@@ -49,10 +49,10 @@ public class PlayState extends State {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         handleInput();
-        chrc.update(delta);
-        char2.update(delta);
+        chrc.update();
+        char2.update();
     }
 
     @Override

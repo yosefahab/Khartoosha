@@ -8,7 +8,7 @@ public class GameStateManager {
 
     public GameStateManager(){
 
-    states = new Stack<State>();
+    states = new Stack<>();
     }
     public void push(State state){
         states.push(state);
@@ -20,8 +20,8 @@ public class GameStateManager {
         states.pop().dispose();
         states.push(state);
     }
-    public void update(float delta){
-        states.peek().update(delta);
+    public void update(){
+        states.peek().update();
     }
     public void render(SpriteBatch sb){
         states.peek().render(sb);

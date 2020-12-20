@@ -32,7 +32,7 @@ public class Khartoosha extends Game {
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.update();
 		gsm.render(batch);
 	}
 	

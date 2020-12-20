@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Character {
     private static final int gravity = -15;
+    private float delta = Gdx.graphics.getDeltaTime();
     private Vector2 position,velocity;
     private Texture character;
     private Animation animation;
@@ -26,27 +27,42 @@ public class Character {
 
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("9mm.ogg"));
     }
-    public void update(float delta){
-
-        animation.update(delta);
+    public void update(){
         velocity.add(0,gravity);
         velocity.scl(delta);
-        position.add(velocity.x,velocity.y);
+        position.add(0,velocity.y);
 
         velocity.scl(1/delta);
     }
     public Vector2 getPosition(){
         return position;
     }
-    public TextureRegion getTexture(){
-        return animation.getFrame();
-    }
-    public void jump() { velocity.y = 300; }
-    public void moveRight() { velocity.x+=2; }
-    public void moveLeft(){
-        velocity.x-=2;
-    }
-    public void dispose() { character.dispose(); }
+    public TextureRegion getTexture(){ return animation.getFrame(); }
 
-    public void fire(){ bulletSound.play(0.5f);}
+    public void jump() {
+        velocity.y = 300;
+    }
+    public void moveRight() {
+        animation.update(Gdx.graphics.getDeltaTime());
+        velocity.add(2,0);
+        velocity.scl(Gdx.graphics.getDeltaTime());
+        position.add(velocity.x,0);
+
+        velocity.scl(1/Gdx.graphics.getDeltaTime());
+    }
+    public void moveLeft() {
+        animation.update(Gdx.graphics.getDeltaTime());
+        velocity.add(-2,0);
+        velocity.scl(Gdx.graphics.getDeltaTime());
+        position.add(velocity.x,0);
+
+        velocity.scl(1/Gdx.graphics.getDeltaTime());
+    }
+    public void dispose() {
+        character.dispose();
+    }
+
+    public void fire(){
+        bulletSound.play(0.5f);
+    }
 }
