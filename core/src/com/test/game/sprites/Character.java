@@ -28,6 +28,7 @@ public class Character {
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("9mm.ogg"));
     }
     public void update(){
+        velocity.x=0;
         velocity.add(0,gravity);
         velocity.scl(delta);
         position.add(0,velocity.y);
@@ -37,14 +38,15 @@ public class Character {
     public Vector2 getPosition(){
         return position;
     }
+
     public TextureRegion getTexture(){ return animation.getFrame(); }
 
     public void jump() {
-        velocity.y = 300;
+        velocity.y = 500;
     }
     public void moveRight() {
         animation.update(Gdx.graphics.getDeltaTime());
-        velocity.add(2,0);
+        velocity.add(200,0);
         velocity.scl(Gdx.graphics.getDeltaTime());
         position.add(velocity.x,0);
 
@@ -52,12 +54,13 @@ public class Character {
     }
     public void moveLeft() {
         animation.update(Gdx.graphics.getDeltaTime());
-        velocity.add(-2,0);
+        velocity.add(-200,0);
         velocity.scl(Gdx.graphics.getDeltaTime());
         position.add(velocity.x,0);
 
         velocity.scl(1/Gdx.graphics.getDeltaTime());
     }
+
     public void dispose() {
         character.dispose();
     }

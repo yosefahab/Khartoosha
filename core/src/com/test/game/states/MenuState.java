@@ -17,7 +17,10 @@ public class MenuState extends State {
 
     @Override
     public void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            gsm.set(new PlayState(gsm,"Player1","Player2"));
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             gsm.set(new PlayState(gsm));
         }
     }
@@ -42,6 +45,7 @@ public class MenuState extends State {
     }
     @Override
     public void resize(int width, int height){
+        System.out.println("Resized");
         aspectRatio = (float) width / height;
         gameCam.setToOrtho(false,width,height);
         gameCam.viewportWidth = width;
