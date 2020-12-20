@@ -17,7 +17,7 @@ public class PlayState extends State {
         gameCam.setToOrtho(false, Khartoosha.Gwidth,Khartoosha.Gheight);
         background = new Texture("background.png");
     }
-    public PlayState(GameStateManager gsm, String player1, String player2) { //later used to add player names
+    public PlayState(GameStateManager gsm, String player1, String player2) {
         super(gsm);
         Player1 = new Character(10,20,false);
         Player2 = new Character(100,20,true);
@@ -39,7 +39,7 @@ public class PlayState extends State {
         if (Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)) {
             Player1.fire();
         }
-
+        if (Player2!=null){
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             Player2.jump();
         }
@@ -52,13 +52,15 @@ public class PlayState extends State {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             Player2.fire();
         }
+        }
     }
 
     @Override
     public void update() {
+        gameCam.update();
         handleInput();
         Player1.update();
-        Player2.update();
+        if (Player2!= null){Player2.update();}
     }
 
     @Override
@@ -83,6 +85,6 @@ public class PlayState extends State {
         aspectRatio = (float) width / height;
         gameCam.setToOrtho(false,width,height);
         gameCam.viewportWidth = width;
-        gameCam.viewportHeight = aspectRatio * gameCam.viewportWidth;
+        gameCam.viewportHeight = aspectRatio * width;
     }
 }

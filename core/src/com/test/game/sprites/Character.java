@@ -42,7 +42,7 @@ public class Character {
     public TextureRegion getTexture(){ return animation.getFrame(); }
 
     public void jump() {
-        velocity.y = 500;
+        velocity.y = 400;
     }
     public void moveRight() {
         animation.update(Gdx.graphics.getDeltaTime());

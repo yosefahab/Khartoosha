@@ -49,6 +49,6 @@ public class MenuState extends State {
         aspectRatio = (float) width / height;
         gameCam.setToOrtho(false,width,height);
         gameCam.viewportWidth = width;
-        gameCam.viewportHeight = aspectRatio * gameCam.viewportWidth;
+        gameCam.viewportHeight = aspectRatio * width;
     }
 }
