@@ -1,71 +1,67 @@
 package com.test.game.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.test.game.Khartoosha;
 
 
-public class Character {
-    private static final int gravity = -15;
-    private float delta = Gdx.graphics.getDeltaTime();
-    private Vector2 position,velocity;
-    private Texture character;
-    private Animation animation;
+public class Character extends Sprite
+{
 
-    private Sound bulletSound;
-    public Character(int x,int y, boolean k){
-        position = new Vector2(x,y);
-        velocity= new Vector2(0,0);
-        if (k){
-            character = new Texture("bruceSprite.png");
-            animation = new Animation(new TextureRegion(character), 1, .5f);}
-        else{
-            character = new Texture("mandoSprite.png");
-            animation = new Animation(new TextureRegion(character), 4, .5f);}
+    // Physics world
+    public World world;
+    public Body physicsBody;
 
-        bulletSound = Gdx.audio.newSound(Gdx.files.internal("9mm.ogg"));
-    }
-    public void update(){
-        velocity.x=0;
-        velocity.add(0,gravity);
-        velocity.scl(delta);
-        position.add(0,velocity.y);
-
-        velocity.scl(1/delta);
-    }
-    public Vector2 getPosition(){
-        return position;
+    public Character(World world)
+    {
+        this.world = world;
+        defineCharacterPhysics();
     }
 
-    public TextureRegion getTexture(){ return animation.getFrame(); }
+    public void defineCharacterPhysics()
+    {
+        BodyDef bodyDefinition = new BodyDef();
+        bodyDefinition.position.set(200 / Khartoosha.PPM, 200 / Khartoosha.PPM);
+        bodyDefinition.type = BodyDef.BodyType.DynamicBody;
+        physicsBody = world.createBody(bodyDefinition);
 
-    public void jump() {
-        velocity.y = 400;
-    }
-    public void moveRight() {
-        animation.update(Gdx.graphics.getDeltaTime());
-        velocity.add(200,0);
-        velocity.scl(Gdx.graphics.getDeltaTime());
-        position.add(velocity.x,0);
+        FixtureDef fixtureDefinition = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(25 / Khartoosha.PPM);
 
-        velocity.scl(1/Gdx.graphics.getDeltaTime());
-    }
-    public void moveLeft() {
-        animation.update(Gdx.graphics.getDeltaTime());
-        velocity.add(-200,0);
-        velocity.scl(Gdx.graphics.getDeltaTime());
-        position.add(velocity.x,0);
-
-        velocity.scl(1/Gdx.graphics.getDeltaTime());
+        fixtureDefinition.shape = shape;
+        physicsBody.createFixture(fixtureDefinition);
     }
 
-    public void dispose() {
-        character.dispose();
+
+
+    public void jump()
+    {
+        this.physicsBody.applyLinearImpulse(new Vector2(0, 4F), this.physicsBody.getWorldCenter(), true);
     }
 
-    public void fire(){
-        bulletSound.play(0.5f);
+
+    public void moveRight()
+    {
+        if (this.physicsBody.getLinearVelocity().x <= 2)
+        {
+            this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
+        }
     }
+
+    public void moveLeft()
+    {
+        if (this.physicsBody.getLinearVelocity().x >= -2)
+        {
+            this.physicsBody.applyLinearImpulse(new Vector2(-0.1F, 0), this.physicsBody.getWorldCenter(), true);
+        }
+
+    }
+
+    public void dispose()
+    {
+
+    }
+
 }
