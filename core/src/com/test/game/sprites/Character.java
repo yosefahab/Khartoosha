@@ -1,13 +1,12 @@
 package com.test.game.sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
+
 
 
 public class Character extends Sprite
@@ -16,6 +15,7 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
+
     public float delta = Gdx.graphics.getDeltaTime();
     public Animation animation;
     TextureRegion Player1;
