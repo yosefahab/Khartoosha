@@ -1,9 +1,13 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
+import com.test.game.screens.PlayScreen;
 
 
 public class Character extends Sprite
@@ -12,9 +16,13 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-
+    public float delta = Gdx.graphics.getDeltaTime();
+    public Animation animation;
+    TextureRegion Player1;
     public Character(World world)
     {
+        Player1 = new TextureRegion("mandoSprite.png");
+        animation = new Animation(Player1,4,.5f);
         this.world = world;
         defineCharacterPhysics();
     }
@@ -46,6 +54,7 @@ public class Character extends Sprite
     {
         if (this.physicsBody.getLinearVelocity().x <= 2)
         {
+            animation.update(delta);
             this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
         }
     }

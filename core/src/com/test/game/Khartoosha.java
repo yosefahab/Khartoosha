@@ -21,6 +21,11 @@ public class Khartoosha extends Game
 	@Override
 	public void create ()
 	{
+		/*
+		* PLEASE DISPOSE OF SCREENS BEFORE CREATING NEW ONES
+		* USE THIS.DISPOSE()
+		*
+		* */
 		this.setScreen(new PlayScreen(this));
 	}
 
