@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -26,10 +27,11 @@ public class PlayScreen implements Screen
     // Reference to our game, used to set screens
     private Khartoosha game;
 
-
+    private TextureAtlas atlas;
 
     private Character character;
 
+    public float delta = Gdx.graphics.getDeltaTime();
 
     // Tiled map variables
     private TmxMapLoader mapLoader;
@@ -83,6 +85,8 @@ public class PlayScreen implements Screen
 
     public PlayScreen(Khartoosha game)
     {
+        atlas = new TextureAtlas("Characters.pack");
+
         // Reference to our game, used to set screens
         this.game = game;
 
@@ -100,7 +104,7 @@ public class PlayScreen implements Screen
         initMap();
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
-        character = new Character(box2dWorld);
+        character = new Character(box2dWorld, this);
     }
 
     public void handleInput()
@@ -121,7 +125,7 @@ public class PlayScreen implements Screen
         // Update physics world
         box2dWorld.step(1/60F, 6, 2);
         handleInput();
-
+        character.update(delta);
         // Update camera position wrt character position
         gameCam.update();
         gameCam.position.x = character.physicsBody.getPosition().x;
@@ -155,7 +159,11 @@ public class PlayScreen implements Screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.render();
+
         box2dDebugRenderer.render(box2dWorld, gameCam.combined);
+        game.batch.begin();
+        character.draw(game.batch);
+        game.batch.end();
     }
 
     @Override
@@ -182,4 +190,5 @@ public class PlayScreen implements Screen
     {
 
     }
+    public TextureAtlas getAtlas(){return atlas;}
 }

@@ -16,11 +16,12 @@ public class Khartoosha extends Game
 	// Gravity constant
 	public static final float GRAVITY = -1;
 
-	private SpriteBatch batch;
+	public SpriteBatch batch;
 
 	@Override
 	public void create ()
 	{
+		batch = new SpriteBatch();
 		/*
 		* PLEASE DISPOSE OF SCREENS BEFORE CREATING NEW ONES
 		* USE THIS.DISPOSE()

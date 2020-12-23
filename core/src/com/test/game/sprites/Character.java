@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
-
+import com.test.game.screens.PlayScreen;
 
 
 public class Character extends Sprite
@@ -16,15 +16,18 @@ public class Character extends Sprite
     public World world;
     public Body physicsBody;
 
-    public float delta = Gdx.graphics.getDeltaTime();
-    public Animation animation;
-    TextureRegion Player1;
-    public Character(World world)
+    private TextureRegion texturereg;
+
+
+    public Character(World world, PlayScreen screen)
     {
-        Player1 = new TextureRegion("mandoSprite.png");
-        animation = new Animation(Player1,4,.5f);
+        super(screen.getAtlas().findRegion("bruceSprite"));
         this.world = world;
         defineCharacterPhysics();
+
+        texturereg = new TextureRegion(getTexture(),0,0,200,200);
+        setBounds(0,0,200/Khartoosha.PPM,200/Khartoosha.PPM);
+        setRegion(texturereg);
     }
 
     public void defineCharacterPhysics()
@@ -42,7 +45,9 @@ public class Character extends Sprite
         physicsBody.createFixture(fixtureDefinition);
     }
 
-
+    public void update(float delta){
+        setPosition(physicsBody.getPosition().x-getWidth()/2, physicsBody.getPosition().y-getHeight()/2);
+    }
 
     public void jump()
     {
@@ -54,7 +59,6 @@ public class Character extends Sprite
     {
         if (this.physicsBody.getLinearVelocity().x <= 2)
         {
-            animation.update(delta);
             this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
         }
     }
