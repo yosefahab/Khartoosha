@@ -87,7 +87,6 @@ public class PlayScreen implements Screen
         // Reference to our game, used to set screens
         this.game = game;
 
-
         gameCam = new OrthographicCamera();
         viewport = new FitViewport(Khartoosha.Gwidth / Khartoosha.PPM, Khartoosha.Gheight / Khartoosha.PPM, gameCam);
 
@@ -103,6 +102,7 @@ public class PlayScreen implements Screen
 
         character = new Character(box2dWorld, this);
     }
+
 
     public void handleInput()
     {

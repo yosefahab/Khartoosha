@@ -27,7 +27,7 @@ public class Character extends Sprite
     */
     private void loadCharacter(int i, int width,int height){
 
-        this.textureRegion = new TextureRegion(getTexture(),width*i,height*i,width,height);
+        this.textureRegion = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
         setRegion(textureRegion);
     }
@@ -60,9 +60,17 @@ public class Character extends Sprite
     public void update(float delta){
         //update position of texture
         setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5);
+        if (physicsBody.getPosition().y<-1000/Khartoosha.PPM)
+                physicsBody.setTransform(new Vector2(physicsBody.getPosition().x, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
         animation.update(delta);
     }
 
+    public Vector2 getBodyPosition(){return physicsBody.getPosition();}
+
+    public void setBodyPosition(Vector2 position){
+        physicsBody.setTransform(position.x / Khartoosha.PPM, position.y / Khartoosha.PPM , physicsBody.getAngle());
+    }
+    
     public void jump()
     {
         this.physicsBody.applyLinearImpulse(new Vector2(0, 4F), this.physicsBody.getWorldCenter(), true);
