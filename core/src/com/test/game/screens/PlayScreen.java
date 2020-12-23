@@ -26,7 +26,6 @@ public class PlayScreen implements Screen
     private Khartoosha game;
 
     private TextureAtlas atlas;
-
     private Character character;
 
     public float delta = Gdx.graphics.getDeltaTime();
@@ -68,8 +67,7 @@ public class PlayScreen implements Screen
 
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM,
-                    (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM, (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
 
             body = box2dWorld.createBody(bdef);
 

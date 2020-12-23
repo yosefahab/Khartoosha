@@ -39,6 +39,7 @@ public class Khartoosha extends Game
 	@Override
 	public void dispose ()
 	{
+		batch.dispose();
 		super.dispose();
 	}
 }
