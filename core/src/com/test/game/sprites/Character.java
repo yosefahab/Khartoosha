@@ -1,5 +1,6 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -45,7 +46,7 @@ public class Character extends Sprite
         loadCharacter(1,95,130); //select character based on menu selection
 
         animationManager = new AnimationManager(true,getTexture(),this);
-        runAnimation = animationManager.runAnimation(getTexture());
+        runAnimation = animationManager.runAnimation(1);
         animationManager.clearFrames();
     }
 
@@ -83,6 +84,7 @@ public class Character extends Sprite
     public void jump()
     {
         this.physicsBody.applyLinearImpulse(new Vector2(0, 4F), this.physicsBody.getWorldCenter(), true);
+        update(Gdx.graphics.getDeltaTime());
     }
 
 
@@ -91,6 +93,7 @@ public class Character extends Sprite
         if (this.physicsBody.getLinearVelocity().x <= 2)
         {
             this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            update(Gdx.graphics.getDeltaTime());
         }
     }
 
@@ -99,6 +102,7 @@ public class Character extends Sprite
         if (this.physicsBody.getLinearVelocity().x >= -2)
         {
             this.physicsBody.applyLinearImpulse(new Vector2(-0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            update(Gdx.graphics.getDeltaTime());
         }
 
     }

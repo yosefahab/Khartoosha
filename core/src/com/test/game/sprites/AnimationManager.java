@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import java.lang.invoke.SwitchPoint;
 
 public class AnimationManager {
     public enum State { JUMPING, STANDING, RUNNING, DEAD };
@@ -15,19 +14,22 @@ public class AnimationManager {
     private boolean faceRight;
     private float stateTimer;
     private Array<TextureRegion> frames;
-    private Animation tempAnimation;
+    private Animation<TextureRegion> tempAnimation;
     private Character player;
+    private Texture texture;
     public AnimationManager(boolean faceRight, Texture texture, Character player) {
         this.faceRight = faceRight;
         this.currentState = State.STANDING;
         this.previousState = State.STANDING;
         this.player = player;
+        this.texture = texture;
 
     }
-    public Animation runAnimation(Texture texture){
+    //@param charNum number of character in pack image, depends on which character selected
+    public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
         for (int i=1;i<5;i++){
-            frames.add(new TextureRegion(texture,(i * 95),130,95,130 ));
+            frames.add(new TextureRegion(this.texture,(i * 95),(charNum-1)*130,95,130 ));
         }
         tempAnimation = new Animation (0.1f,frames);
         return tempAnimation;
