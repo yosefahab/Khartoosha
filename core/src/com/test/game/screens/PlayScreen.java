@@ -31,7 +31,6 @@ public class PlayScreen implements Screen
     private Khartoosha game;
 
     private TextureAtlas atlas;
-
     private Character character;
     private Weapon pistol;
 
@@ -74,8 +73,7 @@ public class PlayScreen implements Screen
 
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM,
-                    (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM, (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
 
             body = box2dWorld.createBody(bdef);
 
@@ -95,7 +93,6 @@ public class PlayScreen implements Screen
         // Reference to our game, used to set screens
         this.game = game;
 
-
         gameCam = new OrthographicCamera();
         viewport = new FitViewport(Khartoosha.Gwidth / Khartoosha.PPM, Khartoosha.Gheight / Khartoosha.PPM, gameCam);
 
@@ -113,6 +110,7 @@ public class PlayScreen implements Screen
         pistol= new Weapon(box2dWorld,this,character.getPos(),0.05f);
 
     }
+
 
     public void handleInput()
     {
