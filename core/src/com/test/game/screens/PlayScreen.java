@@ -190,7 +190,6 @@ public class PlayScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        System.out.println("Resized");
         viewport.update(width, height);
     }
 
