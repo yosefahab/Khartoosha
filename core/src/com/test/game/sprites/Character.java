@@ -17,13 +17,16 @@ public class Character extends Sprite
     public Body physicsBody;
 
     private TextureRegion textureRegion;
-
+    BodyDef bodyDefinition;
 
     public Character(World world, PlayScreen screen)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
         this.world = world;
+
         defineCharacterPhysics();
+
+
 
         textureRegion = new TextureRegion(getTexture(),0,0,95,130); //define region of certain texture in png
         setBounds(0,0,95/Khartoosha.PPM,130/Khartoosha.PPM); //set size rendered texture
@@ -71,6 +74,14 @@ public class Character extends Sprite
             this.physicsBody.applyLinearImpulse(new Vector2(-0.1F, 0), this.physicsBody.getWorldCenter(), true);
         }
 
+    }
+    public Vector2 getPos()
+    {
+        if(physicsBody != null)
+        {
+            return physicsBody.getPosition();
+        }
+        return new Vector2(0,0);
     }
 
     public void dispose()

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -17,7 +18,11 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.test.game.Khartoosha;
+import com.test.game.sprites.Bullets;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.Weapon;
+
+import java.util.ArrayList;
 
 
 public class PlayScreen implements Screen
@@ -28,6 +33,7 @@ public class PlayScreen implements Screen
     private TextureAtlas atlas;
 
     private Character character;
+    private Weapon pistol;
 
     public float delta = Gdx.graphics.getDeltaTime();
 
@@ -81,10 +87,10 @@ public class PlayScreen implements Screen
 
     }
 
-
     public PlayScreen(Khartoosha game)
     {
         atlas = new TextureAtlas("Characters.pack");
+
 
         // Reference to our game, used to set screens
         this.game = game;
@@ -104,6 +110,8 @@ public class PlayScreen implements Screen
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
         character = new Character(box2dWorld, this);
+        pistol= new Weapon(box2dWorld,this,character.getPos(),0.05f);
+
     }
 
     public void handleInput()
@@ -117,6 +125,7 @@ public class PlayScreen implements Screen
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             character.moveRight();
         }
+
     }
 
     public void update()
@@ -125,6 +134,10 @@ public class PlayScreen implements Screen
         box2dWorld.step(1/60F, 6, 2);
         handleInput();
         character.update(delta);
+
+        pistol.update(delta);
+
+
         // Update camera position wrt character position
         gameCam.update();
         gameCam.position.x = character.physicsBody.getPosition().x;
@@ -154,16 +167,25 @@ public class PlayScreen implements Screen
     @Override
     public void render(float delta)
     {
+
+
+
+
+
         update();
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.render();
 
         box2dDebugRenderer.render(box2dWorld, gameCam.combined);
 
+
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         character.draw(game.batch);
+        pistol.render(game.batch);
+        pistol.draw(game.batch);
         game.batch.end();
     }
 
