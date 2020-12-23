@@ -1,5 +1,6 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -15,9 +16,11 @@ public class Character extends Sprite
     public World world;
     public Body physicsBody;
 
-    Animation animation;
+    public TextureRegion idle;
+    private AnimationManager animationManager;
+    public Animation runAnimation, jumpAnimation;
 
-    private TextureRegion textureRegion;
+
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -27,19 +30,23 @@ public class Character extends Sprite
     */
     private void loadCharacter(int i, int width,int height){
 
-        this.textureRegion = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
+        this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
-        setRegion(textureRegion);
+        setRegion(idle);
     }
 
     public Character(World world, PlayScreen screen)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
+
         this.world = world;
         defineCharacterPhysics();
 
         loadCharacter(1,95,130); //select character based on menu selection
-        animation = new Animation(textureRegion,5,.5f);
+
+        animationManager = new AnimationManager(true,getTexture(),this);
+        runAnimation = animationManager.runAnimation(getTexture());
+        animationManager.clearFrames();
     }
 
     public void defineCharacterPhysics()
@@ -60,9 +67,11 @@ public class Character extends Sprite
     public void update(float delta){
         //update position of texture
         setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5);
-        if (physicsBody.getPosition().y<-1000/Khartoosha.PPM)
-                physicsBody.setTransform(new Vector2(physicsBody.getPosition().x, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
-        animation.update(delta);
+        if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
+                physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
+
+        setRegion(animationManager.getFrame(delta));
+
     }
 
     public Vector2 getBodyPosition(){return physicsBody.getPosition();}
