@@ -22,8 +22,6 @@ import com.test.game.sprites.Character;
 
 public class PlayScreen implements Screen
 {
-
-
     // Reference to our game, used to set screens
     private Khartoosha game;
 
@@ -56,6 +54,7 @@ public class PlayScreen implements Screen
 
         box2dWorld = new World(new Vector2(0, -10), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
+        box2dDebugRenderer.setDrawBodies(false); //hides physics body
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -161,6 +160,8 @@ public class PlayScreen implements Screen
         mapRenderer.render();
 
         box2dDebugRenderer.render(box2dWorld, gameCam.combined);
+
+        game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         character.draw(game.batch);
         game.batch.end();

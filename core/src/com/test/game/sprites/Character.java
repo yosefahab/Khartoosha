@@ -16,7 +16,7 @@ public class Character extends Sprite
     public World world;
     public Body physicsBody;
 
-    private TextureRegion texturereg;
+    private TextureRegion textureRegion;
 
 
     public Character(World world, PlayScreen screen)
@@ -25,9 +25,9 @@ public class Character extends Sprite
         this.world = world;
         defineCharacterPhysics();
 
-        texturereg = new TextureRegion(getTexture(),0,0,200,200);
-        setBounds(0,0,200/Khartoosha.PPM,200/Khartoosha.PPM);
-        setRegion(texturereg);
+        textureRegion = new TextureRegion(getTexture(),0,0,95,130); //define region of certain texture in png
+        setBounds(0,0,95/Khartoosha.PPM,130/Khartoosha.PPM); //set size rendered texture
+        setRegion(textureRegion); //set region to the region we picked
     }
 
     public void defineCharacterPhysics()
@@ -46,7 +46,8 @@ public class Character extends Sprite
     }
 
     public void update(float delta){
-        setPosition(physicsBody.getPosition().x-getWidth()/2, physicsBody.getPosition().y-getHeight()/2);
+        setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5); //update position of texture
+
     }
 
     public void jump()
