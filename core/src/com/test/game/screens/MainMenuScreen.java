@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayMenuScreen;
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen implements Screen
+{
     private static final int PLAY_BUTTON_WIDTH = 340;
     private static final int PLAY_BUTTON_HEIGHT = 145;
     private static final int PLAY_BUTTON_Y = (int) (Khartoosha.Gheight - 160);

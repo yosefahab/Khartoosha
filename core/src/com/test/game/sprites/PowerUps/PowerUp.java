@@ -44,7 +44,7 @@ public abstract class PowerUp extends Sprite {
         shape.setRadius(10 / Khartoosha.PPM);
 
         fdef.shape = shape;
-        pupBody.createFixture(fdef);
+        pupBody.createFixture(fdef).setUserData("powerup");
 
     }
 

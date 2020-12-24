@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SpeedBoost  extends PowerUp{
+public class SpeedBoost  extends PowerUp
+{
 
     // a random number less than max_rate is generated if it's larger than spawn_rate then it's spawned
     // probability of spawn = (maxrate - spawnrate) / max_rate

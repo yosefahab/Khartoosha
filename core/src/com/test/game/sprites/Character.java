@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 
@@ -16,11 +17,11 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-
     public TextureRegion idle;
     private AnimationManager animationManager;
     public Animation runAnimation, jumpAnimation;
 
+    public boolean isGoingDown;
 
     /*
     @param x starting x-coordinate on pack
@@ -29,7 +30,8 @@ public class Character extends Sprite
     @param height height of each frame
     @param i index of character to choose
     */
-    private void loadCharacter(int i, int width,int height){
+    private void loadCharacter(int i, int width,int height)
+    {
 
         this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
@@ -62,7 +64,12 @@ public class Character extends Sprite
         shape.setRadius(25 / Khartoosha.PPM);
 
         fixtureDefinition.shape = shape;
-        physicsBody.createFixture(fixtureDefinition);
+        physicsBody.createFixture(fixtureDefinition).setUserData(this);
+
+
+
+
+
     }
 
     public void update(float delta){
@@ -77,7 +84,8 @@ public class Character extends Sprite
 
     public Vector2 getBodyPosition(){return physicsBody.getPosition();}
 
-    public void setBodyPosition(Vector2 position){
+    public void setBodyPosition(Vector2 position)
+    {
         physicsBody.setTransform(position.x / Khartoosha.PPM, position.y / Khartoosha.PPM , physicsBody.getAngle());
     }
     
@@ -107,6 +115,11 @@ public class Character extends Sprite
 
     }
 
+    public void moveDown()
+    {
+        this.physicsBody.setAwake(true);
+        isGoingDown = true;
+    }
     public void dispose()
     {
 
