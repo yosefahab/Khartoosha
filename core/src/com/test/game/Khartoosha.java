@@ -23,6 +23,7 @@ public class Khartoosha extends Game
 	@Override
 	public void create ()
 	{
+
 		batch = new SpriteBatch();
 		/*
 		* PLEASE DISPOSE OF SCREENS BEFORE CREATING NEW ONES
