@@ -36,17 +36,17 @@ public class Character extends Sprite
         setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen)
+    public Character(World world, PlayScreen screen, int charNum)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
 
         this.world = world;
         defineCharacterPhysics();
 
-        loadCharacter(1,95,130); //select character based on menu selection
+        loadCharacter(charNum,95,130); //select character based on menu selection
 
         animationManager = new AnimationManager(true,getTexture(),this);
-        runAnimation = animationManager.runAnimation(1);
+        runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
     }
 

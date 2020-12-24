@@ -51,7 +51,7 @@ public class PlayMenuScreen implements Screen {
             game.batch.draw(onePlayerActive, ONE_PLAYER_BUTTON_X, ONE_PLAYER_BUTTON_Y, ONE_PLAYER_BUTTON_WIDTH, ONE_PLAYER_BUTTON_HEIGHT);
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 this.dispose();
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new OnePlayerMenuScreen(game));
             }
         } else {
             game.batch.draw(onePlayerInActive, ONE_PLAYER_BUTTON_X, ONE_PLAYER_BUTTON_Y, ONE_PLAYER_BUTTON_WIDTH, ONE_PLAYER_BUTTON_HEIGHT);

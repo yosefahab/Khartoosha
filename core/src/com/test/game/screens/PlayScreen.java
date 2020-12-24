@@ -80,7 +80,7 @@ public class PlayScreen implements Screen
     }
 
 
-    public PlayScreen(Khartoosha game)
+    public PlayScreen(Khartoosha game, int charNum, int mapNum)
     {
         atlas = new TextureAtlas("Characters.pack");
 
@@ -100,7 +100,7 @@ public class PlayScreen implements Screen
         initMap();
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
-        character = new Character(box2dWorld, this);
+        character = new Character(box2dWorld, this, charNum);
     }
 
 
