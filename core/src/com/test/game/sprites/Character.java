@@ -23,6 +23,11 @@ public class Character extends Sprite
 
     public boolean isGoingDown;
 
+    private final float DEFAULT_SPEED = 2;
+    private float speedCap = DEFAULT_SPEED;
+    private float speedScale = 0.4f;
+
+    private float jumpScale = 4;
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -91,25 +96,25 @@ public class Character extends Sprite
     
     public void jump()
     {
-        this.physicsBody.applyLinearImpulse(new Vector2(0, 4F), this.physicsBody.getWorldCenter(), true);
+        this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
         update(Gdx.graphics.getDeltaTime());
     }
 
 
     public void moveRight()
     {
-        if (this.physicsBody.getLinearVelocity().x <= 2)
+        if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            this.physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), this.physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
     }
 
     public void moveLeft()
     {
-        if (this.physicsBody.getLinearVelocity().x >= -2)
+        if (this.physicsBody.getLinearVelocity().x >= -speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(-0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            this.physicsBody.applyLinearImpulse(new Vector2(-speedScale, 0), this.physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
 
@@ -124,5 +129,18 @@ public class Character extends Sprite
     {
 
     }
+
+    // Speed boost pup
+    public void setSpeedCap(float speedCap)
+    {
+        this.speedCap = speedCap;
+    }
+
+    public void resetSpeedCap() {
+        speedCap = DEFAULT_SPEED;
+    }
+
+
+
 
 }

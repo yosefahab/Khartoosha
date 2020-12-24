@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
+import com.test.game.sprites.Character;
 
 import java.util.Random;
 
@@ -35,8 +36,9 @@ public abstract class PowerUp extends Sprite {
     {
         BodyDef bdef = new BodyDef();
         //initial position is set randomly in game world
-        bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth) / Khartoosha.PPM, Khartoosha.Gheight / Khartoosha.PPM + 1);
+        bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 100) / Khartoosha.PPM + 2, Khartoosha.Gheight / Khartoosha.PPM + 3);
         bdef.type = BodyDef.BodyType.StaticBody;
+
         pupBody = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
@@ -44,7 +46,7 @@ public abstract class PowerUp extends Sprite {
         shape.setRadius(10 / Khartoosha.PPM);
 
         fdef.shape = shape;
-        pupBody.createFixture(fdef).setUserData("powerup");
+        pupBody.createFixture(fdef).setUserData(this);
 
     }
 
@@ -73,7 +75,7 @@ public abstract class PowerUp extends Sprite {
     /**
        Applies effect of the powerup  to the game
      */
-    public abstract void effect();
+    public abstract void effect(Character c);
 
     /**
      * Update timers of pup
@@ -83,18 +85,9 @@ public abstract class PowerUp extends Sprite {
     /**
         Reset effects of the powerup
      */
-    public void reset() {
+    public abstract void reset();
 
-        // TODO:add to effect function
-        pupBody.setTransform(rand.nextInt(10), 5,0);
-        pupBody.setType(BodyDef.BodyType.StaticBody);
 
-        active_time = 0;
-        setSpawned(false);
-
-        currentPups--;
-
-    }
 
 
 

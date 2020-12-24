@@ -30,7 +30,8 @@ public class Khartoosha extends Game
 		* USE THIS.DISPOSE()
 		*
 		* */
-		this.setScreen(new PlayScreen(this, 1, 1));
+		//this.setScreen(new PlayScreen(this, 1, 1));
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

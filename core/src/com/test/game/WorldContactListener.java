@@ -4,16 +4,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.sprites.PowerUps.SpeedBoost;
 
 public class WorldContactListener implements com.badlogic.gdx.physics.box2d.ContactListener
 {
 
 
-
     @Override
     public void beginContact(Contact contact)
     {
+        Object o1 = contact.getFixtureA().getUserData();
+        Object o2 = contact.getFixtureB().getUserData();
 
+        /*              PowerUPs collision          */
+        // if 1 object is pup and other is character
+        if ( (o1.getClass() == Character.class && o2 instanceof PowerUp) )
+        {
+            pupCollision((Character) o1, (PowerUp) o2);
+        }else if ( (o2.getClass() == Character.class && o1.getClass() == SpeedBoost.class)  )
+        {
+            pupCollision((Character) o2, (PowerUp) o1);
+        }
     }
 
     @Override
@@ -59,16 +71,33 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 {
                     contact.setEnabled(true);
                 }
-                System.out.println(contact.isEnabled());
-                System.out.println("y");
+                //System.out.println(contact.isEnabled());
+                //System.out.println("y");
             }
         }
+
 
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse)
     {
+
+    }
+
+
+    private void pupCollision(Character character, PowerUp p)
+    {
+        if (p instanceof SpeedBoost)
+        {
+            SpeedBoost pup = (SpeedBoost) p;
+            if (pup.isSpawned())
+            {
+                pup.setContacted(true);
+                pup.attachedChar = character;
+                //System.out.println("Pup char contact 1");
+            }
+        }
 
     }
 }
