@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.test.game.Khartoosha;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.sprites.PowerUps.SpeedBoost;
+
+import java.util.Random;
 
 
 public class PlayScreen implements Screen
@@ -44,6 +48,9 @@ public class PlayScreen implements Screen
     private OrthographicCamera gameCam;
     private Viewport viewport;
 
+    //Powerups array that contains 1 of each type
+    private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
+
     private void initMap()
     {
         mapLoader = new TmxMapLoader();
@@ -53,7 +60,7 @@ public class PlayScreen implements Screen
 
         box2dWorld = new World(new Vector2(0, -10), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
-        box2dDebugRenderer.setDrawBodies(false); //hides physics body
+        box2dDebugRenderer.setDrawBodies(true); //hides physics body
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -100,9 +107,42 @@ public class PlayScreen implements Screen
         initMap();
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
-        character = new Character(box2dWorld, this, charNum);
+
+        character = new Character(box2dWorld, this,  charNum);
+
+        // Power Ups
+        PUPs[0] = new SpeedBoost(box2dWorld);
+        PUPs[1] = new SpeedBoost(box2dWorld);
+
     }
 
+    /**
+     * Handles all powerups related operations
+     *  Spawns pup if it's available
+     *  Deletes pups if were picked up
+     */
+    public void handllePups()
+    {
+        Random generator = new Random();
+        // Spawn pups if there's space
+        if (PowerUp.currentPups < PowerUp.MAXPUPS)
+        {
+            // choose random powerup type to spawn
+            int indx = generator.nextInt(PowerUp.MAXPUPS) ;
+
+            PUPs[indx].spawn();
+
+        }
+
+        for (PowerUp pup:PUPs)
+        {
+            if (pup.isSpawned())
+                pup.update();
+
+        }
+
+
+    }
 
     public void handleInput()
     {
@@ -114,6 +154,14 @@ public class PlayScreen implements Screen
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             character.moveRight();
+        }
+
+        //Debug
+        if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+            System.out.println("PUP Location: "+PUPs[0].pupBody.getPosition().x + "  " + PUPs[0].pupBody.getPosition().y);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            System.out.println("Character Location: "+character.physicsBody.getPosition().x + "  " + character.physicsBody.getPosition().y);
         }
     }
 
@@ -128,6 +176,9 @@ public class PlayScreen implements Screen
         gameCam.position.x = character.physicsBody.getPosition().x;
         gameCam.position.y = character.physicsBody.getPosition().y;
 
+        //Power Ups
+        //TODO: comment handlePups to disable pups functionality
+        //handllePups();
         // Render map
         mapRenderer.setView(gameCam);
     }
@@ -162,6 +213,14 @@ public class PlayScreen implements Screen
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         character.draw(game.batch);
+
+        //TODO: uncomment when textures are ready
+        /*for (PowerUp pup:PUPs)
+        {
+            if (pup.getSpawnState())
+                pup.draw(game.batch);
+        }*/
+
         game.batch.end();
     }
 
