@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 
@@ -16,12 +17,17 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-
     public TextureRegion idle;
     private AnimationManager animationManager;
     public Animation runAnimation, jumpAnimation;
 
+    public boolean isGoingDown;
 
+    private final float DEFAULT_SPEED = 2;
+    private float speedCap = DEFAULT_SPEED;
+    private float speedScale = 0.4f;
+
+    private float jumpScale = 4;
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -29,24 +35,25 @@ public class Character extends Sprite
     @param height height of each frame
     @param i index of character to choose
     */
-    private void loadCharacter(int i, int width,int height){
+    private void loadCharacter(int i, int width,int height)
+    {
 
         this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
         setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen)
+    public Character(World world, PlayScreen screen, int charNum)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
 
         this.world = world;
         defineCharacterPhysics();
 
-        loadCharacter(1,95,130); //select character based on menu selection
+        loadCharacter(charNum,95,130); //select character based on menu selection
 
         animationManager = new AnimationManager(true,getTexture(),this);
-        runAnimation = animationManager.runAnimation(1);
+        runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
     }
 
@@ -62,14 +69,19 @@ public class Character extends Sprite
         shape.setRadius(25 / Khartoosha.PPM);
 
         fixtureDefinition.shape = shape;
-        physicsBody.createFixture(fixtureDefinition);
+        physicsBody.createFixture(fixtureDefinition).setUserData(this);
+
+
+
+
+
     }
 
     public void update(float delta){
         //update position of texture
         setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5);
         if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
-            physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
+                physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
         setRegion(animationManager.getFrame(delta));
 
@@ -77,38 +89,58 @@ public class Character extends Sprite
 
     public Vector2 getBodyPosition(){return physicsBody.getPosition();}
 
-    public void setBodyPosition(Vector2 position){
+    public void setBodyPosition(Vector2 position)
+    {
         physicsBody.setTransform(position.x / Khartoosha.PPM, position.y / Khartoosha.PPM , physicsBody.getAngle());
     }
-
+    
     public void jump()
     {
-        this.physicsBody.applyLinearImpulse(new Vector2(0, 4F), this.physicsBody.getWorldCenter(), true);
+        this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
         update(Gdx.graphics.getDeltaTime());
     }
 
 
     public void moveRight()
     {
-        if (this.physicsBody.getLinearVelocity().x <= 2)
+        if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            this.physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), this.physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
     }
 
     public void moveLeft()
     {
-        if (this.physicsBody.getLinearVelocity().x >= -2)
+        if (this.physicsBody.getLinearVelocity().x >= -speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(-0.1F, 0), this.physicsBody.getWorldCenter(), true);
+            this.physicsBody.applyLinearImpulse(new Vector2(-speedScale, 0), this.physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
 
+    }
+
+    public void moveDown()
+    {
+        this.physicsBody.setAwake(true);
+        isGoingDown = true;
     }
     public void dispose()
     {
 
     }
+
+    // Speed boost pup
+    public void setSpeedCap(float speedCap)
+    {
+        this.speedCap = speedCap;
+    }
+
+    public void resetSpeedCap() {
+        speedCap = DEFAULT_SPEED;
+    }
+
+
+
 
 }
