@@ -106,7 +106,7 @@ public class CharacterChoiceMenuScreen implements Screen {
                         char2Num = 1;
                         //TODO: uncomment when PlayScreen() is overloaded
                         //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
+                        game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
                     }
                 }
             }
@@ -135,7 +135,7 @@ public class CharacterChoiceMenuScreen implements Screen {
                         char2Num = 2;
                         //TODO: uncomment when PlayScreen() is overloaded
                         //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
+                        game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
                     }
 
                 }
@@ -165,7 +165,7 @@ public class CharacterChoiceMenuScreen implements Screen {
                         char2Num = 3;
                         //TODO: uncomment when PlayScreen() is overloaded
                         //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
+                        game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
                     }
 
                 }
