@@ -161,7 +161,7 @@ public class PlayScreen implements Screen
 
         //Power Ups
         //TODO: comment handlePups to disable pups functionality
-        //handllePups();
+        handllePups();
         // Render map
 
         map.mapRenderer.setView(gameCam);
