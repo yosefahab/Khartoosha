@@ -16,7 +16,7 @@ public class Character extends Sprite
 
     // Physics world
     public World world;
-    public Body physicsBody;
+    public Body physicsBody;//physicsBody2;
     public TextureRegion idle;
     private AnimationManager animationManager;
     public Animation runAnimation, jumpAnimation;
@@ -67,11 +67,19 @@ public class Character extends Sprite
         FixtureDef fixtureDefinition = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(25 / Khartoosha.PPM);
-
         fixtureDefinition.shape = shape;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
 
 
+//        BodyDef body2Definition = new BodyDef();
+//        body2Definition.position.set(500/ Khartoosha.PPM, 200/ Khartoosha.PPM);
+//        body2Definition.type = BodyDef.BodyType.DynamicBody;
+//        physicsBody2 = world.createBody(body2Definition);
+//        FixtureDef fixtureDefinition2 = new FixtureDef();
+//        CircleShape shape2 = new CircleShape();
+//        shape2.setRadius(25/ Khartoosha.PPM);
+//        fixtureDefinition2.shape = shape2;
+//        physicsBody2.createFixture(fixtureDefinition2).setUserData(this);
 
 
 
@@ -87,42 +95,42 @@ public class Character extends Sprite
 
     }
 
-    public Vector2 getBodyPosition(){return physicsBody.getPosition();}
+    public Vector2 getBodyPosition(Body physicsBody){return physicsBody.getPosition();}
 
-    public void setBodyPosition(Vector2 position)
+    public void setBodyPosition(Body physicsBody,Vector2 position)
     {
         physicsBody.setTransform(position.x / Khartoosha.PPM, position.y / Khartoosha.PPM , physicsBody.getAngle());
     }
     
-    public void jump()
+    public void jump(Body physicsBody)
     {
-        this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
+        physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
         update(Gdx.graphics.getDeltaTime());
     }
 
 
-    public void moveRight()
+    public void moveRight(Body physicsBody)
     {
-        if (this.physicsBody.getLinearVelocity().x <= speedCap)
+        if (physicsBody.getLinearVelocity().x <= speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), this.physicsBody.getWorldCenter(), true);
+            physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
     }
 
-    public void moveLeft()
+    public void moveLeft(Body physicsBody)
     {
-        if (this.physicsBody.getLinearVelocity().x >= -speedCap)
+        if (physicsBody.getLinearVelocity().x >= -speedCap)
         {
-            this.physicsBody.applyLinearImpulse(new Vector2(-speedScale, 0), this.physicsBody.getWorldCenter(), true);
+            physicsBody.applyLinearImpulse(new Vector2(-speedScale, 0), physicsBody.getWorldCenter(), true);
             update(Gdx.graphics.getDeltaTime());
         }
 
     }
 
-    public void moveDown()
+    public void moveDown(Body physicsBody)
     {
-        this.physicsBody.setAwake(true);
+        physicsBody.setAwake(true);
         isGoingDown = true;
     }
     public void dispose()

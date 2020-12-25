@@ -27,7 +27,7 @@ public class PlayScreen implements Screen
     private Khartoosha game;
 
     private TextureAtlas atlas;
-    private Character character;
+    private Character character,character2;
     private Weapon pistol;
 
     public float delta = Gdx.graphics.getDeltaTime();
@@ -78,6 +78,8 @@ public class PlayScreen implements Screen
 
         character = new Character(box2dWorld, this,  charNum);
 
+        character2 = new Character(box2dWorld, this,  charNum+1);
+
         // Power Ups
         PUPs[0] = new SpeedBoost(box2dWorld);
         PUPs[1] = new SpeedBoost(box2dWorld);
@@ -86,7 +88,7 @@ public class PlayScreen implements Screen
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f,6);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(character.physicsBody), 0.05f,6);
 
     }
 
@@ -122,20 +124,37 @@ public class PlayScreen implements Screen
     {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W))
         {
-            character.jump();
+            character.jump(character.physicsBody);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A))
         {
-            character.moveLeft();
+            character.moveLeft(character.physicsBody);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D))
         {
-            character.moveRight();
+            character.moveRight(character.physicsBody);
         }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.S))
         {
-            character.moveDown();
+            character.moveDown(character.physicsBody);
+        }
+
+        //character2 controlls
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+        {
+            character2.jump(character2.physicsBody);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        {
+            character2.moveLeft(character2.physicsBody);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        {
+            character2.moveRight(character2.physicsBody);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+        {
+            character2.moveDown(character2.physicsBody);
         }
 
         //Debug
@@ -153,11 +172,13 @@ public class PlayScreen implements Screen
         box2dWorld.step(1/60F, 6, 2);
         handleInput();
         character.update(delta);
+        character2.update(delta);
+
         pistol.update(delta);
         // Update camera position wrt character position
         gameCam.update();
-        gameCam.position.x = character.physicsBody.getPosition().x;
-        gameCam.position.y = character.physicsBody.getPosition().y;
+        gameCam.position.x = character.physicsBody.getPosition().x + character2.physicsBody.getPosition().x / 2;
+        gameCam.position.y = character.physicsBody.getPosition().y + character2.physicsBody.getPosition().y /2;
 
         //Power Ups
         //TODO: comment handlePups to disable pups functionality

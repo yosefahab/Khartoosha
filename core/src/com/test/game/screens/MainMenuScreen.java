@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayMenuScreen;
 
 public class MainMenuScreen implements Screen
 {
