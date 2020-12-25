@@ -78,6 +78,7 @@ public class PlayScreen implements Screen
 
         character = new Character(box2dWorld, this,  charNum);
 
+        //TODO: overload the function for second player mode
         character2 = new Character(box2dWorld, this,  charNum+1);
 
         // Power Ups
@@ -88,7 +89,7 @@ public class PlayScreen implements Screen
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(character.physicsBody), 0.05f,6);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f,6);
 
     }
 
@@ -117,44 +118,43 @@ public class PlayScreen implements Screen
 
         }
 
-
     }
 
     public void handleInput()
     {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W))
         {
-            character.jump(character.physicsBody);
+            character.jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A))
         {
-            character.moveLeft(character.physicsBody);
+            character.moveLeft();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D))
         {
-            character.moveRight(character.physicsBody);
+            character.moveRight();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S))
         {
-            character.moveDown(character.physicsBody);
+            character.moveDown();
         }
 
         //character2 controlls
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
         {
-            character2.jump(character2.physicsBody);
+            character2.jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
-            character2.moveLeft(character2.physicsBody);
+            character2.moveLeft();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
-            character2.moveRight(character2.physicsBody);
+            character2.moveRight();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
         {
-            character2.moveDown(character2.physicsBody);
+            character2.moveDown();
         }
 
         //Debug
@@ -177,8 +177,9 @@ public class PlayScreen implements Screen
         pistol.update(delta);
         // Update camera position wrt character position
         gameCam.update();
-        gameCam.position.x = character.physicsBody.getPosition().x + character2.physicsBody.getPosition().x / 2;
-        gameCam.position.y = character.physicsBody.getPosition().y + character2.physicsBody.getPosition().y /2;
+        //camera positions average of 2 players' distances
+        gameCam.position.x = (character.physicsBody.getPosition().x + character2.physicsBody.getPosition().x) / 2;
+        gameCam.position.y = (character.physicsBody.getPosition().y + character2.physicsBody.getPosition().y) /2;
 
         //Power Ups
         //TODO: comment handlePups to disable pups functionality
@@ -195,6 +196,7 @@ public class PlayScreen implements Screen
     {
         map.dispose();
         character.dispose();
+        character2.dispose();
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
     }
@@ -231,6 +233,8 @@ public class PlayScreen implements Screen
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         character.draw(game.batch);
+
+        character2.draw(game.batch);
 
         //TODO: uncomment when textures are ready
         /*for (PowerUp pup:PUPs)
