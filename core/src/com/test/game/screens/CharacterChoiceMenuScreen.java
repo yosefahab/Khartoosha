@@ -6,18 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.MenuCharDim;
+import com.test.game.MenuTextureDim;
 
 public class CharacterChoiceMenuScreen implements Screen {
 
-    static final int NUM_OF_CHARS = 3;
-
-    MenuCharDim[] Char = new MenuCharDim[NUM_OF_CHARS + 1];
-    Texture tex1 = new Texture("menu/menu_choose_your_char.png");
-    Texture tex2 = new Texture("menu/menu_choose_your_char.png");
-
-     //(720, 60, (int) (Khartoosha.Gheight - 100), (int) ((Khartoosha.Gwidth / 2) - (HEADER_WIDTH / 2)));
-
+    private MenuTextureDim[] Char = new MenuTextureDim[Khartoosha.NUM_OF_CHARS + 1]; //array containing all character info
 
     private static final int MARGIN = 50;
 
@@ -36,8 +29,6 @@ public class CharacterChoiceMenuScreen implements Screen {
     private static final int CHAR_ONE_Y = HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT);
     private static final int CHAR_ONE_X = (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN);
 
-    
-
     private static final int CHAR_TWO_WIDTH = CHAR_ONE_WIDTH;
     private static final int CHAR_TWO_HEIGHT = CHAR_ONE_HEIGHT;
     private static final int CHAR_TWO_Y = CHAR_ONE_Y;
@@ -48,28 +39,17 @@ public class CharacterChoiceMenuScreen implements Screen {
     private static final int CHAR_THREE_Y = CHAR_ONE_Y;
     private static final int CHAR_THREE_X = (int) ((Khartoosha.Gwidth / 3) - (CHAR_THREE_WIDTH / 2) + CHAR_TWO_X + MARGIN);
     
-    private int currDimWidth; //these are set by the setCurrDim() method
-    private int currDimHeight;
-    private int currDimY;
-    private int currDimX;
+    private Texture header;
+    private Texture firstCharHeader;
+    private Texture secondCharHeader;
+    
+    private Khartoosha game;
 
-    Texture header;
-    Texture firstCharHeader;
-    Texture secondCharHeader;
-    Texture char1Active;
-    Texture char1InActive;
-    Texture char2Active;
-    Texture char2InActive;
-    Texture char3Active;
-    Texture char3InActive;
+    private boolean twoPlayers;
     
-    Khartoosha game;
-
-    boolean twoPlayers;
+    private int char1Num, char2Num;
     
-    int char1Num, char2Num;
-    
-    boolean firstTime;
+    private boolean firstTime;
 
     private void chooseChar(int charNum)
     {
@@ -81,7 +61,7 @@ public class CharacterChoiceMenuScreen implements Screen {
             if(firstTime) {
                 char1Num = charNum;
                 firstTime = false;
-                firstCharHeader = secondCharHeader;
+                firstCharHeader = secondCharHeader; // changing the header of the screen
             } else{
                 char2Num = charNum;
                 //TODO: uncomment when PlayScreen() is overloaded
@@ -90,29 +70,8 @@ public class CharacterChoiceMenuScreen implements Screen {
             }
         }
     }
-
-    private void setCurrDim(int width, int height, int y, int x)
-    {
-        currDimWidth = width;
-        currDimHeight = height;
-        currDimY = y;
-        currDimX = x;
-    }
-
-    private void setCurrChar(int charNum){
-        if(charNum == 1)
-        {
-            setCurrDim(CHAR_ONE_WIDTH,CHAR_ONE_HEIGHT,CHAR_ONE_Y,CHAR_ONE_X);
-        }
-        else if(charNum == 2)
-        {
-            setCurrDim(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y,CHAR_TWO_X);
-        }
-        //TODO
-        //else if
-
-    }
-    void checkBounds(MenuCharDim []dim, int charNum)
+    
+    private void checkBoundsAndDraw(MenuTextureDim[]dim, int charNum)
     {
         if(Gdx.input.getX() < dim[charNum].getX() + dim[charNum].getWIDTH() && Gdx.input.getX() > dim[charNum].getX()
                 && Khartoosha.Gheight - Gdx.input.getY() < dim[charNum].getY() + dim[charNum].getHEIGHT() 
@@ -136,17 +95,13 @@ public class CharacterChoiceMenuScreen implements Screen {
         header = new Texture("menu/menu_choose_your_char.png");
         firstCharHeader = new Texture("menu/menu_first_char.png");
         secondCharHeader = new Texture("menu/menu_second_char.png");
-        char1Active = new Texture("menu/menu_char1_active.png");
-        char1InActive = new Texture("menu/menu_char1_inactive.png");
-        char2Active = new Texture("menu/menu_char2_active.png");
-        char2InActive = new Texture("menu/menu_char2_inactive.png");
-        char3Active = new Texture("menu/menu_char3_active.png");
-        char3InActive = new Texture("menu/menu_char3_inactive.png");
         firstTime = true;
 
-        Char[1] = new  MenuCharDim(187, 160, HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT), (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN), char1Active, char1InActive);
-        Char[2] = new MenuCharDim(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y, CHAR_TWO_X,char2Active,char2InActive );
-        Char[3] = new MenuCharDim(CHAR_THREE_WIDTH,CHAR_THREE_HEIGHT,CHAR_THREE_Y, CHAR_THREE_X,char3Active,char3InActive );
+        //below, the index is the same as textureNum (the last parameter)
+        //Char[1] = new MenuTextureDim(187, 160, HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT), (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN), 1);
+        Char[1] = new MenuTextureDim(CHAR_ONE_WIDTH,CHAR_ONE_HEIGHT,CHAR_ONE_Y, CHAR_ONE_X,1);
+        Char[2] = new MenuTextureDim(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y, CHAR_TWO_X,2);
+        Char[3] = new MenuTextureDim(CHAR_THREE_WIDTH,CHAR_THREE_HEIGHT,CHAR_THREE_Y, CHAR_THREE_X,3);
     }
 
     @Override
@@ -166,53 +121,10 @@ public class CharacterChoiceMenuScreen implements Screen {
             game.batch.draw(firstCharHeader,FIRST_SECOND_X,FIRST_SECOND_Y,FIRST_SECOND_WIDTH,FIRST_SECOND_HEIGHT);
         }
 
-        for(int i = 1; i<=NUM_OF_CHARS; i++)
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++)
         {
-            checkBounds(Char,i);
+            checkBoundsAndDraw(Char,charNum);
         }
-
-        /*
-        //char1
-        if(Gdx.input.getX() < CHAR_ONE_X  + CHAR_ONE_WIDTH && Gdx.input.getX() > CHAR_ONE_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_ONE_Y + CHAR_ONE_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_ONE_Y)
-        {
-            game.batch.draw(char1Active, CHAR_ONE_X, CHAR_ONE_Y, CHAR_ONE_WIDTH, CHAR_ONE_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-                chooseChar(1);
-
-            }
-        } else {
-            game.batch.draw(char1InActive, CHAR_ONE_X, CHAR_ONE_Y, CHAR_ONE_WIDTH, CHAR_ONE_HEIGHT);
-        }
-        
-        //char2
-        if(Gdx.input.getX() < CHAR_TWO_X  + CHAR_TWO_WIDTH && Gdx.input.getX() > CHAR_TWO_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_TWO_Y + CHAR_TWO_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_TWO_Y)
-        {
-            game.batch.draw(char2Active, CHAR_TWO_X, CHAR_TWO_Y, CHAR_TWO_WIDTH, CHAR_TWO_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-                chooseChar(2);
-            }
-        } else {
-            game.batch.draw(char2InActive, CHAR_TWO_X, CHAR_TWO_Y, CHAR_TWO_WIDTH, CHAR_TWO_HEIGHT);
-        }
-        
-        //char3
-        if(Gdx.input.getX() < CHAR_THREE_X  + CHAR_THREE_WIDTH && Gdx.input.getX() > CHAR_THREE_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_THREE_Y + CHAR_THREE_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_THREE_Y)
-        {
-            game.batch.draw(char3Active, CHAR_THREE_X, CHAR_THREE_Y, CHAR_THREE_WIDTH, CHAR_THREE_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-                chooseChar(3);
-            }
-        } else {
-            game.batch.draw(char3InActive, CHAR_THREE_X, CHAR_THREE_Y, CHAR_THREE_WIDTH, CHAR_THREE_HEIGHT);
-        }
-        */
-
         game.batch.end();
     }
 
@@ -238,6 +150,12 @@ public class CharacterChoiceMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        header.dispose();
+        firstCharHeader.dispose();
+        secondCharHeader.dispose();
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
+            Char[charNum].getActive().dispose();
+            Char[charNum].getInActive().dispose();
+        }
     }
 }
