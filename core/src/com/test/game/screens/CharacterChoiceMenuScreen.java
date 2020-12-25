@@ -15,15 +15,10 @@ public class CharacterChoiceMenuScreen implements Screen {
     private static final int HEADER_Y = (int) (Khartoosha.Gheight - 100);
     private static final int HEADER_X = (int) ((Khartoosha.Gwidth / 2) - (HEADER_WIDTH / 2));
 
-    private static final int FIRST_CHAR_WIDTH = HEADER_WIDTH;
-    private static final int FIRST_CHAR_HEIGHT = HEADER_HEIGHT;
-    private static final int FIRST_CHAR_Y = HEADER_Y;
-    private static final int FIRST_CHAR_X = HEADER_X;
-
-    private static final int SECOND_CHAR_WIDTH = FIRST_CHAR_WIDTH;
-    private static final int SECOND_CHAR_HEIGHT = FIRST_CHAR_HEIGHT;
-    private static final int SECOND_CHAR_Y = FIRST_CHAR_Y;
-    private static final int SECOND_CHAR_X = FIRST_CHAR_X;
+    private static final int FIRST_SECOND_WIDTH = HEADER_WIDTH;
+    private static final int FIRST_SECOND_HEIGHT = HEADER_HEIGHT;
+    private static final int FIRST_SECOND_Y = HEADER_Y;
+    private static final int FIRST_SECOND_X = HEADER_X;
 
     private static final int CHAR_ONE_WIDTH = 187;
     private static final int CHAR_ONE_HEIGHT = 160;
@@ -87,7 +82,7 @@ public class CharacterChoiceMenuScreen implements Screen {
             //header
             game.batch.draw(header, HEADER_X, HEADER_Y, HEADER_WIDTH, HEADER_HEIGHT);
         } else {
-            game.batch.draw(firstCharHeader,FIRST_CHAR_X,FIRST_CHAR_Y,FIRST_CHAR_WIDTH,FIRST_CHAR_HEIGHT);
+            game.batch.draw(firstCharHeader,FIRST_SECOND_X,FIRST_SECOND_Y,FIRST_SECOND_WIDTH,FIRST_SECOND_HEIGHT);
         }
         
         //char1
