@@ -18,18 +18,17 @@ public class Bullets extends Sprite {
     Body physicsBodyBullet;
     private TextureRegion textureRegion;
     World world;
-    float x,y;
+    Vector2 position;
     Texture bul=new Texture("bullet.png");
     public boolean remove=false;
     private float speed;
-    public Bullets(World world, PlayScreen screen, float x, float y,float speed)
+    public Bullets(World world, PlayScreen screen, Vector2 position,float speed)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
 
         this.speed=speed;
-        this.x=x;
-        this.y=y;
         this.world=world;
+        this.position=position;
 
         setTexture(bul);
 
@@ -46,7 +45,7 @@ public class Bullets extends Sprite {
     public void defineBulletPhysics()
     {
 
-        bulletBody.position.set(x,y);
+        bulletBody.position.set(position);
         bulletBody.type = BodyDef.BodyType.KinematicBody;
         physicsBodyBullet= world.createBody(bulletBody);
 
@@ -54,12 +53,13 @@ public class Bullets extends Sprite {
     private float sped=0;
     public void update(float delta){
         sped += speed;
-        setPosition(x+sped, y); //update position of texture
+        setPosition(position.x+sped, position.y); //update position of texture
         if (physicsBodyBullet.getPosition().x > Gdx.graphics.getWidth() ) // add if in the negative side l8r
         {
             remove=true;
         }
 
     }
+
 
 }

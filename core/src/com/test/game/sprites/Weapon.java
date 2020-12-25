@@ -21,17 +21,17 @@ public class Weapon extends Sprite {
     ArrayList<Bullets> bullets;
     World world;
     PlayScreen screen;
-    float speed;
+    public float speed;
     BodyDef weaponBody= new BodyDef();
     Body physicsBodyWeapon;
     private TextureRegion textureRegion;
+    public boolean faceRight=true;
 
     public Weapon(World world,PlayScreen screen,Vector2 position,float speed)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
         this.speed=speed;
         this.world=world;
-
         this.position=position;
         this.screen=screen;
         bullets = new ArrayList<Bullets>();
@@ -44,12 +44,16 @@ public class Weapon extends Sprite {
         setBounds(0,0,40/ Khartoosha.PPM,20/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
 
-
     }
 
     public void update(float deltaTime)
     {
-        setPosition(position.x+0.5f, position.y+0.4f);
+        if (faceRight)
+        {
+            setPosition(position.x+0.5f, position.y+0.4f);
+        }
+        else
+            setPosition(position.x-0.5f, position.y+0.4f);
         ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<Bullets>();
         for(Bullets bullet:bullets)
         {
@@ -67,7 +71,12 @@ public class Weapon extends Sprite {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
         {
-            bullets.add(new Bullets(world,screen, position.x+0.5f, position.y+0.4f,speed));
+            if (faceRight) {
+                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f),speed));
+            }
+            else
+                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed));
+
         }
         for(Bullets bullet:bullets)
         {
@@ -78,13 +87,10 @@ public class Weapon extends Sprite {
 
     public void defineGunPhysics()
     {
-
         weaponBody.position.set(position);
         weaponBody.type = BodyDef.BodyType.StaticBody;
         physicsBodyWeapon= world.createBody(weaponBody);
 
     }
-
-
 
 }

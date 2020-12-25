@@ -107,8 +107,7 @@ public class PlayScreen implements Screen
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
         character = new Character(box2dWorld, this);
-        pistol= new Weapon(box2dWorld,this,character.getPos(),0.05f);
-
+        pistol= new Weapon(box2dWorld,this,character.getBodyPosition(),0.05f);
     }
 
 
@@ -166,12 +165,17 @@ public class PlayScreen implements Screen
     public void render(float delta)
     {
 
-
-
-
-
         update();
-
+        if(character.isFlipX())
+        {
+            pistol.setFlip(true,false);
+            pistol.faceRight=false;
+        }
+        else if (!character.isFlipX())
+        {
+            pistol.setFlip(false,false);
+            pistol.faceRight=true;
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapRenderer.render();
@@ -190,7 +194,6 @@ public class PlayScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        System.out.println("Resized");
         viewport.update(width, height);
     }
 
