@@ -86,7 +86,7 @@ public class PlayScreen implements Screen
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f,6);
 
     }
 
