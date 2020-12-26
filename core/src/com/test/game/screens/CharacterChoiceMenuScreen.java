@@ -92,7 +92,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         } else if(!twoPlayers){
             char1Num = charNum;
             this.dispose();
-            game.setScreen(new PlayScreen(game, char1Num, 0));
+            game.setScreen(new PlayScreen(game, 0, char1Num));
         } else{
             if(firstTime) {
                 char1Num = charNum;
@@ -101,7 +101,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             } else{
                 char2Num = charNum;
                 this.dispose();
-                game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
+                game.setScreen(new PlayScreen(game, 0,char1Num, char2Num));
             }
         }
     }
