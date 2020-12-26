@@ -35,12 +35,16 @@ public class AnimationManager {
         tempAnimation = new Animation (0.25f,frames);
         return tempAnimation;
     }
+
     public TextureRegion getFrame(float delta){
         currentState = getState();
         TextureRegion region;
         switch(currentState){
             case RUNNING:
                 region = (TextureRegion) player.runAnimation.getKeyFrame(stateTimer,true);
+                break;
+            case JUMPING:
+                region = player.jumping;
                 break;
             case STANDING:
             default:
@@ -60,7 +64,7 @@ public class AnimationManager {
     }
     public State getState(){
         if (player.physicsBody.getLinearVelocity().y > 0)
-            return State.STANDING;
+            return State.JUMPING;
         if (player.physicsBody.getLinearVelocity().x!= 0)
             return State.RUNNING;
         else return State.STANDING;
