@@ -51,7 +51,7 @@ public class Character extends Sprite
         this.world = world;
         defineCharacterPhysics();
 
-        
+
         loadCharacter(charNum); //select character based on menu selection
         animationManager = new AnimationManager(player1,getTexture(),this);
         runAnimation = animationManager.runAnimation(charNum);
@@ -66,18 +66,15 @@ public class Character extends Sprite
         physicsBody = world.createBody(bodyDefinition);
 
         FixtureDef fixtureDefinition = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(25 / Khartoosha.PPM);
-
-        //TODO: change shape to polygon?
-
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(15 / Khartoosha.PPM, 40 / Khartoosha.PPM);
         fixtureDefinition.shape = shape;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
 
     }
 
     public void update(float delta){
-        //update position of texture
+        // Update position of texture
         setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5);
         if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
                 physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
@@ -88,6 +85,7 @@ public class Character extends Sprite
     }
 
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
+
     
     public void jump()
     {
