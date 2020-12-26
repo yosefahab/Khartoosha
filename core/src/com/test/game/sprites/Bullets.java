@@ -1,18 +1,13 @@
 package com.test.game.sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
-import javafx.scene.shape.Line;
 import com.test.game.screens.PlayScreen;
-import com.test.game.screens.PlayScreen;
-
 public class Bullets extends Sprite {
     BodyDef bulletBody= new BodyDef();
     Body physicsBodyBullet;
