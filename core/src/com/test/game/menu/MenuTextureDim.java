@@ -1,4 +1,4 @@
-package com.test.game;
+package com.test.game.menu;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,21 +35,26 @@ public class MenuTextureDim {
         return inActive;
     }
 
-    public MenuTextureDim(int WIDTH, int HEIGHT, int y, int x, int textureNum) {
+    public MenuTextureDim(int WIDTH, int HEIGHT, int y, int x, String textureName) {
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
         Y = y;
         X = x;
-        this.active = new Texture("menu/menu_char"+String.valueOf(textureNum)+"_active.png");
-        this.inActive = new Texture("menu/menu_char"+String.valueOf(textureNum)+"_inactive.png");
+        this.active = new Texture("menu/menu_" + textureName + "_active.png");
+        this.inActive = new Texture("menu/menu_" + textureName + "_inactive.png");
         /*
         *********************VERY IMPORTANT********************
-        * Naming of new Character pictures must follow the following
+        * Naming of new Texture pictures must follow the following
+        * each class or screen has an array that includes all the textures name, each textureNames[] set differently
+         in different classes
         * name the pic as:
-        * " menu_char_(here put the number of the char and remove parentheses)_active.png " for the active pic
+        * " menu_(here put the name and remove parentheses)_active.png " for the active pic
         * and " menu_char_(here put the number of the char and remove parentheses)_inactive.png " for the inactive pic
          */
     }
 
-
+    public void dispose(){
+        this.active.dispose();
+        this.inActive.dispose();
+    }
 }
