@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
+import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
 import com.test.game.sprites.PowerUps.PowerUp;
@@ -40,24 +41,19 @@ public class PlayScreen implements Screen
     private World box2dWorld;
     private Box2DDebugRenderer box2dDebugRenderer;
 
-    // Basic Screen Variables
-    private OrthographicCamera gameCam;
-    private Viewport viewport;
+    private Camera camera;
 
-    //Powerups array that contains 1 of each type
+    // Powerups array that contains 1 of each type
     private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
 
 
 
-    public PlayScreen(Khartoosha game, int char1Num, int mapNum)
+    // General constructor
+    public PlayScreen(Khartoosha game, int mapNum)
     {
-
         atlas = new TextureAtlas("Characters.pack");
         // Reference to our game, used to set screens
         this.game = game;
-
-        gameCam = new OrthographicCamera();
-        viewport = new FitViewport(Khartoosha.Gwidth / Khartoosha.PPM, Khartoosha.Gheight / Khartoosha.PPM, gameCam);
 
         // Create our Box2D world, setting no gravity in X, -1 gravity in Y, and allow bodies to sleep
         box2dWorld = new World(new Vector2(0, Khartoosha.GRAVITY), true);
@@ -65,18 +61,12 @@ public class PlayScreen implements Screen
         box2dDebugRenderer = new Box2DDebugRenderer();
         box2dDebugRenderer.setDrawBodies(true); //hides physics body
 
-
-
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
 
-        // Initialize map
+        // Map
         map = new Map(box2dWorld);
         map.loadMap(1);
-        gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
-
-
-        character = new Character(box2dWorld, this,  char1Num);
 
         // Power Ups
         PUPs[0] = new SpeedBoost(box2dWorld);
@@ -85,52 +75,35 @@ public class PlayScreen implements Screen
 
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
+
+
+        // Camera
+        camera = new Camera();
+        camera.initCam();
+
+    }
+
+    // 1 Player constructor
+    public PlayScreen(Khartoosha game, int mapNum, int char1Num)
+    {
+        this(game, mapNum);
+        character = new Character(box2dWorld, this,  char1Num);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
+
+    }
+
+    // 2 Players constructor
+    public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
+    {
+        this(game, mapNum);
+        character2 = new Character(box2dWorld, this,  char2Num);
+        character = new Character(box2dWorld, this,  char1Num);
 
         pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
     }
 
-    public PlayScreen(Khartoosha game, int char1Num,int char2Num, int mapNum)
-    {
 
-        atlas = new TextureAtlas("Characters.pack");
-        // Reference to our game, used to set screens
-        this.game = game;
-
-        gameCam = new OrthographicCamera();
-        viewport = new FitViewport(Khartoosha.Gwidth / Khartoosha.PPM, Khartoosha.Gheight / Khartoosha.PPM, gameCam);
-
-        // Create our Box2D world, setting no gravity in X, -1 gravity in Y, and allow bodies to sleep
-        box2dWorld = new World(new Vector2(0, Khartoosha.GRAVITY), true);
-        box2dWorld = new World(new Vector2(0, -10), true);
-        box2dDebugRenderer = new Box2DDebugRenderer();
-        box2dDebugRenderer.setDrawBodies(true); //hides physics body
-
-
-
-        // Allows for debug lines of our box2d world.
-        box2dDebugRenderer = new Box2DDebugRenderer();
-
-        // Initialize map
-        map = new Map(box2dWorld);
-        map.loadMap(1);
-        gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
-
-
-        character = new Character(box2dWorld, this,  char1Num);
-        character2 = new Character(box2dWorld, this,  char2Num);
-
-        // Power Ups
-        PUPs[0] = new SpeedBoost(box2dWorld);
-        PUPs[1] = new SpeedBoost(box2dWorld);
-
-
-        WorldContactListener collisionHandler = new WorldContactListener();
-        box2dWorld.setContactListener(collisionHandler);
-
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,100, 200);
-
-    }
 
     /**
      * Handles all powerups related operations
@@ -179,7 +152,8 @@ public class PlayScreen implements Screen
         }
 
         //character2 controlls
-        if (character2!=null) {
+        if (character2!=null)
+        {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 character2.jump();
             }
@@ -200,6 +174,7 @@ public class PlayScreen implements Screen
         if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
             System.out.println("Character Location: "+character.physicsBody.getPosition().x + "  " + character.physicsBody.getPosition().y);
         }
+
     }
 
     public void update()
@@ -211,25 +186,22 @@ public class PlayScreen implements Screen
         if (character2!=null){ character2.update(delta);}
 
         pistol.update(delta);
+
         // Update camera position wrt character position
-        gameCam.update();
 
-        if (character2!=null) {
-            //camera positions average of 2 players' distances
-            gameCam.position.x = (character.physicsBody.getPosition().x + character2.physicsBody.getPosition().x) / 2;
-            gameCam.position.y = (character.physicsBody.getPosition().y + character2.physicsBody.getPosition().y) / 2;
+        if (character2 != null)
+        {
+            camera.update(character, character2);
         }
-        else{
-            //camera positions average of 2 players' distances
-            gameCam.position.x = character.physicsBody.getPosition().x;
-            gameCam.position.y = character.physicsBody.getPosition().y;
-        }
-        //Power Ups
-        //TODO: comment handlePups to disable pups functionality
+        camera.update(character);
+
+
+
+        // Power Ups
+        // TODO: comment handlePups to disable pups functionality
         handllePups();
-        // Render map
 
-        map.mapRenderer.setView(gameCam);
+        map.mapRenderer.setView(camera.gameCam);
     }
 
 
@@ -269,9 +241,9 @@ public class PlayScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render();
 
-        box2dDebugRenderer.render(box2dWorld, gameCam.combined);
+        box2dDebugRenderer.render(box2dWorld, camera.gameCam.combined);
 
-        game.batch.setProjectionMatrix(gameCam.combined);
+        game.batch.setProjectionMatrix(camera.gameCam.combined);
         game.batch.begin();
         character.draw(game.batch);
 
@@ -291,7 +263,7 @@ public class PlayScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        viewport.update(width, height);
+        camera.viewport.update(width, height);
     }
 
     @Override
@@ -312,4 +284,5 @@ public class PlayScreen implements Screen
 
     }
     public TextureAtlas getAtlas(){return atlas;}
+
 }
