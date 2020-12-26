@@ -68,7 +68,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         firstTime = true;
 
         for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
-            charNames[charNum] = "char"+String.valueOf(charNum);
+            charNames[charNum] = "char"+charNum;
         }
 
         charNames[Khartoosha.NUM_OF_CHARS + 1] = "back";

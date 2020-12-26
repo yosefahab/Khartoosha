@@ -8,13 +8,14 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class AnimationManager {
-    public enum State { JUMPING, STANDING, RUNNING, DEAD };
+    public enum State { JUMPING, STANDING, RUNNING, DEAD }
+
     public State currentState;
     public State previousState;
     private boolean faceRight;
     private float stateTimer;
     private Array<TextureRegion> frames;
-    private Animation<TextureRegion> tempAnimation;
+    private Animation tempAnimation;
     private Character player;
     private Texture texture;
     public AnimationManager(boolean faceRight, Texture texture, Character player) {
@@ -28,10 +29,10 @@ public class AnimationManager {
     //@param charNum number of character in pack image, depends on which character selected
     public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
-        for (int i=1;i<5;i++){
-            frames.add(new TextureRegion(this.texture,(i * 95),(charNum-1)*130,95,130 ));
+        for (int i=0;i<4;i++){
+            frames.add(new TextureRegion(this.texture, (i * 120),(charNum-1)*151,120,151 ));
         }
-        tempAnimation = new Animation (0.1f,frames);
+        tempAnimation = new Animation (0.25f,frames);
         return tempAnimation;
     }
     public TextureRegion getFrame(float delta){
@@ -41,9 +42,9 @@ public class AnimationManager {
             case RUNNING:
                 region = (TextureRegion) player.runAnimation.getKeyFrame(stateTimer,true);
                 break;
-            case STANDING:
+            case JUMPING:
             default:
-                region = player.idle;
+                region = player.jumping;
         }
         if ((player.physicsBody.getLinearVelocity().x < 0 || !faceRight) && !region.isFlipX()){
             region.flip(true,false);

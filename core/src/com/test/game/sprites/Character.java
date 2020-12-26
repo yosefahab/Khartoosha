@@ -16,7 +16,7 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-    public TextureRegion idle;
+    public TextureRegion jumping;
     private AnimationManager animationManager;
     public Animation runAnimation, jumpAnimation;
 
@@ -37,9 +37,9 @@ public class Character extends Sprite
     private void loadCharacter(int i, int width,int height)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
+        this.jumping = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
-        setRegion(idle);
+        setRegion(jumping);
     }
 
     public Character(World world, PlayScreen screen, int charNum)
@@ -49,8 +49,8 @@ public class Character extends Sprite
         this.world = world;
         defineCharacterPhysics();
 
-        loadCharacter(charNum,95,130); //select character based on menu selection
-
+        
+        loadCharacter(charNum,120,151); //select character based on menu selection
         animationManager = new AnimationManager(true,getTexture(),this);
         runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
@@ -68,7 +68,7 @@ public class Character extends Sprite
         shape.setRadius(25 / Khartoosha.PPM);
 
         //TODO: change shape to polygon?
-
+        //Rectangle would be fine =)
 
         fixtureDefinition.shape = shape;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
@@ -82,7 +82,7 @@ public class Character extends Sprite
                 physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
         // TODO: uncomment to unpause animation
-        //setRegion(animationManager.getFrame(delta));
+        setRegion(animationManager.getFrame(delta));
 
     }
 
