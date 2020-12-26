@@ -16,7 +16,7 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-    public TextureRegion jumping;
+    public TextureRegion idle;
     private AnimationManager animationManager;
     public Animation runAnimation, jumpAnimation;
 
@@ -37,12 +37,12 @@ public class Character extends Sprite
     private void loadCharacter(int i, int width,int height)
     {
 
-        this.jumping = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
+        this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
         setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
-        setRegion(jumping);
+        setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen, int charNum)
+    public Character(World world, PlayScreen screen, int charNum, boolean player1)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
 
@@ -51,7 +51,7 @@ public class Character extends Sprite
 
         
         loadCharacter(charNum,120,151); //select character based on menu selection
-        animationManager = new AnimationManager(true,getTexture(),this);
+        animationManager = new AnimationManager(player1,getTexture(),this);
         runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class AnimationManager {
-    public enum State { JUMPING, STANDING, RUNNING, DEAD }
+    public enum State { STANDING, JUMPING, RUNNING, DEAD }
 
     public State currentState;
     public State previousState;
@@ -42,9 +42,9 @@ public class AnimationManager {
             case RUNNING:
                 region = (TextureRegion) player.runAnimation.getKeyFrame(stateTimer,true);
                 break;
-            case JUMPING:
+            case STANDING:
             default:
-                region = player.jumping;
+                region = player.idle;
         }
         if ((player.physicsBody.getLinearVelocity().x < 0 || !faceRight) && !region.isFlipX()){
             region.flip(true,false);
@@ -60,7 +60,7 @@ public class AnimationManager {
     }
     public State getState(){
         if (player.physicsBody.getLinearVelocity().y > 0)
-            return State.JUMPING;
+            return State.STANDING;
         if (player.physicsBody.getLinearVelocity().x!= 0)
             return State.RUNNING;
         else return State.STANDING;

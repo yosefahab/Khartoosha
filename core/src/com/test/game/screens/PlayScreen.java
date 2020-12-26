@@ -76,7 +76,7 @@ public class PlayScreen implements Screen
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
 
-        character = new Character(box2dWorld, this,  char1Num);
+        character = new Character(box2dWorld, this,  char1Num,true );
 
         // Power Ups
         PUPs[0] = new SpeedBoost(box2dWorld);
@@ -117,8 +117,8 @@ public class PlayScreen implements Screen
         gameCam.position.set(viewport.getWorldWidth() / 2 / Khartoosha.PPM, viewport.getWorldHeight() / 2 / Khartoosha.PPM, 0);
 
 
-        character = new Character(box2dWorld, this,  char1Num);
-        character2 = new Character(box2dWorld, this,  char2Num);
+        character = new Character(box2dWorld, this,  char1Num, true);
+        character2 = new Character(box2dWorld, this,  char2Num,false);
 
         // Power Ups
         PUPs[0] = new SpeedBoost(box2dWorld);
