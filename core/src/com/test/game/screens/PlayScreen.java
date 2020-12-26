@@ -27,6 +27,7 @@ public class PlayScreen implements Screen
     private TextureAtlas atlas;
     private Character character,character2;
     private Weapon pistol;
+    private Weapon pistol2;
 
     public float delta = Gdx.graphics.getDeltaTime();
 
@@ -85,8 +86,7 @@ public class PlayScreen implements Screen
     {
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
-
+        pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
     }
 
     // 2 Players constructor
@@ -96,8 +96,8 @@ public class PlayScreen implements Screen
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
-
+        pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200, Input.Keys.CONTROL_LEFT);
+        pistol2= new Weapon(box2dWorld,this,character2,0.25f,50,200, Input.Keys.SPACE);
     }
     /**
      * Handles all powerups related operations
@@ -176,9 +176,12 @@ public class PlayScreen implements Screen
         box2dWorld.step(1/60F, 6, 2);
         handleInput();
         character.update(delta);
-        if (character2!=null){ character2.update(delta);}
-
         pistol.update(delta);
+        if (character2!=null){
+            pistol2.update(delta);
+            character2.update(delta);
+        }
+
 
         // Update camera position wrt character position
 
@@ -238,7 +241,25 @@ public class PlayScreen implements Screen
         game.batch.begin();
         character.draw(game.batch);
 
-        if (character2!= null){character2.draw(game.batch);}
+        if (character2!= null){
+
+            character2.draw(game.batch);
+            pistol2.draw(game.batch);
+            pistol2.render(game.batch);
+
+            if(character2.isFlipX())
+            {
+                pistol2.setFlip(true,false);
+                pistol2.faceRight=false;
+            }
+            else if (!character2.isFlipX())
+            {
+                pistol2.setFlip(false,false);
+                pistol2.faceRight=true;
+            }
+
+
+        }
 
         //TODO: uncomment when textures are ready
 //        for (PowerUp pup:PUPs)
@@ -248,6 +269,7 @@ public class PlayScreen implements Screen
 //        }
         pistol.draw(game.batch);
         pistol.render(game.batch);
+
         game.batch.end();
     }
 

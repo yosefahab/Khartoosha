@@ -16,6 +16,7 @@ import com.test.game.screens.PlayScreen;
 import java.util.ArrayList;
 
 public class Weapon extends Sprite {
+    private int KEY;
     Texture texture=new Texture("gun.png");
     Vector2 position;
     ArrayList<Bullets> bullets;
@@ -28,18 +29,18 @@ public class Weapon extends Sprite {
     public boolean faceRight=true;
     private int ammo;
     private int force;
-    public Weapon(World world,PlayScreen screen,Vector2 position,float speed, int ammo, int force)
+    public Weapon(World world,PlayScreen screen,Character character,float speed, int ammo, int force, int KEY)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
         this.speed=speed;
         this.world=world;
-        this.position=position;
+        this.position=character.getBodyPosition();
         this.screen=screen;
         bullets = new ArrayList<Bullets>();
         this.ammo=ammo;
         this.force = force;
+        this.KEY=KEY;
         setTexture(texture);
-
         defineGunPhysics();
 
         textureRegion = new TextureRegion(getTexture(),0,0,193,130); //define region of certain texture in png
@@ -72,14 +73,14 @@ public class Weapon extends Sprite {
     public void render(SpriteBatch sb)
     {
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) & ammo > 0)
+        if(Gdx.input.isKeyJustPressed(KEY) & ammo > 0)
         {
             ammo--;
             if (faceRight) {
                 bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f),speed, force) );
             }
             else
-                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed,  force));
+                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed,  -force));
 
         }
         for(Bullets bullet:bullets)
