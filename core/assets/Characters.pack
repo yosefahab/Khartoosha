@@ -3,24 +3,24 @@ Characters.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-bruceSprite
-  rotate: false
-  xy: 1, 271
-  size: 631, 129
-  orig: 631, 129
-  offset: 0, 0
-  index: -1
 mandoSprite
   rotate: false
-  xy: 1, 137
-  size: 623, 132
-  orig: 623, 132
+  xy: 1, 305
+  size: 598, 142
+  orig: 598, 142
+  offset: 0, 0
+  index: -1
+bruceSprite
+  rotate: false
+  xy: 1, 153
+  size: 595, 142
+  orig: 595, 142
   offset: 0, 0
   index: -1
 johnnySprite
   rotate: false
-  xy: 1, 1
-  size: 608, 134
-  orig: 608, 134
+  xy: 1, 5
+  size: 594, 142
+  orig: 594, 142
   offset: 0, 0
   index: -1

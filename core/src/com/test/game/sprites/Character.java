@@ -16,9 +16,9 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
-    public TextureRegion idle;
+    public TextureRegion idle,jumping;
     private AnimationManager animationManager;
-    public Animation runAnimation, jumpAnimation;
+    public Animation runAnimation;
 
     public boolean isGoingDown;
 
@@ -34,24 +34,26 @@ public class Character extends Sprite
     @param height height of each frame
     @param i index of character to choose
     */
-    private void loadCharacter(int i, int width,int height)
+    private void loadCharacter(int charNum)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(i-1)*height ,width,height);
-        setBounds(0,0,width/Khartoosha.PPM, height/Khartoosha.PPM);
+        this.idle = new TextureRegion(getTexture(),0,(charNum-1)* 151, 120, 151);
+        this.jumping =  new TextureRegion(getTexture(),(4 * 120),(charNum-1)* 151, 120, 151);
+
+        setBounds(0,0, 120 /Khartoosha.PPM, 151 /Khartoosha.PPM);
         setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen, int charNum)
+    public Character(World world, PlayScreen screen, int charNum, boolean player1)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
 
         this.world = world;
         defineCharacterPhysics();
 
-        loadCharacter(charNum,95,130); //select character based on menu selection
 
-        animationManager = new AnimationManager(true,getTexture(),this);
+        loadCharacter(charNum); //select character based on menu selection
+        animationManager = new AnimationManager(player1,getTexture(),this);
         runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
     }
@@ -78,16 +80,12 @@ public class Character extends Sprite
                 physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
         // TODO: uncomment to unpause animation
-        //setRegion(animationManager.getFrame(delta));
+        setRegion(animationManager.getFrame(delta));
 
     }
 
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
 
-    public void setBodyPosition(Vector2 position)
-    {
-        this.physicsBody.setTransform(position.x / Khartoosha.PPM, position.y / Khartoosha.PPM , this.physicsBody.getAngle());
-    }
     
     public void jump()
     {
