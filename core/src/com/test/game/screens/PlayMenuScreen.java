@@ -6,8 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
+import com.test.game.menu.MenuBG;
 
-public class PlayMenuScreen implements Screen {
+public class PlayMenuScreen extends MenuBG implements Screen {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
     private static final int ONE_PLAYER_BUTTON_HEIGHT = 155;
     private static final int ONE_PLAYER_BUTTON_Y = (int) (Khartoosha.Gheight - 200);
@@ -22,7 +23,7 @@ public class PlayMenuScreen implements Screen {
     Texture twoPlayerActive, twoPlayerInActive;
     
     Khartoosha game;
-    
+
     public PlayMenuScreen(Khartoosha game) {
         this.game = game;
         onePlayerActive = new Texture("menu/menu_onePlayer_active.png");
@@ -31,18 +32,15 @@ public class PlayMenuScreen implements Screen {
         twoPlayerInActive = new Texture("menu/menu_twoPlayer_inactive.png");
     }
 
-    
-    
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        displayBG(game);
 
         //onePlayer button
         if(Gdx.input.getX() < ONE_PLAYER_BUTTON_X  + ONE_PLAYER_BUTTON_WIDTH && Gdx.input.getX() > ONE_PLAYER_BUTTON_X
@@ -74,27 +72,22 @@ public class PlayMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-
+        onePlayerActive.dispose();
+        onePlayerInActive.dispose();
+        twoPlayerActive.dispose();
+        twoPlayerInActive.dispose();
     }
 }

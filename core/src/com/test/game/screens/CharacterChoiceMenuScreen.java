@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.MenuTextureDim;
+import com.test.game.menu.MenuBG;
 
-public class CharacterChoiceMenuScreen implements Screen {
+public class CharacterChoiceMenuScreen extends MenuBG implements Screen {
 
     private MenuTextureDim[] Char = new MenuTextureDim[Khartoosha.NUM_OF_CHARS + 1]; //array containing all character info
 
@@ -64,8 +65,7 @@ public class CharacterChoiceMenuScreen implements Screen {
                 firstCharHeader = secondCharHeader; // changing the header of the screen
             } else{
                 char2Num = charNum;
-                //TODO: uncomment when PlayScreen() is overloaded
-                //this.dispose();
+                this.dispose();
                 game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
             }
         }
@@ -80,9 +80,7 @@ public class CharacterChoiceMenuScreen implements Screen {
         {
             game.batch.draw(dim[charNum].getActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
                 chooseChar(charNum);
-
             }
         } else {
             game.batch.draw(dim[charNum].getInActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
@@ -105,15 +103,14 @@ public class CharacterChoiceMenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        displayBG(game);
         if(!twoPlayers) {
             //header
             game.batch.draw(header, HEADER_X, HEADER_Y, HEADER_WIDTH, HEADER_HEIGHT);
@@ -129,24 +126,16 @@ public class CharacterChoiceMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
@@ -157,5 +146,6 @@ public class CharacterChoiceMenuScreen implements Screen {
             Char[charNum].getActive().dispose();
             Char[charNum].getInActive().dispose();
         }
+        bg.dispose();
     }
 }

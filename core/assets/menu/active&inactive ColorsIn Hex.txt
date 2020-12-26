@@ -1,2 +1,5 @@
 active: d8bb23
 inactive: efefef
+
+
+background: 2C2B2C

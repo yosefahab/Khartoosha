@@ -2,8 +2,9 @@ package com.test.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.test.game.Khartoosha;
+import com.test.game.menu.MenuBG;
 
-public class SettingsMenuScreen implements Screen {
+public class SettingsMenuScreen extends MenuBG implements Screen {
     //TODO
     Khartoosha game;
     public SettingsMenuScreen(Khartoosha game) {
@@ -19,6 +20,7 @@ public class SettingsMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         //TODO
+        displayBG(game);
     }
 
     @Override
