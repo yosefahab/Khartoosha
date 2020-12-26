@@ -27,7 +27,8 @@ public class Weapon extends Sprite {
     private TextureRegion textureRegion;
     public boolean faceRight=true;
     private int ammo;
-    public Weapon(World world,PlayScreen screen,Vector2 position,float speed, int ammo)
+    private int force;
+    public Weapon(World world,PlayScreen screen,Vector2 position,float speed, int ammo, int force)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
         this.speed=speed;
@@ -36,6 +37,7 @@ public class Weapon extends Sprite {
         this.screen=screen;
         bullets = new ArrayList<Bullets>();
         this.ammo=ammo;
+        this.force = force;
         setTexture(texture);
 
         defineGunPhysics();
@@ -60,6 +62,7 @@ public class Weapon extends Sprite {
             bullet.update(deltaTime);
             if (bullet.remove)
                 bulletsToBeRemoved.add(bullet);
+
         }
         bullets.removeAll(bulletsToBeRemoved);
 
@@ -69,14 +72,14 @@ public class Weapon extends Sprite {
     public void render(SpriteBatch sb)
     {
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) & ammo>0)
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) & ammo > 0)
         {
             ammo--;
             if (faceRight) {
-                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f),speed));
+                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f),speed, force) );
             }
             else
-                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed));
+                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed,  force));
 
         }
         for(Bullets bullet:bullets)

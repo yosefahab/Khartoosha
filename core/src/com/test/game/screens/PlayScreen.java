@@ -86,7 +86,7 @@ public class PlayScreen implements Screen
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f,6);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
     }
 
@@ -128,7 +128,7 @@ public class PlayScreen implements Screen
         WorldContactListener collisionHandler = new WorldContactListener();
         box2dWorld.setContactListener(collisionHandler);
 
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.05f,6);
+        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,100, 200);
 
     }
 
@@ -278,11 +278,11 @@ public class PlayScreen implements Screen
         if (character2!= null){character2.draw(game.batch);}
 
         //TODO: uncomment when textures are ready
-        /*for (PowerUp pup:PUPs)
-        {
-            if (pup.getSpawnState())
-                pup.draw(game.batch);
-        }*/
+//        for (PowerUp pup:PUPs)
+//        {
+//            if (pup.isSpawned())
+//                pup.draw(game.batch);
+//        }
         pistol.draw(game.batch);
         pistol.render(game.batch);
         game.batch.end();

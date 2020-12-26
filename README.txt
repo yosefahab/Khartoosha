@@ -21,3 +21,22 @@ Ayman, 24 Dec
     • Added variables for controlling speed operations
     • Added setspeedcap that changes maxspeed (SpeedBoostPup)
     • Added resetSpeedCap to reset to DEFAULT_SPEED
+
+Ayman, 26 Dec
+
+- Added
+    • Collision between bullets and character
+
+- Modified
+    • Bullets:
+        - added isContacted indicator
+        - added force attribute to be modified according to weapon
+        - added Fixture and shape for collision detection
+        - modified update function to update physicsbody too,
+            added remove condition when bullet contacts character
+
+    • Weapon:
+        - added force attribute to be passed to bullet constructor
+
+    • WorldContactListener
+        - added Bullet-Character collision detection
