@@ -1,8 +1,10 @@
 package com.test.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.test.game.sprites.Bullets;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.SpeedBoost;
@@ -26,6 +28,33 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         {
             pupCollision((Character) o2, (PowerUp) o1);
         }
+
+
+
+        /*              Bullets collision          */
+        if (o1 instanceof Bullets && o2 instanceof Character)
+        {
+            //System.out.println("bullet character");
+            Bullets bullet = (Bullets) o1;
+            bullet.isContacted = true;
+
+            Character character = (Character) o2;
+            character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+
+        }
+        else if (o2 instanceof Bullets && o1 instanceof Character) {
+            //System.out.println("bullet character");
+
+            Bullets bullet = (Bullets) o2;
+            bullet.isContacted = true;
+
+            Character character = (Character) o1;
+            character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+
+
+        }
+
+
     }
 
     @Override
@@ -45,6 +74,8 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Character c = (Character) o2;
             c.isGoingDown = false;
         }
+
+
 
     }
 
@@ -75,6 +106,12 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 //System.out.println("y");
             }
         }
+
+
+
+
+
+
 
 
     }

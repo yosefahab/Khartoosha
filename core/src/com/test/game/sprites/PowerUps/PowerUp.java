@@ -41,12 +41,6 @@ public abstract class PowerUp extends Sprite {
 
         pupBody = world.createBody(bdef);
 
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(10 / Khartoosha.PPM);
-
-        fdef.shape = shape;
-        pupBody.createFixture(fdef).setUserData(this);
 
     }
 

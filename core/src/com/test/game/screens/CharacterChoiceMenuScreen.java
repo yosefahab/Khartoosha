@@ -6,8 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
+import com.test.game.menu.MenuTextureDim;
+import com.test.game.menu.MenuBG;
+import com.test.game.menu.MenuTextures;
 
-public class CharacterChoiceMenuScreen implements Screen {
+public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int MARGIN = 50;
 
     private static final int HEADER_WIDTH = 720;
@@ -15,15 +18,10 @@ public class CharacterChoiceMenuScreen implements Screen {
     private static final int HEADER_Y = (int) (Khartoosha.Gheight - 100);
     private static final int HEADER_X = (int) ((Khartoosha.Gwidth / 2) - (HEADER_WIDTH / 2));
 
-    private static final int FIRST_CHAR_WIDTH = HEADER_WIDTH;
-    private static final int FIRST_CHAR_HEIGHT = HEADER_HEIGHT;
-    private static final int FIRST_CHAR_Y = HEADER_Y;
-    private static final int FIRST_CHAR_X = HEADER_X;
-
-    private static final int SECOND_CHAR_WIDTH = FIRST_CHAR_WIDTH;
-    private static final int SECOND_CHAR_HEIGHT = FIRST_CHAR_HEIGHT;
-    private static final int SECOND_CHAR_Y = FIRST_CHAR_Y;
-    private static final int SECOND_CHAR_X = FIRST_CHAR_X;
+    private static final int FIRST_SECOND_WIDTH = HEADER_WIDTH;
+    private static final int FIRST_SECOND_HEIGHT = HEADER_HEIGHT;
+    private static final int FIRST_SECOND_Y = HEADER_Y;
+    private static final int FIRST_SECOND_X = HEADER_X;
 
     private static final int CHAR_ONE_WIDTH = 187;
     private static final int CHAR_ONE_HEIGHT = 160;
@@ -39,170 +37,136 @@ public class CharacterChoiceMenuScreen implements Screen {
     private static final int CHAR_THREE_HEIGHT = CHAR_ONE_HEIGHT;
     private static final int CHAR_THREE_Y = CHAR_ONE_Y;
     private static final int CHAR_THREE_X = (int) ((Khartoosha.Gwidth / 3) - (CHAR_THREE_WIDTH / 2) + CHAR_TWO_X + MARGIN);
-    
-    Texture header;
-    Texture firstCharHeader;
-    Texture secondCharHeader;
-    Texture char1Active;
-    Texture char1InActive;
-    Texture char2Active;
-    Texture char2InActive;
-    Texture char3Active;
-    Texture char3InActive;
-    
-    Khartoosha game;
 
-    boolean twoPlayers;
+    private static final int BACK_BUTTON_WIDTH = 230;
+    private static final int BACK_BUTTON_HEIGHT = 77;
+    private static final int BACK_BUTTON_Y = CHAR_THREE_Y - CHAR_THREE_HEIGHT - 60 - (BACK_BUTTON_HEIGHT-CHAR_THREE_HEIGHT);
+    private static final int BACK_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (BACK_BUTTON_WIDTH / 2));
     
-    int char1Num, char2Num;
+    private static final int NUM_OF_TEXTURES = 1;
+    private MenuTextureDim[] Char = new MenuTextureDim[Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES + 1]; //array containing all character info
+    private String[] charNames = new String[Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES + 1]; //textureNames[] here is charNames[]
+
+    private Texture header;
+    private Texture firstCharHeader;
+    private Texture secondCharHeader;
     
-    boolean firstTime;
+    private Khartoosha game;
+
+    private boolean twoPlayers;
     
+    private int char1Num, char2Num;
+    
+    private boolean firstTime;
+
     public CharacterChoiceMenuScreen(Khartoosha game, boolean twoPlayers) {
         this.game = game;
         this.twoPlayers = twoPlayers;
         header = new Texture("menu/menu_choose_your_char.png");
         firstCharHeader = new Texture("menu/menu_first_char.png");
         secondCharHeader = new Texture("menu/menu_second_char.png");
-        char1Active = new Texture("menu/menu_char1_active.png");
-        char1InActive = new Texture("menu/menu_char1_inactive.png");
-        char2Active = new Texture("menu/menu_char2_active.png");
-        char2InActive = new Texture("menu/menu_char2_inactive.png");
-        char3Active = new Texture("menu/menu_char3_active.png");
-        char3InActive = new Texture("menu/menu_char3_inactive.png");
         firstTime = true;
+
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
+            charNames[charNum] = "char"+String.valueOf(charNum);
+        }
+
+        charNames[Khartoosha.NUM_OF_CHARS + 1] = "back";
+
+        //below, the index of Char[] is the same as textureNames[] (the last parameter)
+        //Char[1] = new MenuTextureDim(187, 160, HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT), (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN), 1);
+        Char[1] = new MenuTextureDim(CHAR_ONE_WIDTH,CHAR_ONE_HEIGHT,CHAR_ONE_Y, CHAR_ONE_X,charNames[1]);
+        Char[2] = new MenuTextureDim(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y, CHAR_TWO_X,charNames[2]);
+        Char[3] = new MenuTextureDim(CHAR_THREE_WIDTH,CHAR_THREE_HEIGHT,CHAR_THREE_Y, CHAR_THREE_X,charNames[3]);
+        Char[Khartoosha.NUM_OF_CHARS + 1] = new MenuTextureDim(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X,charNames[Khartoosha.NUM_OF_CHARS + 1]);
+
+        bg = new Texture("menu/menu_bg_darker1.png");
     }
 
     @Override
-    public void show() {
-
+    public void chosenTexture(int charNum)
+    {
+        if(charNum == Khartoosha.NUM_OF_CHARS + 1){ //back was clicked
+            this.dispose();
+            game.setScreen(new PlayMenuScreen(game));
+        } else if(!twoPlayers){
+            char1Num = charNum;
+            this.dispose();
+            game.setScreen(new PlayScreen(game, char1Num, 0));
+        } else{
+            if(firstTime) {
+                char1Num = charNum;
+                firstTime = false;
+                firstCharHeader = secondCharHeader; // changing the header of the screen
+            } else{
+                char2Num = charNum;
+                this.dispose();
+                game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
+            }
+        }
     }
+
+    @Override
+    public void checkBoundsAndDraw(MenuTextureDim[]dim, int charNum)
+    {
+        if(Gdx.input.getX() < dim[charNum].getX() + dim[charNum].getWIDTH() && Gdx.input.getX() > dim[charNum].getX()
+                && Khartoosha.Gheight - Gdx.input.getY() < dim[charNum].getY() + dim[charNum].getHEIGHT()
+                && Khartoosha.Gheight - Gdx.input.getY() > dim[charNum].getY()
+        )
+        {
+            game.batch.draw(dim[charNum].getActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                chosenTexture(charNum);
+            }
+        } else {
+            game.batch.draw(dim[charNum].getInActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
+        }
+    }
+
+
+    @Override
+    public void show() {}
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        displayBG(game);
         if(!twoPlayers) {
             //header
             game.batch.draw(header, HEADER_X, HEADER_Y, HEADER_WIDTH, HEADER_HEIGHT);
         } else {
-            game.batch.draw(firstCharHeader,FIRST_CHAR_X,FIRST_CHAR_Y,FIRST_CHAR_WIDTH,FIRST_CHAR_HEIGHT);
+            game.batch.draw(firstCharHeader,FIRST_SECOND_X,FIRST_SECOND_Y,FIRST_SECOND_WIDTH,FIRST_SECOND_HEIGHT);
         }
-        
-        //char1
-        if(Gdx.input.getX() < CHAR_ONE_X  + CHAR_ONE_WIDTH && Gdx.input.getX() > CHAR_ONE_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_ONE_Y + CHAR_ONE_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_ONE_Y)
+
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES; charNum++)
         {
-            game.batch.draw(char1Active, CHAR_ONE_X, CHAR_ONE_Y, CHAR_ONE_WIDTH, CHAR_ONE_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-                
-                if(!twoPlayers){
-                    char1Num = 1;
-                    this.dispose();
-                    game.setScreen(new PlayScreen(game, char1Num, 0));
-                } else{
-                    if(firstTime) {
-                        char1Num = 1;
-                        firstTime = false;
-                        firstCharHeader = secondCharHeader;
-                    } else{
-                        char2Num = 1;
-                        //TODO: uncomment when PlayScreen() is overloaded
-                        //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
-                    }
-                }
-            }
-        } else {
-            game.batch.draw(char1InActive, CHAR_ONE_X, CHAR_ONE_Y, CHAR_ONE_WIDTH, CHAR_ONE_HEIGHT);
-        }
-        
-        //char2
-        if(Gdx.input.getX() < CHAR_TWO_X  + CHAR_TWO_WIDTH && Gdx.input.getX() > CHAR_TWO_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_TWO_Y + CHAR_TWO_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_TWO_Y)
-        {
-            game.batch.draw(char2Active, CHAR_TWO_X, CHAR_TWO_Y, CHAR_TWO_WIDTH, CHAR_TWO_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-
-                if(!twoPlayers){
-                    char1Num = 2;
-                    this.dispose();
-                    game.setScreen(new PlayScreen(game, char1Num, 0));
-                } else{
-                    if(firstTime) {
-                        char1Num = 2;
-                        firstTime = false;
-                        firstCharHeader = secondCharHeader;
-                    } else{
-                        char2Num = 2;
-                        //TODO: uncomment when PlayScreen() is overloaded
-                        //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
-                    }
-
-                }
-            }
-        } else {
-            game.batch.draw(char2InActive, CHAR_TWO_X, CHAR_TWO_Y, CHAR_TWO_WIDTH, CHAR_TWO_HEIGHT);
-        }
-        
-        //char3
-        if(Gdx.input.getX() < CHAR_THREE_X  + CHAR_THREE_WIDTH && Gdx.input.getX() > CHAR_THREE_X
-                && Khartoosha.Gheight - Gdx.input.getY() < CHAR_THREE_Y + CHAR_THREE_HEIGHT && Khartoosha.Gheight - Gdx.input.getY() > CHAR_THREE_Y)
-        {
-            game.batch.draw(char3Active, CHAR_THREE_X, CHAR_THREE_Y, CHAR_THREE_WIDTH, CHAR_THREE_HEIGHT);
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                //TODO
-
-                if(!twoPlayers){
-                    char1Num = 3;
-                    this.dispose();
-                    game.setScreen(new PlayScreen(game, char1Num, 0));
-                } else{
-                    if(firstTime) {
-                        char1Num = 3;
-                        firstTime = false;
-                        firstCharHeader = secondCharHeader;
-                    } else{
-                        char2Num = 3;
-                        //TODO: uncomment when PlayScreen() is overloaded
-                        //this.dispose();
-                        //game.setScreen(new PlayScreen(game, char1Num, char2Num,0));
-                    }
-
-                }
-            }
-        } else {
-            game.batch.draw(char3InActive, CHAR_THREE_X, CHAR_THREE_Y, CHAR_THREE_WIDTH, CHAR_THREE_HEIGHT);
+            checkBoundsAndDraw(Char,charNum);
         }
         game.batch.end();
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
-
+        header.dispose();
+        firstCharHeader.dispose();
+        secondCharHeader.dispose();
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
+            Char[charNum].dispose();
+        }
+        bg.dispose();
     }
 }
