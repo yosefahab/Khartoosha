@@ -66,6 +66,10 @@ public class Character extends Sprite
         FixtureDef fixtureDefinition = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(25 / Khartoosha.PPM);
+
+        //TODO: change shape to polygon?
+
+
         fixtureDefinition.shape = shape;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
 
@@ -77,7 +81,8 @@ public class Character extends Sprite
         if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
                 physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
-        setRegion(animationManager.getFrame(delta));
+        // TODO: uncomment to unpause animation
+        //setRegion(animationManager.getFrame(delta));
 
     }
 
