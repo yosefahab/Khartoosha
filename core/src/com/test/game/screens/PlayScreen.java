@@ -84,7 +84,7 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num)
     {
         this(game, mapNum);
-        character = new Character(box2dWorld, this,  char1Num);
+        character = new Character(box2dWorld, this,  char1Num,true);
         pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
     }
@@ -93,15 +93,12 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
     {
         this(game, mapNum);
-        character2 = new Character(box2dWorld, this,  char2Num);
-        character = new Character(box2dWorld, this,  char1Num);
+        character2 = new Character(box2dWorld, this,  char2Num,true);
+        character = new Character(box2dWorld, this,  char1Num,false);
 
         pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
     }
-
-
-
     /**
      * Handles all powerups related operations
      *  Spawns pup if it's available
