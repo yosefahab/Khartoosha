@@ -12,6 +12,7 @@ import com.test.game.Khartoosha;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
+import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.SpeedBoost;
 import com.test.game.sprites.Weapon;
@@ -57,7 +58,7 @@ public class PlayScreen implements Screen
         box2dWorld = new World(new Vector2(0, Khartoosha.GRAVITY), true);
         box2dWorld = new World(new Vector2(0, -10), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
-        box2dDebugRenderer.setDrawBodies(true); //hides physics body
+        box2dDebugRenderer.setDrawBodies(false); //hides physics body
 
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
@@ -69,6 +70,8 @@ public class PlayScreen implements Screen
         // Power Ups
         PUPs[0] = new SpeedBoost(box2dWorld);
         PUPs[1] = new SpeedBoost(box2dWorld);
+        PUPs[2] = new Armor(box2dWorld);
+        PUPs[3] = new Armor(box2dWorld);
 
 
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -96,8 +99,8 @@ public class PlayScreen implements Screen
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
 
-        pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200, Input.Keys.CONTROL_LEFT);
-        pistol2= new Weapon(box2dWorld,this,character2,0.25f,50,200, Input.Keys.SPACE);
+        pistol = new Weapon(box2dWorld, this, character, 0.25f,100, 200, Input.Keys.CONTROL_LEFT);
+        pistol2= new Weapon(box2dWorld,this,character2,0.25f,100,200, Input.Keys.SPACE);
     }
     /**
      * Handles all powerups related operations
@@ -162,7 +165,9 @@ public class PlayScreen implements Screen
         }
         //Debug
         if (Gdx.input.isKeyPressed(Input.Keys.X)) {
-            System.out.println("PUP Location: "+PUPs[0].pupBody.getPosition().x + "  " + PUPs[0].pupBody.getPosition().y);
+            //System.out.println("PUP Location: "+PUPs[0].pupBody.getPosition().x + "  " + PUPs[0].pupBody.getPosition().y);
+            System.out.println("PUP Time: "+ PUPs[2].active_time);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
             System.out.println("Character Location: "+character.physicsBody.getPosition().x + "  " + character.physicsBody.getPosition().y);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.sprites.Bullets;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.SpeedBoost;
 
@@ -39,7 +40,8 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             bullet.isContacted = true;
 
             Character character = (Character) o2;
-            character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+            if (!character.isArmored)
+                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
 
         }
         else if (o2 instanceof Bullets && o1 instanceof Character) {
@@ -49,7 +51,8 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             bullet.isContacted = true;
 
             Character character = (Character) o1;
-            character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+            if (!character.isArmored)
+                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
 
 
         }
@@ -133,6 +136,15 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 pup.setContacted(true);
                 pup.attachedChar = character;
                 //System.out.println("Pup char contact 1");
+            }
+        }else if (p instanceof Armor)
+        {
+            Armor pup = (Armor) p;
+            if (pup.isSpawned())
+            {
+                pup.setContacted(true);
+                pup.attachedChar = character;
+
             }
         }
 
