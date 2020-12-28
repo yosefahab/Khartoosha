@@ -25,7 +25,7 @@ public class PlayScreen implements Screen
     // Reference to our game, used to set screens
     private Khartoosha game;
 
-    private TextureAtlas atlas;
+    private TextureAtlas atlas,powerupAtlas;
     private Character character,character2;
     private Weapon pistol;
     private Weapon pistol2;
@@ -51,6 +51,7 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum)
     {
         atlas = new TextureAtlas("Characters.pack");
+        powerupAtlas = new TextureAtlas("powerups.pack");
         // Reference to our game, used to set screens
         this.game = game;
 
@@ -68,10 +69,10 @@ public class PlayScreen implements Screen
         map.loadMap(1);
 
         // Power Ups
-        PUPs[0] = new SpeedBoost(box2dWorld);
-        PUPs[1] = new SpeedBoost(box2dWorld);
-        PUPs[2] = new Armor(box2dWorld);
-        PUPs[3] = new Armor(box2dWorld);
+        PUPs[0] = new SpeedBoost(box2dWorld,this);
+        PUPs[1] = new SpeedBoost(box2dWorld,this);
+        PUPs[2] = new Armor(box2dWorld,this);
+        PUPs[3] = new Armor(box2dWorld,this);
 
 
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -131,11 +132,11 @@ public class PlayScreen implements Screen
 
     public void handleInput()
     {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && character.canJump())
         {
             character.jump();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
+        if (Gdx.input.isKeyPressed(Input.Keys.A) )
         {
             character.moveLeft();
         }
@@ -150,7 +151,7 @@ public class PlayScreen implements Screen
 
         //character2 controlls
         if (character2!=null) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)&& character2.canJump()) {
                 character2.jump();
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -224,6 +225,7 @@ public class PlayScreen implements Screen
     @Override
     public void render(float delta)
     {
+        //TODO:flip bullets as well @yehiaELHALS
         update();
         if(character.isFlipX())
         {
@@ -267,11 +269,12 @@ public class PlayScreen implements Screen
         }
 
         //TODO: uncomment when textures are ready
-//        for (PowerUp pup:PUPs)
-//        {
-//            if (pup.isSpawned())
-//                pup.draw(game.batch);
-//        }
+        for (PowerUp pup:PUPs)
+        {
+            if (pup.isSpawned())
+                pup.draw(game.batch);
+        }
+
         pistol.draw(game.batch);
         pistol.render(game.batch);
 
@@ -301,5 +304,8 @@ public class PlayScreen implements Screen
     {
 
     }
+    //TODO: implement functions unfala7i
     public TextureAtlas getAtlas(){return atlas;}
+    public TextureAtlas GetAtlas(){return powerupAtlas;}
+
 }

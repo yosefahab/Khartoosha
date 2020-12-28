@@ -1,11 +1,13 @@
 package com.test.game.sprites.PowerUps;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
+import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
 public class SpeedBoost  extends PowerUp
@@ -17,16 +19,21 @@ public class SpeedBoost  extends PowerUp
     // probability of spawn = (maxrate - spawnrate) / max_rate
     private final int spawnRate = 9970, maxRate = 10000;
 
-    private final float speedBoost = 10;
+    private final float speedBoost = 2.0f;
     private final float MAX_TIME = 10;
+    private TextureRegion powerupTexture;
 
 
 
 
-
-    public SpeedBoost(World world)
+    public SpeedBoost(World world, PlayScreen screen)
     {
-        super(world);
+
+        super(world,screen.GetAtlas().findRegion("armorPowerup"));
+
+        this.powerupTexture = new TextureRegion(getTexture(),1*100,0, 100, 100);
+        setBounds(0,0, 50 /Khartoosha.PPM, 50 /Khartoosha.PPM);
+        setRegion(powerupTexture);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
@@ -72,6 +79,8 @@ public class SpeedBoost  extends PowerUp
     @Override
     public void update()
     {
+        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
+
         if (isContacted)
         {
             effect(attachedChar);
