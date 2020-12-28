@@ -18,7 +18,7 @@ public class Character extends Sprite
     public Body physicsBody;
     public TextureRegion idle,jumping;
     private AnimationManager animationManager;
-    public Animation runAnimation;
+    public Animation<?> runAnimation;
 
     public boolean isGoingDown;
 
@@ -126,6 +126,10 @@ public class Character extends Sprite
         this.physicsBody.setAwake(true);
         isGoingDown = true;
     }
+    public boolean canJump() {
+        if (physicsBody.getLinearVelocity().y > 0){return false;}
+        return true;
+    }
     public void dispose()
     {
 
@@ -134,7 +138,7 @@ public class Character extends Sprite
     // Speed boost pup
     public void setSpeedCap(float speedCap)
     {
-        this.speedCap = speedCap;
+        this.speedCap *= speedCap;
     }
 
     public void resetSpeedCap() {
