@@ -18,7 +18,7 @@ public class Character extends Sprite
     public Body physicsBody;
     public TextureRegion idle,jumping;
     private AnimationManager animationManager;
-    public Animation runAnimation;
+    public Animation<?> runAnimation;
 
     public boolean isGoingDown;
 
