@@ -100,8 +100,10 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
 
     @Override
     public void render(float delta) {
-        //TODO
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            chosenTexture(1); //click back
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
