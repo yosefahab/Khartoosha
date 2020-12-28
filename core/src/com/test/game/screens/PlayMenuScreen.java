@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MenuBG;
-import com.test.game.menu.MenuTextureDim;
+import com.test.game.menu.MenuTextureDimDynamic;
+import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 
 public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
@@ -28,53 +29,56 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int BACK_BUTTON_Y = TWO_PLAYER_BUTTON_Y - TWO_PLAYER_BUTTON_HEIGHT - 40 - (BACK_BUTTON_HEIGHT-TWO_PLAYER_BUTTON_HEIGHT);
     private static final int BACK_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (BACK_BUTTON_WIDTH / 2));
 
-    private static final int NUM_OF_TEXTURES = 3;
-    private String[] textureNames = new String[NUM_OF_TEXTURES + 1];
-    private MenuTextureDim[] textures = new MenuTextureDim[NUM_OF_TEXTURES + 1];
+    private static final int NUM_OF_DYNAMIC_TEXTURES = 3;
+    private String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
     
     Khartoosha game;
 
     public PlayMenuScreen(Khartoosha game) {
         this.game = game;
         
-        textureNames[1] = "onePlayer";
-        textureNames[2] = "twoPlayer";
-        textureNames[3] = "back";
+        dynamicTextureNames[1] = "onePlayer";
+        dynamicTextureNames[2] = "twoPlayer";
+        dynamicTextureNames[3] = "back";
         
-        textures[1] = new MenuTextureDim(ONE_PLAYER_BUTTON_WIDTH,ONE_PLAYER_BUTTON_HEIGHT,ONE_PLAYER_BUTTON_Y,ONE_PLAYER_BUTTON_X, textureNames[1]);
-        textures[2] = new MenuTextureDim(TWO_PLAYER_BUTTON_WIDTH,TWO_PLAYER_BUTTON_HEIGHT,TWO_PLAYER_BUTTON_Y,TWO_PLAYER_BUTTON_X, textureNames[2]);
-        textures[3] = new MenuTextureDim(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X, textureNames[3]);
-
-        bg = new Texture("menu/menu_bg_darker1.png");
+        dynamicTextures[1] = new MenuTextureDimDynamic(ONE_PLAYER_BUTTON_WIDTH,ONE_PLAYER_BUTTON_HEIGHT,ONE_PLAYER_BUTTON_Y,ONE_PLAYER_BUTTON_X, dynamicTextureNames[1]);
+        dynamicTextures[2] = new MenuTextureDimDynamic(TWO_PLAYER_BUTTON_WIDTH,TWO_PLAYER_BUTTON_HEIGHT,TWO_PLAYER_BUTTON_Y,TWO_PLAYER_BUTTON_X, dynamicTextureNames[2]);
+        dynamicTextures[3] = new MenuTextureDimDynamic(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X, dynamicTextureNames[3]);
     }
 
     @Override
-    public void chosenTexture(int textureNum) {
-        if(textureNum == 1) { //if one player is clicked
+    public void chosenTexture(int dynamicTextureNum) {
+        if(dynamicTextureNum == 1) { //if one player is clicked
             this.dispose();
             game.setScreen(new CharacterChoiceMenuScreen(game, false));
-        } else if (textureNum == 2) { //if two players is clicked
+        } else if (dynamicTextureNum == 2) { //if two players is clicked
             this.dispose();
             game.setScreen(new CharacterChoiceMenuScreen(game, true));
-        } else if(textureNum == 3) { //if back is clicked
+        } else if(dynamicTextureNum == 3) { //if back is clicked
             this.dispose();
             game.setScreen(new MainMenuScreen(game));
         }
     }
 
     @Override
-    public void checkBoundsAndDraw(MenuTextureDim[] dim, int textureNum) {
-        if(Gdx.input.getX() < dim[textureNum].getX() + dim[textureNum].getWIDTH() && Gdx.input.getX() > dim[textureNum].getX()
-                && Khartoosha.Gheight - Gdx.input.getY() < dim[textureNum].getY() + dim[textureNum].getHEIGHT()
-                && Khartoosha.Gheight - Gdx.input.getY() > dim[textureNum].getY()
+    public void drawStatic() {
+        //no static textures
+    }
+
+    @Override
+    public void checkBoundsAndDrawDynamic(MenuTextureDimDynamic[] dim, int dynamicTextureNum) {
+        if(Gdx.input.getX() < dim[dynamicTextureNum].getX() + dim[dynamicTextureNum].getWIDTH() && Gdx.input.getX() > dim[dynamicTextureNum].getX()
+                && Khartoosha.Gheight - Gdx.input.getY() < dim[dynamicTextureNum].getY() + dim[dynamicTextureNum].getHEIGHT()
+                && Khartoosha.Gheight - Gdx.input.getY() > dim[dynamicTextureNum].getY()
         )
         {
-            game.batch.draw(dim[textureNum].getActive(), dim[textureNum].getX(), dim[textureNum].getY(), dim[textureNum].getWIDTH(), dim[textureNum].getHEIGHT());
+            game.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                chosenTexture(textureNum);
+                chosenTexture(dynamicTextureNum);
             }
         } else {
-            game.batch.draw(dim[textureNum].getInActive(), dim[textureNum].getX(), dim[textureNum].getY(), dim[textureNum].getWIDTH(), dim[textureNum].getHEIGHT());
+            game.batch.draw(dim[dynamicTextureNum].getInActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
         }
     }
 
@@ -87,8 +91,8 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         displayBG(game);
-        for (int textureNum = 1; textureNum <= NUM_OF_TEXTURES; textureNum++){
-            checkBoundsAndDraw(textures, textureNum);
+        for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
+            checkBoundsAndDrawDynamic(dynamicTextures, dynamicTextureNum);
         }
         game.batch.end();
     }
@@ -107,8 +111,8 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
 
     @Override
     public void dispose() {
-        for (int textureNum = 1; textureNum <= NUM_OF_TEXTURES; textureNum++){
-            textures[textureNum].dispose();
+        for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
+            dynamicTextures[dynamicTextureNum].dispose();
         }
         bg.dispose();
     }
