@@ -15,7 +15,7 @@ public class AnimationManager {
     private boolean faceRight;
     private float stateTimer;
     private Array<TextureRegion> frames;
-    private Animation tempAnimation;
+    private Animation<TextureRegion> tempAnimation;
     private Character player;
     private Texture texture;
     public AnimationManager(boolean faceRight, Texture texture, Character player) {
@@ -32,7 +32,7 @@ public class AnimationManager {
         for (int i=0;i<4;i++){
             frames.add(new TextureRegion(this.texture, (i * 120),(charNum-1)*151,120,151 ));
         }
-        tempAnimation = new Animation (0.25f,frames);
+        tempAnimation = new Animation<> (0.25f,frames);
         return tempAnimation;
     }
 

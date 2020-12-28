@@ -30,6 +30,7 @@ public class Bullets extends Sprite {
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
 
+
         this.speed=speed;
         this.world=world;
         this.position=position;
