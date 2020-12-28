@@ -3,6 +3,7 @@ package com.test.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.test.game.screens.MainMenuScreen;
+import com.test.game.screens.PlayScreen;
 
 public class Khartoosha extends Game
 {
@@ -29,7 +30,7 @@ public class Khartoosha extends Game
 		* USE THIS.DISPOSE()
 		*
 		* */
-		//this.setScreen(new PlayScreen(this, 1, 1));
+		//this.setScreen(new PlayScreen(this, 1, 1, 2));
 		this.setScreen(new MainMenuScreen(this));
 	}
 

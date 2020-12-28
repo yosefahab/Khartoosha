@@ -7,6 +7,10 @@ public class MenuBG {
     public static int bgOffset = 0;
     public static Texture bg;
 
+    public MenuBG() {
+        bg = new Texture("menu/menu_bg_darker1.png");
+    }
+
     protected void displayBG(Khartoosha game){
         bgOffset+=2;
         if(bgOffset % 900 == 0){

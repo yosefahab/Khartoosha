@@ -8,37 +8,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.sprites.Character;
 
-public class SpeedBoost  extends PowerUp
-{
-    public final int type = 0;
+public class Armor extends PowerUp {
 
-
-    // a random number less than max_rate is generated if it's larger than spawn_rate then it's spawned
-    // probability of spawn = (maxrate - spawnrate) / max_rate
     private final int spawnRate = 9970, maxRate = 10000;
-
-    private final float speedBoost = 10;
     private final float MAX_TIME = 10;
 
 
-
-
-
-    public SpeedBoost(World world)
-    {
+    public Armor(World world) {
         super(world);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(10 / Khartoosha.PPM);
+        shape.setRadius(20 / Khartoosha.PPM);
 
         fdef.shape = shape;
 
         pupBody.createFixture(fdef).setUserData(this);
-
-
     }
-
 
     @Override
     public void spawn() {
@@ -52,8 +38,6 @@ public class SpeedBoost  extends PowerUp
         }
     }
 
-
-
     @Override
     public void effect(Character player) {
         //activate
@@ -63,11 +47,10 @@ public class SpeedBoost  extends PowerUp
                 Khartoosha.Gheight / Khartoosha.PPM + 3,0);
         pupBody.setType(BodyDef.BodyType.StaticBody);
 
-        // increase player speed
-        player.setSpeedCap(speedBoost);
+        // activate armor
+        player.isArmored = true;
 
     }
-
 
     @Override
     public void update()
@@ -94,13 +77,9 @@ public class SpeedBoost  extends PowerUp
         active_time = 0;
         setSpawned(false);
         setActive(false);
-        attachedChar.resetSpeedCap();
+        attachedChar.isArmored = false;
         attachedChar = null;
         currentPups--;
+
     }
-
-
-
-
-
 }

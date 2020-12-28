@@ -17,13 +17,15 @@ public abstract class PowerUp extends Sprite {
     public Body pupBody;
     protected Random rand = new Random(); // Random generator
 
-    public static final int MAXPUPS = 2; // max allowed spawned pups
+    public static final int MAXPUPS = 4; // max allowed spawned pups
     public static int currentPups = 0; //number of spawned pups at any moment
 
+    public Character attachedChar;
 
-    protected float active_time = 0;
+    public float active_time = 0;
     private boolean isSpawned = false;
     private boolean isActive = false;
+    protected boolean isContacted = false;
 
 
     public PowerUp(World world)
@@ -60,6 +62,10 @@ public abstract class PowerUp extends Sprite {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public boolean isContacted() { return isContacted; }
+
+    public void setContacted(boolean contacted) { isContacted = contacted; }
 
     /**
      Function handles the spawn of any pup by checking conditions

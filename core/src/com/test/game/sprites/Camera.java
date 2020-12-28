@@ -25,7 +25,10 @@ public class Camera
     public Camera()
     {
         gameCam = new OrthographicCamera();
-        viewport = new FitViewport(worldWidth / Khartoosha.PPM, worldHight / Khartoosha.PPM, gameCam);
+        viewport = new FitViewport(worldWidth/ Khartoosha.PPM, worldHight  / Khartoosha.PPM, gameCam);
+
+        //debug
+        //viewport = new FitViewport((worldWidth + 300)/ Khartoosha.PPM, (worldHight + 300) / Khartoosha.PPM, gameCam);
     }
 
     public void initCam()

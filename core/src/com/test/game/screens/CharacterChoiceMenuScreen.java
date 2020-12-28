@@ -6,8 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.menu.MenuTextureDim;
+import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuBG;
+import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 
 public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTextures {
@@ -18,10 +19,10 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     private static final int HEADER_Y = (int) (Khartoosha.Gheight - 100);
     private static final int HEADER_X = (int) ((Khartoosha.Gwidth / 2) - (HEADER_WIDTH / 2));
 
-    private static final int FIRST_SECOND_WIDTH = HEADER_WIDTH;
-    private static final int FIRST_SECOND_HEIGHT = HEADER_HEIGHT;
-    private static final int FIRST_SECOND_Y = HEADER_Y;
-    private static final int FIRST_SECOND_X = HEADER_X;
+    private static final int FIRST_SECOND_HEADER_WIDTH = HEADER_WIDTH;
+    private static final int FIRST_SECOND_HEADER_HEIGHT = HEADER_HEIGHT;
+    private static final int FIRST_SECOND_HEADER_Y = HEADER_Y;
+    private static final int FIRST_SECOND_HEADER_X = HEADER_X;
 
     private static final int CHAR_ONE_WIDTH = 187;
     private static final int CHAR_ONE_HEIGHT = 160;
@@ -43,18 +44,20 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     private static final int BACK_BUTTON_Y = CHAR_THREE_Y - CHAR_THREE_HEIGHT - 60 - (BACK_BUTTON_HEIGHT-CHAR_THREE_HEIGHT);
     private static final int BACK_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (BACK_BUTTON_WIDTH / 2));
     
-    private static final int NUM_OF_TEXTURES = 1;
-    private MenuTextureDim[] Char = new MenuTextureDim[Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES + 1]; //array containing all character info
-    private String[] charNames = new String[Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES + 1]; //textureNames[] here is charNames[]
+    private static final int NUM_OF_DYNAMIC_TEXTURES = 1;
+    private MenuTextureDimDynamic[] Char = new MenuTextureDimDynamic[Khartoosha.NUM_OF_CHARS + NUM_OF_DYNAMIC_TEXTURES + 1]; //array containing all character info
+    private String[] charNames = new String[Khartoosha.NUM_OF_CHARS + NUM_OF_DYNAMIC_TEXTURES + 1]; //textureNames[] here is charNames[]
 
-    private Texture header;
-    private Texture firstCharHeader;
-    private Texture secondCharHeader;
-    
+    private static final int NUM_OF_STATIC_TEXTURES = 3;
+    private String[] staticTextureNames = new String[NUM_OF_STATIC_TEXTURES + 1];
+    private MenuTextureDimStatic[] staticTextures = new MenuTextureDimStatic[NUM_OF_STATIC_TEXTURES + 1];
+
     private Khartoosha game;
 
     private boolean twoPlayers;
-    
+
+    private int currHeader = 1;
+
     private int char1Num, char2Num;
     
     private boolean firstTime;
@@ -62,25 +65,27 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     public CharacterChoiceMenuScreen(Khartoosha game, boolean twoPlayers) {
         this.game = game;
         this.twoPlayers = twoPlayers;
-        header = new Texture("menu/menu_choose_your_char.png");
-        firstCharHeader = new Texture("menu/menu_first_char.png");
-        secondCharHeader = new Texture("menu/menu_second_char.png");
         firstTime = true;
 
+        //setting static texture names
+        staticTextureNames[1] = "choose_your_char";
+        staticTextureNames[2] = "first_char";
+        staticTextureNames[3] = "second_char";
+        //setting dynamic texture names
         for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
             charNames[charNum] = "char"+charNum;
         }
-
         charNames[Khartoosha.NUM_OF_CHARS + 1] = "back";
 
         //below, the index of Char[] is the same as textureNames[] (the last parameter)
-        //Char[1] = new MenuTextureDim(187, 160, HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT), (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN), 1);
-        Char[1] = new MenuTextureDim(CHAR_ONE_WIDTH,CHAR_ONE_HEIGHT,CHAR_ONE_Y, CHAR_ONE_X,charNames[1]);
-        Char[2] = new MenuTextureDim(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y, CHAR_TWO_X,charNames[2]);
-        Char[3] = new MenuTextureDim(CHAR_THREE_WIDTH,CHAR_THREE_HEIGHT,CHAR_THREE_Y, CHAR_THREE_X,charNames[3]);
-        Char[Khartoosha.NUM_OF_CHARS + 1] = new MenuTextureDim(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X,charNames[Khartoosha.NUM_OF_CHARS + 1]);
-
-        bg = new Texture("menu/menu_bg_darker1.png");
+        //Char[1] = new MenuTextureDimDynamic(187, 160, HEADER_Y - HEADER_HEIGHT - 70 + (HEADER_HEIGHT-CHAR_ONE_HEIGHT), (int) ((Khartoosha.Gwidth / 3) - (CHAR_ONE_WIDTH / 2) - 2*MARGIN), 1);
+        Char[1] = new MenuTextureDimDynamic(CHAR_ONE_WIDTH,CHAR_ONE_HEIGHT,CHAR_ONE_Y, CHAR_ONE_X,charNames[1]);
+        Char[2] = new MenuTextureDimDynamic(CHAR_TWO_WIDTH,CHAR_TWO_HEIGHT,CHAR_TWO_Y, CHAR_TWO_X,charNames[2]);
+        Char[3] = new MenuTextureDimDynamic(CHAR_THREE_WIDTH,CHAR_THREE_HEIGHT,CHAR_THREE_Y, CHAR_THREE_X,charNames[3]);
+        Char[Khartoosha.NUM_OF_CHARS + 1] = new MenuTextureDimDynamic(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X,charNames[Khartoosha.NUM_OF_CHARS + 1]);
+        staticTextures[1] = new MenuTextureDimStatic(HEADER_WIDTH,HEADER_HEIGHT,HEADER_Y,HEADER_X,staticTextureNames[1]);
+        staticTextures[2] = new MenuTextureDimStatic(FIRST_SECOND_HEADER_WIDTH,FIRST_SECOND_HEADER_HEIGHT,FIRST_SECOND_HEADER_Y,FIRST_SECOND_HEADER_X,staticTextureNames[2]);
+        staticTextures[3] = new MenuTextureDimStatic(FIRST_SECOND_HEADER_WIDTH,FIRST_SECOND_HEADER_HEIGHT,FIRST_SECOND_HEADER_Y,FIRST_SECOND_HEADER_X,staticTextureNames[3]);
     }
 
     @Override
@@ -97,7 +102,8 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             if(firstTime) {
                 char1Num = charNum;
                 firstTime = false;
-                firstCharHeader = secondCharHeader; // changing the header of the screen
+                //2nd character
+                currHeader = 3;
             } else{
                 char2Num = charNum;
                 this.dispose();
@@ -107,7 +113,19 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     }
 
     @Override
-    public void checkBoundsAndDraw(MenuTextureDim[]dim, int charNum)
+    public void drawStatic() {
+        if(!twoPlayers) {
+            //choose your character
+            currHeader = 1;
+        } else {
+            //1st character
+            currHeader = 2;
+        }
+        game.batch.draw(staticTextures[currHeader].getTexture(),staticTextures[currHeader].getX(),staticTextures[currHeader].getY(), staticTextures[currHeader].getWIDTH(), staticTextures[currHeader].getHEIGHT());
+    }
+
+    @Override
+    public void checkBoundsAndDrawDynamic(MenuTextureDimDynamic[]dim, int charNum)
     {
         if(Gdx.input.getX() < dim[charNum].getX() + dim[charNum].getWIDTH() && Gdx.input.getX() > dim[charNum].getX()
                 && Khartoosha.Gheight - Gdx.input.getY() < dim[charNum].getY() + dim[charNum].getHEIGHT()
@@ -133,16 +151,12 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         displayBG(game);
-        if(!twoPlayers) {
-            //header
-            game.batch.draw(header, HEADER_X, HEADER_Y, HEADER_WIDTH, HEADER_HEIGHT);
-        } else {
-            game.batch.draw(firstCharHeader,FIRST_SECOND_X,FIRST_SECOND_Y,FIRST_SECOND_WIDTH,FIRST_SECOND_HEIGHT);
-        }
 
-        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS + NUM_OF_TEXTURES; charNum++)
+        drawStatic();
+
+        for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS + NUM_OF_DYNAMIC_TEXTURES; charNum++)
         {
-            checkBoundsAndDraw(Char,charNum);
+            checkBoundsAndDrawDynamic(Char,charNum);
         }
         game.batch.end();
     }
@@ -161,9 +175,10 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
 
     @Override
     public void dispose() {
-        header.dispose();
-        firstCharHeader.dispose();
-        secondCharHeader.dispose();
+        for (int staticTextureNum = 1; staticTextureNum < NUM_OF_STATIC_TEXTURES; staticTextureNum++) {
+            staticTextures[staticTextureNum].dispose();
+        }
+
         for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
             Char[charNum].dispose();
         }

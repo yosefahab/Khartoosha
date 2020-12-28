@@ -44,3 +44,14 @@ Ayman, 26 Dec
 
 Yahia, 26 Dec
 Added weapon to second character in 2 player mode
+
+
+Ayman, 27 Dec
+
+- Added
+    • Armor powerup with full functionality
+    • Added isArmored bool to Character
+    • Added charNum attribute to Character
+
+- Modified
+   • Second player now spawns on the other side
