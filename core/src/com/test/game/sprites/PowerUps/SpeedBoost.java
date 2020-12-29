@@ -103,7 +103,6 @@ public class SpeedBoost  extends PowerUp
         active_time = 0;
         setSpawned(false);
         setActive(false);
-        getTexture().dispose();
         attachedChar.resetSpeedCap();
         attachedChar = null;
         currentPups--;

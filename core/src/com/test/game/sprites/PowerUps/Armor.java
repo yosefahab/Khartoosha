@@ -84,7 +84,6 @@ public class Armor extends PowerUp {
     public void reset() {
         active_time = 0;
         setSpawned(false);
-        getTexture().dispose();
         setActive(false);
         attachedChar.isArmored = false;
         attachedChar = null;
