@@ -30,9 +30,9 @@ public class AnimationManager {
     public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
         for (int i=0;i<4;i++){
-            frames.add(new TextureRegion(this.texture, (i * 120),(charNum-1)*151,120,151 ));
+            frames.add(new TextureRegion(this.texture, (i * 188),(charNum-1)*235,188,235 ));
         }
-        tempAnimation = new Animation<> (0.25f,frames);
+        tempAnimation = new Animation<> (player.speedCap*0.1f,frames);
         return tempAnimation;
     }
 

@@ -23,7 +23,7 @@ public class Character extends Sprite
     public boolean isGoingDown;
 
     private final float DEFAULT_SPEED = 2;
-    private float speedCap = DEFAULT_SPEED;
+    public float speedCap = DEFAULT_SPEED;
     private float speedScale = 0.4f;
 
     private float jumpScale = 4;
@@ -41,8 +41,8 @@ public class Character extends Sprite
     private void loadCharacter(int charNum)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(charNum-1)* 151, 120, 151);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 120),(charNum-1)* 151, 120, 151);
+        this.idle = new TextureRegion(getTexture(),0,(charNum-1)* 235, 188, 235);
+        this.jumping =  new TextureRegion(getTexture(),(4 * 188),(charNum-1)* 235, 188, 235);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 151 /Khartoosha.PPM);
         setRegion(idle);
@@ -127,8 +127,7 @@ public class Character extends Sprite
         isGoingDown = true;
     }
     public boolean canJump() {
-        if (physicsBody.getLinearVelocity().y > 0){return false;}
-        return true;
+        return !(physicsBody.getLinearVelocity().y > 0);
     }
     public void dispose()
     {

@@ -64,7 +64,6 @@ public class Bullets extends Sprite {
     public void update(float delta){
 
         sped += this.speed;
-
         setPosition(position.x+sped, position.y); //update position of texture
 
         //attach physics body for collision
@@ -81,6 +80,7 @@ public class Bullets extends Sprite {
             remove = true;
             physicsBodyBullet.destroyFixture(physicsBodyBullet.getFixtureList().first());
             isContacted = false;
+            bul.dispose();
         }
 
     }
