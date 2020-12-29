@@ -32,6 +32,8 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int NUM_OF_DYNAMIC_TEXTURES = 3;
     private String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
     private MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
+
+    private static int currDynamicTexture = 0;
     
     Khartoosha game;
 
@@ -45,6 +47,34 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
         dynamicTextures[1] = new MenuTextureDimDynamic(ONE_PLAYER_BUTTON_WIDTH,ONE_PLAYER_BUTTON_HEIGHT,ONE_PLAYER_BUTTON_Y,ONE_PLAYER_BUTTON_X, dynamicTextureNames[1]);
         dynamicTextures[2] = new MenuTextureDimDynamic(TWO_PLAYER_BUTTON_WIDTH,TWO_PLAYER_BUTTON_HEIGHT,TWO_PLAYER_BUTTON_Y,TWO_PLAYER_BUTTON_X, dynamicTextureNames[2]);
         dynamicTextures[3] = new MenuTextureDimDynamic(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X, dynamicTextureNames[3]);
+    }
+
+    void handleKeyboard(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+            if(currDynamicTexture <= 1){
+                currDynamicTexture = NUM_OF_DYNAMIC_TEXTURES;
+            } else {
+                currDynamicTexture--;
+            }
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+            if(currDynamicTexture >= NUM_OF_DYNAMIC_TEXTURES){
+                currDynamicTexture = 1;
+            } else {
+                currDynamicTexture++;
+            }
+        }
+        if(currDynamicTexture >= 1 && currDynamicTexture <= NUM_OF_DYNAMIC_TEXTURES) {
+
+            game.batch.draw(dynamicTextures[currDynamicTexture].getActive(), dynamicTextures[currDynamicTexture].getX(), dynamicTextures[currDynamicTexture].getY(), dynamicTextures[currDynamicTexture].getWIDTH(), dynamicTextures[currDynamicTexture].getHEIGHT());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+            chosenTexture(currDynamicTexture);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            chosenTexture(3); //click back
+        }
     }
 
     @Override
@@ -73,6 +103,7 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
                 && Khartoosha.Gheight - Gdx.input.getY() > dim[dynamicTextureNum].getY()
         )
         {
+            currDynamicTexture = 0; // if mouse is active disable handle keyboard
             game.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
@@ -94,6 +125,7 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
         for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
             checkBoundsAndDrawDynamic(dynamicTextures, dynamicTextureNum);
         }
+        handleKeyboard();
         game.batch.end();
     }
 

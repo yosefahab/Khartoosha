@@ -16,11 +16,9 @@ public class Bullets extends Sprite {
     private TextureRegion textureRegion;
     World world;
     Vector2 position;
-    Texture bul=new Texture("bullet.png");
+    Texture bul=new Texture("pew.png");
     public boolean remove=false;
     private float speed;
-
-
 
     // for collision detection
     public boolean isContacted = false;
@@ -28,21 +26,17 @@ public class Bullets extends Sprite {
 
     public Bullets(World world, PlayScreen screen, Vector2 position,float speed, int force)
     {
-        super(screen.getAtlas().findRegion("bruceSprite"));
-
-
         this.speed=speed;
         this.world=world;
         this.position=position;
         this.force = force;
 
-        setTexture(bul);
-
         defineBulletPhysics();
 
-        textureRegion = new TextureRegion(getTexture(),0,0,40,20); //define region of certain texture in png
-        setBounds(0,0,40/Khartoosha.PPM,20/Khartoosha.PPM); //set size rendered texture
+        setTexture(bul);
+        textureRegion = new TextureRegion(getTexture(),0,0,220,48); //define region of certain texture in png
         setRegion(textureRegion);
+        setBounds(0,0,120/Khartoosha.PPM,30/Khartoosha.PPM); //set size rendered texture
 
 
 
@@ -69,8 +63,8 @@ public class Bullets extends Sprite {
     }
     private float sped=0;
     public void update(float delta){
-        sped += this.speed;
 
+        sped += this.speed;
 
         setPosition(position.x+sped, position.y); //update position of texture
 

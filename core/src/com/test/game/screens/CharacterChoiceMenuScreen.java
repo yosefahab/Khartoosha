@@ -56,7 +56,9 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
 
     private boolean twoPlayers;
 
-    private int currHeader = 1;
+    private static int currHeader = 1;
+
+    private static int currDynamicTexture = 0;
 
     private int char1Num, char2Num;
     
@@ -88,6 +90,34 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         staticTextures[3] = new MenuTextureDimStatic(FIRST_SECOND_HEADER_WIDTH,FIRST_SECOND_HEADER_HEIGHT,FIRST_SECOND_HEADER_Y,FIRST_SECOND_HEADER_X,staticTextureNames[3]);
     }
 
+    void handleKeyboard(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
+            if(currDynamicTexture <= 1){
+                currDynamicTexture = Khartoosha.NUM_OF_CHARS;
+            } else {
+                currDynamicTexture--;
+            }
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+            if(currDynamicTexture >= Khartoosha.NUM_OF_CHARS){
+                currDynamicTexture = 1;
+            } else {
+                currDynamicTexture++;
+            }
+        }
+        if(currDynamicTexture >= 1 && currDynamicTexture <= Khartoosha.NUM_OF_CHARS) {
+
+            game.batch.draw(Char[currDynamicTexture].getActive(), Char[currDynamicTexture].getX(), Char[currDynamicTexture].getY(), Char[currDynamicTexture].getWIDTH(), Char[currDynamicTexture].getHEIGHT());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+            chosenTexture(currDynamicTexture);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            chosenTexture(Khartoosha.NUM_OF_CHARS + 1); //click back
+        }
+    }
+
     @Override
     public void chosenTexture(int charNum)
     {
@@ -102,8 +132,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             if(firstTime) {
                 char1Num = charNum;
                 firstTime = false;
-                //2nd character
-                currHeader = 3;
+
             } else{
                 char2Num = charNum;
                 this.dispose();
@@ -114,12 +143,18 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
 
     @Override
     public void drawStatic() {
-        if(!twoPlayers) {
+        if(!twoPlayers){
             //choose your character
             currHeader = 1;
         } else {
-            //1st character
-            currHeader = 2;
+            if (firstTime) {
+                //1st character
+                currHeader = 2;
+
+            } else {
+                //2nd character
+                currHeader = 3;
+            }
         }
         game.batch.draw(staticTextures[currHeader].getTexture(),staticTextures[currHeader].getX(),staticTextures[currHeader].getY(), staticTextures[currHeader].getWIDTH(), staticTextures[currHeader].getHEIGHT());
     }
@@ -132,6 +167,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
                 && Khartoosha.Gheight - Gdx.input.getY() > dim[charNum].getY()
         )
         {
+            currDynamicTexture = 0; // if mouse is active disable handle keyboard
             game.batch.draw(dim[charNum].getActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(charNum);
@@ -151,13 +187,12 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         displayBG(game);
-
         drawStatic();
-
         for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS + NUM_OF_DYNAMIC_TEXTURES; charNum++)
         {
             checkBoundsAndDrawDynamic(Char,charNum);
         }
+        handleKeyboard();
         game.batch.end();
     }
 

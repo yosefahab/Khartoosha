@@ -1,11 +1,13 @@
 package com.test.game.sprites.PowerUps;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
+import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
 public class Armor extends PowerUp {
@@ -13,9 +15,14 @@ public class Armor extends PowerUp {
     private final int spawnRate = 9970, maxRate = 10000;
     private final float MAX_TIME = 10;
 
+    private TextureRegion powerupTexture;
 
-    public Armor(World world) {
-        super(world);
+    public Armor(World world, PlayScreen screen) {
+
+        super(world,screen.GetAtlas().findRegion("armorPowerup"));
+        this.powerupTexture = new TextureRegion(getTexture(),2*100,0, 100, 100);
+        setBounds(0,0, 50 /Khartoosha.PPM, 50 /Khartoosha.PPM);
+        setRegion(powerupTexture);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
@@ -55,6 +62,7 @@ public class Armor extends PowerUp {
     @Override
     public void update()
     {
+        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
         if (isContacted)
         {
             effect(attachedChar);
