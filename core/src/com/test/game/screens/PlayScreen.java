@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -35,7 +37,6 @@ public class PlayScreen implements Screen
     // Tiled map variables
     private Map map;
 
-
     // Box2d variables
     private World box2dWorld;
     private Box2DDebugRenderer box2dDebugRenderer;
@@ -44,8 +45,6 @@ public class PlayScreen implements Screen
 
     //Powerups array that contains 1 of each type
     private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
-
-
 
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
@@ -91,6 +90,7 @@ public class PlayScreen implements Screen
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
         pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
+
     }
 
     // 2 Players constructor
@@ -225,7 +225,6 @@ public class PlayScreen implements Screen
     @Override
     public void render(float delta)
     {
-        //TODO:flip bullets as well @yehiaELHALS
         update();
         if(character.isFlipX())
         {
@@ -277,7 +276,6 @@ public class PlayScreen implements Screen
 
         pistol.draw(game.batch);
         pistol.render(game.batch);
-
         game.batch.end();
     }
 

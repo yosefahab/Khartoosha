@@ -23,7 +23,6 @@ public class Bullets extends Sprite {
     // for collision detection
     public boolean isContacted = false;
     public int force;
-
     public Bullets(World world, PlayScreen screen, Vector2 position,float speed, int force)
     {
         this.speed=speed;

@@ -29,6 +29,8 @@ public class Weapon extends Sprite {
     public boolean faceRight=true;
     private int ammo;
     private int force;
+    private Character character;
+    private boolean bulletFlipped;
     public Weapon(World world,PlayScreen screen,Character character,float speed, int ammo, int force, int KEY)
     {
         super(screen.getAtlas().findRegion("bruceSprite"));
@@ -40,6 +42,7 @@ public class Weapon extends Sprite {
         this.ammo=ammo;
         this.force = force;
         this.KEY=KEY;
+        this.character=character;
         setTexture(texture);
         defineGunPhysics();
 
@@ -75,17 +78,29 @@ public class Weapon extends Sprite {
 
         if(Gdx.input.isKeyJustPressed(KEY) & ammo > 0)
         {
+            character.setPosition(character.getBodyPosition().x-200,character.getBodyPosition().y);
             ammo--;
             if (faceRight) {
+                bulletFlipped=false;
                 bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f),speed, force) );
+
             }
             else
+            {
+                bulletFlipped=true;
                 bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-speed,  -force));
+            }
 
         }
         for(Bullets bullet:bullets)
         {
+            if (bulletFlipped)
+            {
+                bullet.setFlip(true,false);
+            }
             bullet.draw(sb);
+
+
         }
 
     }
