@@ -1,6 +1,8 @@
 package com.test.game.sprites.PowerUps;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
+import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
 import java.util.Random;
@@ -17,17 +20,20 @@ public abstract class PowerUp extends Sprite {
     public Body pupBody;
     protected Random rand = new Random(); // Random generator
 
-    public static final int MAXPUPS = 2; // max allowed spawned pups
+    public static final int MAXPUPS = 4; // max allowed spawned pups
     public static int currentPups = 0; //number of spawned pups at any moment
 
+    public Character attachedChar;
 
-    protected float active_time = 0;
+    public float active_time = 0;
     private boolean isSpawned = false;
     private boolean isActive = false;
+    protected boolean isContacted = false;
 
 
-    public PowerUp(World world)
+    public PowerUp(World world, TextureAtlas.AtlasRegion region)
     {
+        super(region);
         this.world = world;
         initPup();
     }
@@ -60,6 +66,10 @@ public abstract class PowerUp extends Sprite {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public boolean isContacted() { return isContacted; }
+
+    public void setContacted(boolean contacted) { isContacted = contacted; }
 
     /**
      Function handles the spawn of any pup by checking conditions

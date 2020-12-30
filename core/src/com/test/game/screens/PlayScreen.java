@@ -12,6 +12,7 @@ import com.test.game.Khartoosha;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
+import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.SpeedBoost;
 import com.test.game.sprites.Weapon;
@@ -24,15 +25,15 @@ public class PlayScreen implements Screen
     // Reference to our game, used to set screens
     private Khartoosha game;
 
-    private TextureAtlas atlas;
+    private TextureAtlas atlas,powerupAtlas;
     private Character character,character2;
     private Weapon pistol;
+    private Weapon pistol2;
 
     public float delta = Gdx.graphics.getDeltaTime();
 
     // Tiled map variables
     private Map map;
-
 
     // Box2d variables
     private World box2dWorld;
@@ -43,12 +44,11 @@ public class PlayScreen implements Screen
     //Powerups array that contains 1 of each type
     private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
 
-
-
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
         atlas = new TextureAtlas("Characters.pack");
+        powerupAtlas = new TextureAtlas("powerups.pack");
         // Reference to our game, used to set screens
         this.game = game;
 
@@ -56,7 +56,7 @@ public class PlayScreen implements Screen
         box2dWorld = new World(new Vector2(0, Khartoosha.GRAVITY), true);
         box2dWorld = new World(new Vector2(0, -10), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
-        box2dDebugRenderer.setDrawBodies(true); //hides physics body
+        box2dDebugRenderer.setDrawBodies(false); //hides physics body
 
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
@@ -66,8 +66,10 @@ public class PlayScreen implements Screen
         map.loadMap(1);
 
         // Power Ups
-        PUPs[0] = new SpeedBoost(box2dWorld);
-        PUPs[1] = new SpeedBoost(box2dWorld);
+        PUPs[0] = new SpeedBoost(box2dWorld,this);
+        PUPs[1] = new SpeedBoost(box2dWorld,this);
+        PUPs[2] = new Armor(box2dWorld,this);
+        PUPs[3] = new Armor(box2dWorld,this);
 
 
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -85,7 +87,7 @@ public class PlayScreen implements Screen
     {
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
+        pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
 
     }
 
@@ -95,8 +97,9 @@ public class PlayScreen implements Screen
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
-        pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
+        pistol = new Weapon(box2dWorld, this, character, 0.25f,100, 200, Input.Keys.CONTROL_LEFT);
+        pistol2= new Weapon(box2dWorld,this,character2,0.25f,100,200, Input.Keys.SPACE);
     }
     /**
      * Handles all powerups related operations
@@ -126,8 +129,6 @@ public class PlayScreen implements Screen
     }
 
 
-
-
     public void update()
     {
         // Update physics world
@@ -137,9 +138,12 @@ public class PlayScreen implements Screen
             character2.handleInput();
 
         character.update(delta);
-        if (character2!=null){ character2.update(delta);}
-
         pistol.update(delta);
+        if (character2!=null){
+            pistol2.update(delta);
+            character2.update(delta);
+        }
+
 
         // Update camera position wrt character position
 
@@ -199,14 +203,33 @@ public class PlayScreen implements Screen
         game.batch.begin();
         character.draw(game.batch);
 
-        if (character2!= null){character2.draw(game.batch);}
+        if (character2!= null){
+
+            character2.draw(game.batch);
+            pistol2.draw(game.batch);
+            pistol2.render(game.batch);
+
+            if(character2.isFlipX())
+            {
+                pistol2.setFlip(true,false);
+                pistol2.faceRight=false;
+            }
+            else if (!character2.isFlipX())
+            {
+                pistol2.setFlip(false,false);
+                pistol2.faceRight=true;
+            }
+
+
+        }
 
         //TODO: uncomment when textures are ready
-//        for (PowerUp pup:PUPs)
-//        {
-//            if (pup.isSpawned())
-//                pup.draw(game.batch);
-//        }
+        for (PowerUp pup:PUPs)
+        {
+            if (pup.isSpawned())
+                pup.draw(game.batch);
+        }
+
         pistol.draw(game.batch);
         pistol.render(game.batch);
         game.batch.end();
@@ -235,5 +258,8 @@ public class PlayScreen implements Screen
     {
 
     }
+    //TODO: implement functions unfala7i
     public TextureAtlas getAtlas(){return atlas;}
+    public TextureAtlas GetAtlas(){return powerupAtlas;}
+
 }

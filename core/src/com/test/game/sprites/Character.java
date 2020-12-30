@@ -19,12 +19,12 @@ public class Character extends Sprite
     public Body physicsBody;
     public TextureRegion idle,jumping;
     private AnimationManager animationManager;
-    public Animation runAnimation;
+    public Animation<?> runAnimation;
 
     public boolean isGoingDown;
 
     private final float DEFAULT_SPEED = 2;
-    private float speedCap = DEFAULT_SPEED;
+    public float speedCap = DEFAULT_SPEED;
     private float speedScale = 0.4f;
     private float jumpScale = 4;
     public int ALLOWED_JUMPS = 2;
@@ -35,7 +35,9 @@ public class Character extends Sprite
     // Array of input key codes contains either WASD or arrows
     public final int[] CHARACTER_CONTROLS;
 
+    public boolean isArmored = false;
 
+    private final int charNum;
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -46,8 +48,8 @@ public class Character extends Sprite
     private void loadCharacter(int charNum)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(charNum-1)* 151, 120, 151);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 120),(charNum-1)* 151, 120, 151);
+        this.idle = new TextureRegion(getTexture(),0,(charNum-1)* 235, 188, 235);
+        this.jumping =  new TextureRegion(getTexture(),(4 * 188),(charNum-1)* 235, 188, 235);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 151 /Khartoosha.PPM);
         setRegion(idle);
@@ -57,6 +59,7 @@ public class Character extends Sprite
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
+        this.charNum = charNum;
         defineCharacterPhysics();
         NUMBER_OF_CHARACTERS++;
         CHARACTER_CONTROLS = new int[4];
@@ -85,7 +88,10 @@ public class Character extends Sprite
     public void defineCharacterPhysics()
     {
         BodyDef bodyDefinition = new BodyDef();
-        bodyDefinition.position.set(200 / Khartoosha.PPM, 200 / Khartoosha.PPM);
+        if (charNum == 1)
+            bodyDefinition.position.set(200 / Khartoosha.PPM, 200 / Khartoosha.PPM);
+        else
+            bodyDefinition.position.set(650 / Khartoosha.PPM, 200/ Khartoosha.PPM);
         bodyDefinition.type = BodyDef.BodyType.DynamicBody;
         physicsBody = world.createBody(bodyDefinition);
 
@@ -99,7 +105,7 @@ public class Character extends Sprite
 
     public void update(float delta){
         // Update position of texture
-        setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/5);
+        setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/3);
         if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
                 physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
@@ -176,14 +182,12 @@ public class Character extends Sprite
     // Speed boost pup
     public void setSpeedCap(float speedCap)
     {
-        this.speedCap = speedCap;
+        this.speedCap *= speedCap;
     }
 
     public void resetSpeedCap() {
         speedCap = DEFAULT_SPEED;
     }
-
-
 
 
 }
