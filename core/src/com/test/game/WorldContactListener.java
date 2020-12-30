@@ -19,41 +19,35 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o1 = contact.getFixtureA().getUserData();
         Object o2 = contact.getFixtureB().getUserData();
 
-        /*              PowerUPs collision          */
-        // if 1 object is pup and other is character
-        if ( (o1.getClass() == Character.class && o2 instanceof PowerUp) )
+        if (o2 instanceof Character && o1 instanceof Body)
+            beginContactCHARACTERxPlatform(o1, o2);
+
+
+        if ((o1 instanceof Character && o2 instanceof PowerUp))
         {
             pupCollision((Character) o1, (PowerUp) o2);
-        }else if ( (o2.getClass() == Character.class && o1.getClass() == SpeedBoost.class)  )
+        }
+        else if ((o2 instanceof Character && o1 instanceof SpeedBoost))
         {
             pupCollision((Character) o2, (PowerUp) o1);
         }
 
 
-
-        /*              Bullets collision          */
         if (o1 instanceof Bullets && o2 instanceof Character)
         {
-            //System.out.println("bullet character");
             Bullets bullet = (Bullets) o1;
             bullet.isContacted = true;
-
             Character character = (Character) o2;
             character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
-
         }
-        else if (o2 instanceof Bullets && o1 instanceof Character) {
-            //System.out.println("bullet character");
-
+        else if (o2 instanceof Bullets && o1 instanceof Character)
+        {
             Bullets bullet = (Bullets) o2;
             bullet.isContacted = true;
 
             Character character = (Character) o1;
             character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
-
-
         }
-
 
     }
 
@@ -63,57 +57,28 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
         Object o1 = contact.getFixtureA().getUserData();
         Object o2 = contact.getFixtureB().getUserData();
-        if (o1.getClass() == Character.class)
-        {
-            Character c = (Character) o1;
-            c.isGoingDown = false;
-        }
 
-        if (o2.getClass() == Character.class)
+        if (o2 instanceof Character && o1 instanceof Body)
         {
             Character c = (Character) o2;
             c.isGoingDown = false;
         }
 
-
-
     }
+
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold)
     {
-        Fixture f1 = contact.getFixtureA();
-        Fixture f2 = contact.getFixtureB();
+        Object o1 = contact.getFixtureA().getUserData();
+        Object o2 = contact.getFixtureB().getUserData();
 
-        Object o1 = f1.getUserData();
-        Object o2 = f2.getUserData();
-
-        if (o2.getClass() == Character.class)
-        {
-            Character c = (Character) o2;
-
-            if (o1.getClass() == Body.class)
-            {
-                if (c.physicsBody.getLinearVelocity().y > 0 || c.isGoingDown)
-                {
-                    contact.setEnabled(false);
-                }
-                else
-                {
-                    contact.setEnabled(true);
-                }
-                //System.out.println(contact.isEnabled());
-                //System.out.println("y");
-            }
-        }
+        if (o2 instanceof Character && o1 instanceof Body)
+            preSolveCHARACTERxPlatform(o1, o2, contact);
 
 
-
-
-
-
-
-
+        if (o1 instanceof Character && o2 instanceof Character)
+            contact.setEnabled(false);
     }
 
     @Override
@@ -137,4 +102,32 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         }
 
     }
+
+
+    private void beginContactCHARACTERxPlatform (Object o1, Object o2)
+    {
+        System.out.println("Y");
+        // Reset ALLOWED_JUMPS on contact with ground
+        Character c = (Character) o2;
+        ((Character) o2).ALLOWED_JUMPS = 2;
+    }
+
+
+    private void preSolveCHARACTERxPlatform (Object o1, Object o2, Contact contact)
+    {
+
+        Character c = (Character) o2;
+        // Jumping or going down --> No contact
+        if (c.physicsBody.getLinearVelocity().y > 0 || c.isGoingDown)
+        {
+            contact.setEnabled(false);
+        }
+        // Standing --> Contact
+        else
+        {
+            contact.setEnabled(true);
+        }
+
+    }
+
 }

@@ -95,7 +95,6 @@ public class PlayScreen implements Screen
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
-
         pistol = new Weapon(box2dWorld, this, character.getBodyPosition(), 0.25f,6, 200);
 
     }
@@ -126,55 +125,17 @@ public class PlayScreen implements Screen
 
     }
 
-    public void handleInput()
-    {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W))
-        {
-            character.jump();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
-        {
-            character.moveLeft();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-        {
-            character.moveRight();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S))
-        {
-            character.moveDown();
-        }
 
-        //character2 controlls
-        if (character2!=null) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                character2.jump();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                character2.moveLeft();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                character2.moveRight();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-                character2.moveDown();
-            }
-        }
-        //Debug
-        if (Gdx.input.isKeyPressed(Input.Keys.X)) {
-            System.out.println("PUP Location: "+PUPs[0].pupBody.getPosition().x + "  " + PUPs[0].pupBody.getPosition().y);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-            System.out.println("Character Location: "+character.physicsBody.getPosition().x + "  " + character.physicsBody.getPosition().y);
-        }
 
-    }
 
     public void update()
     {
         // Update physics world
         box2dWorld.step(1/60F, 6, 2);
-        handleInput();
+        character.handleInput();
+        if (character2 != null)
+            character2.handleInput();
+
         character.update(delta);
         if (character2!=null){ character2.update(delta);}
 

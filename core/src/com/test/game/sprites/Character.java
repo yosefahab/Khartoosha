@@ -1,6 +1,7 @@
 package com.test.game.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,8 +26,16 @@ public class Character extends Sprite
     private final float DEFAULT_SPEED = 2;
     private float speedCap = DEFAULT_SPEED;
     private float speedScale = 0.4f;
-
     private float jumpScale = 4;
+    public int ALLOWED_JUMPS = 2;
+
+    // character input keys will be determined based on the value of this variable
+    private static int NUMBER_OF_CHARACTERS;
+
+    // Array of input key codes contains either WASD or arrows
+    public final int[] CHARACTER_CONTROLS;
+
+
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -47,10 +56,25 @@ public class Character extends Sprite
     public Character(World world, PlayScreen screen, int charNum, boolean player1)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
-
         this.world = world;
         defineCharacterPhysics();
+        NUMBER_OF_CHARACTERS++;
+        CHARACTER_CONTROLS = new int[4];
 
+        if (NUMBER_OF_CHARACTERS == 1)
+        {
+            CHARACTER_CONTROLS[0] = Input.Keys.W;
+            CHARACTER_CONTROLS[1] = Input.Keys.A;
+            CHARACTER_CONTROLS[2] = Input.Keys.S;
+            CHARACTER_CONTROLS[3] = Input.Keys.D;
+        }
+        else if (NUMBER_OF_CHARACTERS == 2)
+        {
+            CHARACTER_CONTROLS[0] = Input.Keys.UP;
+            CHARACTER_CONTROLS[1] = Input.Keys.LEFT;
+            CHARACTER_CONTROLS[2] = Input.Keys.DOWN;
+            CHARACTER_CONTROLS[3] = Input.Keys.RIGHT;
+        }
 
         loadCharacter(charNum); //select character based on menu selection
         animationManager = new AnimationManager(player1,getTexture(),this);
@@ -86,15 +110,18 @@ public class Character extends Sprite
 
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
 
+
+
     
-    public void jump()
+    private void jump()
     {
+        this.physicsBody.setLinearVelocity(new Vector2(0, 0));
         this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
         update(Gdx.graphics.getDeltaTime());
     }
 
 
-    public void moveRight()
+    private void moveRight()
     {
         if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
@@ -103,7 +130,7 @@ public class Character extends Sprite
         }
     }
 
-    public void moveLeft()
+    private void moveLeft()
     {
         if (this.physicsBody.getLinearVelocity().x >= -speedCap)
         {
@@ -113,11 +140,34 @@ public class Character extends Sprite
 
     }
 
-    public void moveDown()
+    private void moveDown()
     {
         this.physicsBody.setAwake(true);
         isGoingDown = true;
     }
+
+
+    public void handleInput()
+    {
+        if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[0]) && ALLOWED_JUMPS != 0)
+        {
+            jump();
+            ALLOWED_JUMPS--;
+        }
+        if (Gdx.input.isKeyPressed(CHARACTER_CONTROLS[1]))
+        {
+            moveLeft();
+        }
+        if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[2]))
+        {
+            moveDown();
+        }
+        if (Gdx.input.isKeyPressed(CHARACTER_CONTROLS[3]))
+        {
+            moveRight();
+        }
+    }
+
     public void dispose()
     {
 
