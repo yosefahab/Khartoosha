@@ -55,3 +55,15 @@ Ayman, 27 Dec
 
 - Modified
    • Second player now spawns on the other side
+   
+   
+   
+Bassel, 30 Dec
+- moved handling character movement input from playscreen to character class
+- limited character jumps
+- disabled characterXcharacter collision 
+- adjusted distance between tiles to make physics bodies movement smoother
+ *side note: in contact listeners, if a DynamicBody X StaticBody contact happens, Fixture A is always the static body
+
+
+   
