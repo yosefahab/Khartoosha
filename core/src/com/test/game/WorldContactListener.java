@@ -106,7 +106,6 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
     private void beginContactCHARACTERxPlatform (Object o1, Object o2)
     {
-        System.out.println("Y");
         // Reset ALLOWED_JUMPS on contact with ground
         Character c = (Character) o2;
         ((Character) o2).ALLOWED_JUMPS = 2;
