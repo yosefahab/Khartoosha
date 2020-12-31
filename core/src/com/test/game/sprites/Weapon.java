@@ -87,7 +87,6 @@ public class Weapon extends Sprite {
         character.currentWeapon = this;
 
         textureRegion = new TextureRegion(getTexture(),0,0,193,130); //define region of certain texture in png
-
         setBounds(0,0,40/ Khartoosha.PPM,20/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
 
