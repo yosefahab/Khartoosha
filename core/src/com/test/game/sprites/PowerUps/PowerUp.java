@@ -20,7 +20,7 @@ public abstract class PowerUp extends Sprite {
     public Body pupBody;
     protected Random rand = new Random(); // Random generator
 
-    public static final int MAXPUPS = 4; // max allowed spawned pups
+    public static final int MAXPUPS = 6; // max allowed spawned pups
     public static int currentPups = 0; //number of spawned pups at any moment
 
     public Character attachedChar;
@@ -29,6 +29,8 @@ public abstract class PowerUp extends Sprite {
     private boolean isSpawned = false;
     private boolean isActive = false;
     protected boolean isContacted = false;
+    public final int MAX_PLATFORMS = 6;
+    public int platforms_To_Skip = rand.nextInt(MAX_PLATFORMS);
 
 
     public PowerUp(World world, TextureAtlas.AtlasRegion region)
@@ -42,7 +44,7 @@ public abstract class PowerUp extends Sprite {
     {
         BodyDef bdef = new BodyDef();
         //initial position is set randomly in game world
-        bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 100) / Khartoosha.PPM + 2, Khartoosha.Gheight / Khartoosha.PPM + 3);
+        bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 150) / Khartoosha.PPM + (100 / Khartoosha.PPM) , Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
         bdef.type = BodyDef.BodyType.StaticBody;
 
         pupBody = world.createBody(bdef);
@@ -91,6 +93,12 @@ public abstract class PowerUp extends Sprite {
      */
     public abstract void reset();
 
+    public void resetPupPosition()
+    {
+        pupBody.setTransform(rand.nextInt((int)Khartoosha.Gwidth - 100) / Khartoosha.PPM + 2,
+                Khartoosha.Gheight / Khartoosha.PPM + 3,0);
+        pupBody.setType(BodyDef.BodyType.StaticBody);
+    }
 
 
 

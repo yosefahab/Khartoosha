@@ -1,5 +1,7 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -15,6 +17,8 @@ public class Camera
     // Camera positioning should work correctly as long as these values are correct
     private final float mapWIDTH = 992;
     private final float mapHEIGHT = 672;
+    boolean bound = true;
+
 
     // Camera bound points
     private float minX, minY, maxX, maxY;
@@ -48,7 +52,53 @@ public class Camera
         float camX = gameCam.position.x;
         float camY = gameCam.position.y;
 
-        boundCamera(charactersAVGX, charactersAVGY, camX, camY);
+
+
+
+
+        // Cam Debug Mode
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0))
+        {
+            bound = !bound;
+            System.out.println("Camera Bound " + bound);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_6)) // Right
+            gameCam.position.x += 0.1f;
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_4)) // Left
+            gameCam.position.x -= 0.1f;
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_8)) // Up
+            gameCam.position.y += 0.1f;
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_2)) // Right
+            gameCam.position.y -= 0.1f;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_9)) // IN
+        {
+            viewport.setWorldHeight(viewport.getWorldHeight() - 0.1f);
+            viewport.setWorldWidth(viewport.getWorldWidth() - (0.1f* Khartoosha.Gwidth / Khartoosha.Gheight)  );
+            viewport.apply();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUMPAD_7)) // OUT
+        {
+            viewport.setWorldHeight(viewport.getWorldHeight() + 0.1f);
+            viewport.setWorldWidth(viewport.getWorldWidth() + (0.1f* Khartoosha.Gwidth / Khartoosha.Gheight)  );
+            viewport.apply();
+        }
+
+
+
+
+        // reset changes
+        if (bound)
+        {
+            boundCamera(charactersAVGX, charactersAVGY, camX, camY);
+            viewport.setWorldWidth(worldWidth/ Khartoosha.PPM);
+            viewport.setWorldHeight(worldHight/ Khartoosha.PPM);
+            viewport.apply();
+        }
+
+
         gameCam.update();
 
     }
