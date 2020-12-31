@@ -2,7 +2,6 @@ package com.test.game.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.util.Random;
 
@@ -324,10 +322,7 @@ public class Character extends Sprite
     }
 
     public void setWeaponRank(int weaponRank) {
-        if (weaponRank > MAX_WEAPON)
-            this.weaponRank = MAX_WEAPON;
-        else
-            this.weaponRank = weaponRank;
+        this.weaponRank = Math.min(weaponRank, MAX_WEAPON);
     }
 
     /**
