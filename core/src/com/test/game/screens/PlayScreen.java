@@ -13,7 +13,9 @@ import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
 import com.test.game.sprites.PowerUps.Armor;
+import com.test.game.sprites.PowerUps.ExtraLife;
 import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.sprites.PowerUps.RefillAmmo;
 import com.test.game.sprites.PowerUps.SpeedBoost;
 import com.test.game.sprites.Weapon;
 
@@ -69,7 +71,9 @@ public class PlayScreen implements Screen
         PUPs[0] = new SpeedBoost(box2dWorld,this);
         PUPs[1] = new SpeedBoost(box2dWorld,this);
         PUPs[2] = new Armor(box2dWorld,this);
-        PUPs[3] = new Armor(box2dWorld,this);
+        PUPs[3] = new ExtraLife(box2dWorld,this);
+        PUPs[4] = new RefillAmmo(box2dWorld,this);
+        PUPs[5] = new RefillAmmo(box2dWorld,this);
 
 
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -87,7 +91,9 @@ public class PlayScreen implements Screen
     {
         this(game, mapNum);
         character = new Character(box2dWorld, this,  char1Num,true);
-        pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
+
+
+        //pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
 
     }
 
@@ -98,8 +104,11 @@ public class PlayScreen implements Screen
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
 
+        /*
         pistol = new Weapon(box2dWorld, this, character, 0.25f,100, 200, Input.Keys.CONTROL_LEFT);
         pistol2= new Weapon(box2dWorld,this,character2,0.25f,100,200, Input.Keys.SPACE);
+        */
+
     }
     /**
      * Handles all powerups related operations
@@ -138,10 +147,31 @@ public class PlayScreen implements Screen
             character2.handleInput();
 
         character.update(delta);
-        pistol.update(delta);
+        //pistol.update(delta);
+
+        character.currentWeapon.update(delta);
+
         if (character2!=null){
-            pistol2.update(delta);
+
+            character2.currentWeapon.update(delta);
             character2.update(delta);
+        }
+
+        // Update Weapon ranks
+        if (character2 != null && character.lostLife)
+        {
+            // Upgrade character 2 on killing character 1
+            character2.setWeaponRank(character2.getWeaponRank() + 1);
+            character2.isChangeWeapon = true;
+            character.lostLife = false;
+        }
+
+        if (character2 != null && character2.lostLife)
+        {
+            // Upgrade character 2 on killing character 1
+            character.setWeaponRank(character.getWeaponRank() + 1);
+            character.isChangeWeapon = true;
+            character2.lostLife = false;
         }
 
 
@@ -158,6 +188,17 @@ public class PlayScreen implements Screen
         //TODO: comment handlePups to disable pups functionality
         handllePups();
         map.mapRenderer.setView(camera.gameCam);
+
+        //////////// DEBUG /////////////
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X))
+        {
+            System.out.println("--------- GAME STATS --------- " );
+            System.out.println("\t\t-Player 1-    -Player 2- " );
+            System.out.println("Lives: \t\t"+character.current_lives+"      \t\t" + character2.current_lives);
+            System.out.println("Weapon: \t"+character.getWeaponRank() +"      \t\t" + character2.getWeaponRank());
+            System.out.println("Armored: "+character.isArmored+"      \t" + character2.isArmored);
+            System.out.println("Ammo: \t"+character.currentWeapon.getAmmo()+"      \t" + character2.currentWeapon.getAmmo());
+        }
     }
 
 
@@ -184,13 +225,18 @@ public class PlayScreen implements Screen
         update();
         if(character.isFlipX())
         {
-            pistol.setFlip(true,false);
-            pistol.faceRight=false;
+            /*pistol.setFlip(true,false);
+            pistol.faceRight=false;*/
+
+            character.currentWeapon.setFlip(true,false);
+            character.currentWeapon.faceRight=false;
         }
         else if (!character.isFlipX())
         {
-            pistol.setFlip(false,false);
-            pistol.faceRight=true;
+//            pistol.setFlip(false,false);
+//            pistol.faceRight=true;
+            character.currentWeapon.setFlip(false,false);
+            character.currentWeapon.faceRight=true;
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -206,18 +252,25 @@ public class PlayScreen implements Screen
         if (character2!= null){
 
             character2.draw(game.batch);
-            pistol2.draw(game.batch);
-            pistol2.render(game.batch);
+//            pistol2.draw(game.batch);
+//            pistol2.render(game.batch);
+            character2.currentWeapon.draw(game.batch);
+            character2.currentWeapon.render(game.batch);
 
             if(character2.isFlipX())
             {
-                pistol2.setFlip(true,false);
-                pistol2.faceRight=false;
+//                pistol2.setFlip(true,false);
+//                pistol2.faceRight=false;
+                character2.currentWeapon.setFlip(true,false);
+                character2.currentWeapon.faceRight=false;
             }
             else if (!character2.isFlipX())
             {
-                pistol2.setFlip(false,false);
-                pistol2.faceRight=true;
+//                pistol2.setFlip(false,false);
+//                pistol2.faceRight=true;
+
+                character2.currentWeapon.setFlip(false,false);
+                character2.currentWeapon.faceRight=true;
             }
 
 
@@ -230,8 +283,10 @@ public class PlayScreen implements Screen
                 pup.draw(game.batch);
         }
 
-        pistol.draw(game.batch);
-        pistol.render(game.batch);
+//        pistol.draw(game.batch);
+//        pistol.render(game.batch);
+        character.currentWeapon.draw(game.batch);
+        character.currentWeapon.render(game.batch);
         game.batch.end();
     }
 

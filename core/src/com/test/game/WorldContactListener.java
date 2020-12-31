@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.sprites.Bullets;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.Armor;
+import com.test.game.sprites.PowerUps.ExtraLife;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.SpeedBoost;
 
@@ -25,13 +26,10 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
 
         if ((o1 instanceof Character && o2 instanceof PowerUp))
-        {
             pupCollision((Character) o1, (PowerUp) o2);
-        }
-        else if ((o2 instanceof Character && o1 instanceof SpeedBoost))
-        {
+        else if ((o2 instanceof Character && o1 instanceof PowerUp))
             pupCollision((Character) o2, (PowerUp) o1);
-        }
+
 
 
         if (o1 instanceof Bullets && o2 instanceof Character)
@@ -40,7 +38,14 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             bullet.isContacted = true;
             Character character = (Character) o2;
             if (!character.isArmored)
+            {
                 character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+
+                //only start hit timer when not shielded
+                character.startHitTimer();
+            }
+
+
 
         }
         else if (o2 instanceof Bullets && o1 instanceof Character)
@@ -51,7 +56,12 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Character character = (Character) o1;
 
             if (!character.isArmored)
+            {
                 character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+
+                //only start hit timer when not shielded
+                character.startHitTimer();
+            }
 
 
         }
@@ -86,6 +96,36 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
         if (o1 instanceof Character && o2 instanceof Character)
             contact.setEnabled(false);
+
+
+
+        // Powerups skips platforms
+        if ((o1 instanceof Body && o2 instanceof PowerUp)) {
+            if (((PowerUp) o2).platforms_To_Skip > 0)
+            {
+                ((PowerUp) o2).platforms_To_Skip--;
+                contact.setEnabled(false);
+            }
+
+        }
+        if ((o2 instanceof Body && o1 instanceof PowerUp)) {
+            if (((PowerUp) o1).platforms_To_Skip > 0)
+            {
+                ((PowerUp) o2).platforms_To_Skip--;
+                contact.setEnabled(false);
+            }
+
+        }
+
+        //Disable  PUP collision before spawning
+        if ((o1 instanceof Character && o2 instanceof PowerUp)) {
+            if (!((PowerUp) o2).isSpawned())
+                contact.setEnabled(false);
+        }
+        if ((o2 instanceof Character && o1 instanceof PowerUp)) {
+            if (!((PowerUp) o1).isSpawned())
+                contact.setEnabled(false);
+        }
     }
 
     @Override
@@ -97,24 +137,11 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
     private void pupCollision(Character character, PowerUp p)
     {
-        if (p instanceof SpeedBoost)
+        if (p.isSpawned())
         {
-            SpeedBoost pup = (SpeedBoost) p;
-            if (pup.isSpawned())
-            {
-                pup.setContacted(true);
-                pup.attachedChar = character;
-                //System.out.println("Pup char contact 1");
-            }
-        }else if (p instanceof Armor)
-        {
-            Armor pup = (Armor) p;
-            if (pup.isSpawned())
-            {
-                pup.setContacted(true);
-                pup.attachedChar = character;
-
-            }
+            p.setContacted(true);
+            p.attachedChar = character;
+            //System.out.println("Pup char contact 1");
         }
 
     }

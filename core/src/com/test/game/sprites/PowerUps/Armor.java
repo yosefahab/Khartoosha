@@ -21,7 +21,7 @@ public class Armor extends PowerUp {
 
         super(world,screen.GetAtlas().findRegion("armorPowerup"));
         this.powerupTexture = new TextureRegion(getTexture(),2*100,0, 100, 100);
-        setBounds(0,0, 50 /Khartoosha.PPM, 50 /Khartoosha.PPM);
+        setBounds(0,0, 35 /Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);
 
         FixtureDef fdef = new FixtureDef();
@@ -62,6 +62,14 @@ public class Armor extends PowerUp {
     @Override
     public void update()
     {
+        //if it falls off map
+        if (pupBody.getPosition().y < - 2)
+        {
+            setSpawned(false);
+            resetPupPosition();
+            currentPups--;
+        }
+
         setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
         if (isContacted)
         {
@@ -85,9 +93,11 @@ public class Armor extends PowerUp {
         active_time = 0;
         setSpawned(false);
         setActive(false);
-        attachedChar.isArmored = false;
+        if (attachedChar != null)
+            attachedChar.isArmored = false;
         attachedChar = null;
         currentPups--;
+        platforms_To_Skip = rand.nextInt(MAX_PLATFORMS);
 
     }
 }

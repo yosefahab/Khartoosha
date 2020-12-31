@@ -2,6 +2,7 @@ package com.test.game.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
+
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
+import java.util.Random;
 
 
 public class Character extends Sprite
@@ -20,6 +25,7 @@ public class Character extends Sprite
     public TextureRegion idle,jumping;
     private AnimationManager animationManager;
     public Animation<?> runAnimation;
+    private PlayScreen screen;
 
     public boolean isGoingDown;
 
@@ -28,6 +34,11 @@ public class Character extends Sprite
     private float speedScale = 0.4f;
     private float jumpScale = 4;
     public int ALLOWED_JUMPS = 2;
+
+    private final int  MAX_LIVES = 5;
+    public int current_lives;
+    // indicator to be used to upgrade weapon for the opponent
+    public boolean lostLife = false;
 
     // character input keys will be determined based on the value of this variable
     private static int NUMBER_OF_CHARACTERS;
@@ -38,6 +49,22 @@ public class Character extends Sprite
     public boolean isArmored = false;
 
     private final int charNum;
+
+    // attaching weapon to character
+    public Weapon currentWeapon;
+    //determines type of weapon carried -- initially a pistol
+    private int weaponRank = 0;
+    private final int MAX_WEAPON = 2;
+    //the key for firing the weapon
+    private int weaponKey;
+    // for tracking weapon upgrade on kills
+    public boolean isChangeWeapon;
+    // Hit timer (logic explained in start Hit timer function)
+    private final int MAX_HIT_TIMER = 2;
+    public float hitTimer = 0;
+    private boolean isTimerStarted = false;
+
+
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -59,6 +86,7 @@ public class Character extends Sprite
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
+        this.screen = screen;
         this.charNum = charNum;
         defineCharacterPhysics();
         NUMBER_OF_CHARACTERS++;
@@ -83,6 +111,15 @@ public class Character extends Sprite
         animationManager = new AnimationManager(player1,getTexture(),this);
         runAnimation = animationManager.runAnimation(charNum);
         animationManager.clearFrames();
+
+        current_lives = MAX_LIVES;
+
+        // Weapon
+        weaponKey = Input.Keys.SPACE;
+        if (charNum == 1)
+            weaponKey = Input.Keys.CONTROL_LEFT;
+
+        update_weapon();
     }
 
     public void defineCharacterPhysics()
@@ -99,6 +136,7 @@ public class Character extends Sprite
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(15 / Khartoosha.PPM, 40 / Khartoosha.PPM);
         fixtureDefinition.shape = shape;
+        fixtureDefinition.friction = 6;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
 
     }
@@ -106,11 +144,69 @@ public class Character extends Sprite
     public void update(float delta){
         // Update position of texture
         setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/3);
-        if (physicsBody.getPosition().y<-1000/Khartoosha.PPM) //if body falls, reset position
-                physicsBody.setTransform(new Vector2(200 / Khartoosha.PPM, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
 
-        // TODO: uncomment to unpause animation
+        if (physicsBody.getPosition().y < -800/Khartoosha.PPM) //if body falls, reset position and decrease lives
+        {
+            Random rand = new Random();
+            float spawnX = rand.nextInt((int)Khartoosha.Gwidth - 100) / Khartoosha.PPM + (150 / Khartoosha.PPM);
+            physicsBody.setLinearVelocity(new Vector2(0,0));
+            physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
+            current_lives--;
+            weaponRank--;
+
+
+            //don't upgrade opponent on self kill
+            if (isTimerStarted && hitTimer < MAX_HIT_TIMER)
+            {
+                lostLife = true;
+                isTimerStarted = false;
+                hitTimer = 0;
+            }
+
+            // degrade weapon on death
+            update_weapon();
+
+        }
+
+
+
+
+        if (current_lives == 0)
+        {
+            System.out.println("Player " + charNum + " lost");
+            current_lives = MAX_LIVES;
+            //TODO: reset game
+        }
+
+        if (current_lives > MAX_LIVES)
+            current_lives = MAX_LIVES;
+
         setRegion(animationManager.getFrame(delta));
+
+
+
+        ////////////// WEAPONS MECHANICS ///////////////
+        // upgrade weapon on kills
+        if (isChangeWeapon)
+            update_weapon();
+
+
+        //if ammo finished return to pistol
+        if (currentWeapon.getAmmo() == 0)
+        {
+            weaponRank = 0;
+            isChangeWeapon = true;
+        }
+
+        if (isTimerStarted)
+            hitTimer += Gdx.graphics.getDeltaTime();
+
+        //if exceeded 10 seconds reset and close timer to prevent overflowing
+        if (hitTimer > MAX_HIT_TIMER)
+        {
+            hitTimer = 0;
+            isTimerStarted = false;
+        }
 
     }
 
@@ -118,7 +214,7 @@ public class Character extends Sprite
 
 
 
-    
+
     private void jump()
     {
         this.physicsBody.setLinearVelocity(new Vector2(0, 0));
@@ -189,5 +285,63 @@ public class Character extends Sprite
         speedCap = DEFAULT_SPEED;
     }
 
+
+    //Update weapons on death
+    private void update_weapon()
+    {
+        isChangeWeapon = false;
+        // if fallen with a pistol
+        if (weaponRank < 0)
+            weaponRank = 0;
+
+        switch (weaponRank){
+
+            // MG
+            case 1:
+                currentWeapon = new Weapon(world, screen, this,
+                        Weapon.MG_SPEED, Weapon.MG_AMMO, Weapon.MG_FORCE, Weapon.MG_RATE, Weapon.MG_TYPE, weaponKey);
+                //System.out.println( "Char : " + charNum + " MG " + weaponRank);
+                break;
+            // Sniper
+            case 2:
+                currentWeapon = new Weapon(world, screen, this,
+                        Weapon.Sniper_SPEED, Weapon.Sniper_AMMO, Weapon.Sniper_FORCE,Weapon.Sniper_RATE, Weapon.Sniper_TYPE, weaponKey);
+                //System.out.println(charNum + " Sniper");
+                break;
+
+            // Pistol
+            default:
+                currentWeapon = new Weapon(world, screen,this,
+                        Weapon.PISTOL_SPEED, Weapon.PISTOL_AMMO, Weapon.PISTOL_FORCE, Weapon.PISTOL_RATE, Weapon.PISTOL_TYPE, weaponKey);
+                //System.out.println(charNum + " Pistol");
+                break;
+
+        }
+    }
+
+    public int getWeaponRank() {
+        return weaponRank;
+    }
+
+    public void setWeaponRank(int weaponRank) {
+        if (weaponRank > MAX_WEAPON)
+            this.weaponRank = MAX_WEAPON;
+        else
+            this.weaponRank = weaponRank;
+    }
+
+    /**
+     * When a player hits an opponent a hit timer is started
+     * if the opponent dies before this timer reaches a
+     * certain threshold it's counted as a kill towards the player
+     * and his weapon is upgraded, this prevents self kills
+     * from upgrading the weapon's opponent
+     */
+    public void startHitTimer()
+    {
+        //System.out.println("Hit timer started");
+        hitTimer = 0;
+        isTimerStarted = true;
+    }
 
 }
