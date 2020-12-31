@@ -1,6 +1,5 @@
 package com.test.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -69,17 +68,11 @@ public class Camera
         if (characterX < minX)
             camX = minX;
 
-        else if (characterX > maxX)
-            camX = maxX;
-        else
-            camX = characterX;
+        else camX = Math.min(characterX, maxX);
 
         if (characterY < minY)
             camY = minY;
-        else if (characterY > maxY)
-            camY = maxY;
-        else
-            camY = characterY;
+        else camY = Math.min(characterY, maxY);
 
         gameCam.position.x = camX;
         gameCam.position.y = camY;
