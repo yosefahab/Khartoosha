@@ -124,6 +124,17 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             if (!((PowerUp) o1).isSpawned())
                 contact.setEnabled(false);
         }
+
+        //Disable  Bullet collision with platforms (fixed bullet stuck in platform)
+        if ((o1 instanceof Bullets && o2 instanceof Body)) {
+            contact.setEnabled(false);
+        }
+        if ((o2 instanceof Bullets && o1 instanceof Body)) {
+                contact.setEnabled(false);
+        }
+
+
+
     }
 
     @Override

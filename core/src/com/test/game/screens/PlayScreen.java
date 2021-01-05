@@ -190,7 +190,7 @@ public class PlayScreen implements Screen
         map.mapRenderer.setView(camera.gameCam);
 
         //////////// DEBUG /////////////
-        if (Gdx.input.isKeyJustPressed(Input.Keys.X))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_RIGHT))
         {
             System.out.println("--------- GAME STATS --------- " );
             System.out.println("\t\t-Player 1-    -Player 2- " );

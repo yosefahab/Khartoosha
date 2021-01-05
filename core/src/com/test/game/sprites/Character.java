@@ -58,7 +58,7 @@ public class Character extends Sprite
     // for tracking weapon upgrade on kills
     public boolean isChangeWeapon;
     // Hit timer (logic explained in start Hit timer function)
-    private final int MAX_HIT_TIMER = 2;
+    private final int MAX_HIT_TIMER = 4;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
 
@@ -134,7 +134,7 @@ public class Character extends Sprite
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(15 / Khartoosha.PPM, 40 / Khartoosha.PPM);
         fixtureDefinition.shape = shape;
-        fixtureDefinition.friction = 6;
+        fixtureDefinition.friction = 3;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
 
     }
@@ -163,6 +163,8 @@ public class Character extends Sprite
 
             // degrade weapon on death
             update_weapon();
+
+
 
         }
 

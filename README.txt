@@ -109,5 +109,9 @@ Bassel, 30 Dec
         • WorldContactListener was modified to support the new features
 
 
+Ayman, 5 Jan
+    - Slight modifications to weapons properties ( increased force and fire rate)
+    - fixed a bug where bullets stuck in platforms
+
 
    

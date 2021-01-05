@@ -40,24 +40,24 @@ public class Weapon extends Sprite {
 
         // Pistol
         public static final int PISTOL_AMMO = 1000;
-        public static final int PISTOL_FORCE = 100;
+        public static final int PISTOL_FORCE = 500;
         public static final float PISTOL_SPEED = 0.25f;
-        public static final float PISTOL_RATE = 0.5f;
+        public static final float PISTOL_RATE = 0.4f;
         public static final int PISTOL_TYPE = 0;
 
 
     //MachineGun
         public static final int MG_AMMO = 30;
-        public static final int MG_FORCE = 170;
+        public static final int MG_FORCE = 550;
         public static final float MG_SPEED = 0.25f;
         public static final float MG_RATE = 0.25f;
         public static final int MG_TYPE = 1;
 
         //Sniper
         public static final int Sniper_AMMO = 5;
-        public static final int Sniper_FORCE = 300;
+        public static final int Sniper_FORCE = 700;
         public static final float Sniper_SPEED = 0.25f;
-        public static final float Sniper_RATE = 2f;
+        public static final float Sniper_RATE = 1f;
         public static final int Sniper_TYPE = 2;
 
 
@@ -103,7 +103,7 @@ public class Weapon extends Sprite {
         ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<Bullets>();
         for(Bullets bullet:bullets )
         {
-            bullet.update(deltaTime);
+            bullet.update(Gdx.graphics.getDeltaTime());
             if (bullet.remove)
                 bulletsToBeRemoved.add(bullet);
 
@@ -124,7 +124,7 @@ public class Weapon extends Sprite {
             ammo--;
             if (faceRight) {
                 bulletFlipped=false;
-                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.5f), bulletSpeed, force) );
+                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.3f), bulletSpeed, force) );
 
             }
             else

@@ -69,16 +69,17 @@ public class Bullets extends Sprite {
         //attach physics body for collision
         physicsBodyBullet.setTransform(position.x+sped,position.y,0);
 
-        if (physicsBodyBullet.getPosition().x > Gdx.graphics.getWidth() ) // add if in the negative side l8r
+        if (physicsBodyBullet.getPosition().x > Gdx.graphics.getWidth() / Khartoosha.PPM) // add if in the negative side l8r
         {
             remove=true;
         }
 
         //remove bullet on contact
-        if (isContacted)
+        if (isContacted || remove)
         {
             remove = true;
             physicsBodyBullet.destroyFixture(physicsBodyBullet.getFixtureList().first());
+
             isContacted = false;
             bul.dispose();
         }
