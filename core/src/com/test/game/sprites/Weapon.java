@@ -35,6 +35,10 @@ public class Weapon extends Sprite {
 
     // delta time for fireRate
     private float keyPressTimer = 0;
+    private float shootingTimer=3;
+
+    private float yPos;
+    private boolean stopFalling=false;
 
     // Weapon Definitions Constants
 
@@ -44,14 +48,16 @@ public class Weapon extends Sprite {
         public static final float PISTOL_SPEED = 0.25f;
         public static final float PISTOL_RATE = 0.4f;
         public static final int PISTOL_TYPE = 0;
+        private final Texture pistolTexture=new Texture("1.png");
 
-
-    //MachineGun
+        //MachineGun
         public static final int MG_AMMO = 30;
         public static final int MG_FORCE = 550;
         public static final float MG_SPEED = 0.25f;
         public static final float MG_RATE = 0.25f;
         public static final int MG_TYPE = 1;
+        private final Texture rifleTexture=new Texture("rifle.png");
+
 
         //Sniper
         public static final int Sniper_AMMO = 5;
@@ -60,7 +66,7 @@ public class Weapon extends Sprite {
         public static final float Sniper_RATE = 1f;
         public static final int Sniper_TYPE = 2;
 
-
+        private Texture shootingTexture=new Texture("2.png");
 
     public Weapon(World world, PlayScreen screen, Character character, float bulletSpeed, int ammo, int force, float fireRate, int type,  int KEY)
     {
@@ -68,6 +74,8 @@ public class Weapon extends Sprite {
         this.bulletSpeed = bulletSpeed;
         this.world=world;
         this.position=character.getBodyPosition();
+        position.y+=4f;
+        yPos=position.y;
         this.screen=screen;
         bullets = new ArrayList<Bullets>();
         this.ammo=ammo;
@@ -78,7 +86,7 @@ public class Weapon extends Sprite {
         this.type = type;
 
         if (type == PISTOL_TYPE)
-            texture = new Texture("gun.png");
+            texture = new Texture("1.png");
         else
             texture = new Texture("rifle.png");
 
@@ -87,19 +95,36 @@ public class Weapon extends Sprite {
         character.currentWeapon = this;
 
         textureRegion = new TextureRegion(getTexture(),0,0,193,130); //define region of certain texture in png
-        setBounds(0,0,40/ Khartoosha.PPM,20/Khartoosha.PPM); //set size rendered texture
+        setBounds(0,0,58/ Khartoosha.PPM,29/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
-
     }
 
     public void update(float deltaTime)
     {
         if (faceRight)
         {
-            setPosition(position.x+0.5f, position.y+0.4f);
+            setPosition(position.x+0.7f, yPos);
+            if (stopFalling)
+            {
+                yPos=character.getBodyPosition().y+0.3f;
+            }
+            if (yPos<character.getBodyPosition().y+0.3)
+                stopFalling=true;
+            if (!stopFalling)
+                yPos-=0.098f;
         }
-        else
-            setPosition(position.x-0.5f, position.y+0.4f);
+        else if (!faceRight)
+        {
+            setPosition(position.x-0.7f, yPos);
+            if (stopFalling)
+            {
+                yPos=character.getBodyPosition().y+0.3f;
+            }
+            if (yPos<character.getBodyPosition().y+0.3)
+                stopFalling=true;
+            if (!stopFalling)
+                yPos-=0.098f;
+        }
         ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<Bullets>();
         for(Bullets bullet:bullets )
         {
@@ -116,24 +141,29 @@ public class Weapon extends Sprite {
     public void render(SpriteBatch sb)
     {
         keyPressTimer += Gdx.graphics.getDeltaTime();
-
+        shootingTimer += Gdx.graphics.getDeltaTime();
+        if (shootingTimer < 0.4f)
+            setTexture(shootingTexture);
+        else if (shootingTimer > 0.4f)
+            setTexture(texture);
         if(Gdx.input.isKeyPressed(KEY) & ammo > 0 && keyPressTimer > fireRate)
         {
             keyPressTimer = 0;
-            character.setPosition(character.getBodyPosition().x-200,character.getBodyPosition().y);
+            shootingTimer=0;
             ammo--;
             if (faceRight) {
                 bulletFlipped=false;
-                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.3f), bulletSpeed, force) );
+                bullets.add(new Bullets(world,screen,new Vector2(position.x+0.4f,position.y+0.4f), bulletSpeed, force) );
 
             }
             else
             {
                 bulletFlipped=true;
-                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.5f),-bulletSpeed,  -force));
+                bullets.add(new Bullets(world,screen,new Vector2(position.x-0.8f,position.y+0.4f),-bulletSpeed,  -force));
             }
 
         }
+
         for(Bullets bullet:bullets)
         {
             if (bulletFlipped)
@@ -170,5 +200,9 @@ public class Weapon extends Sprite {
             case Sniper_TYPE: ammo = Sniper_AMMO;
             break;
         }
+    }
+    public void changeWeapon()
+    {
+
     }
 }
