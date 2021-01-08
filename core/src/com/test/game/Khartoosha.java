@@ -18,7 +18,7 @@ public class Khartoosha extends Game
 	// Gravity constant
 	public static final float GRAVITY = -1;
 
-	public SpriteBatch batch;
+	public static SpriteBatch batch;
 
 	@Override
 	public void create ()

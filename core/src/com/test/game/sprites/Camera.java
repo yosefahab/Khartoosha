@@ -29,12 +29,9 @@ public class Camera
     {
         gameCam = new OrthographicCamera();
         viewport = new FitViewport(worldWidth/ Khartoosha.PPM, worldHight  / Khartoosha.PPM, gameCam);
-
-        //debug
-        //viewport = new FitViewport((worldWidth + 300)/ Khartoosha.PPM, (worldHight + 300) / Khartoosha.PPM, gameCam);
     }
 
-    public void initCam()
+    public void init()
     {
         gameCam.position.set(worldWidth / 2 / Khartoosha.PPM, worldHight / 2 / Khartoosha.PPM, 0);
         minX = 0.5F * (worldWidth / Khartoosha.PPM);
@@ -57,7 +54,6 @@ public class Camera
 
 
         // Cam Debug Mode
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0))
         {
             bound = !bound;
