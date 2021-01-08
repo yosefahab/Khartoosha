@@ -17,8 +17,6 @@ import com.test.game.sprites.PowerUps.ExtraLife;
 import com.test.game.sprites.PowerUps.PowerUp;
 import com.test.game.sprites.PowerUps.RefillAmmo;
 import com.test.game.sprites.PowerUps.SpeedBoost;
-import com.test.game.sprites.Weapon;
-
 import java.util.Random;
 
 
@@ -29,9 +27,6 @@ public class PlayScreen implements Screen
 
     private TextureAtlas atlas,powerupAtlas;
     private Character character,character2;
-    private Weapon pistol;
-    private Weapon pistol2;
-
     public float delta = Gdx.graphics.getDeltaTime();
 
     // Tiled map variables
@@ -93,8 +88,6 @@ public class PlayScreen implements Screen
         character = new Character(box2dWorld, this,  char1Num,true);
 
 
-        //pistol = new Weapon(box2dWorld, this, character, 0.25f,50, 200,Input.Keys.CONTROL_LEFT);
-
     }
 
     // 2 Players constructor
@@ -104,10 +97,6 @@ public class PlayScreen implements Screen
         character = new Character(box2dWorld, this,  char1Num,true);
         character2 = new Character(box2dWorld, this,  char2Num,false);
 
-        /*
-        pistol = new Weapon(box2dWorld, this, character, 0.25f,100, 200, Input.Keys.CONTROL_LEFT);
-        pistol2= new Weapon(box2dWorld,this,character2,0.25f,100,200, Input.Keys.SPACE);
-        */
 
     }
     /**
@@ -161,16 +150,26 @@ public class PlayScreen implements Screen
         if (character2 != null && character.lostLife)
         {
             // Upgrade character 2 on killing character 1
-            character2.setWeaponRank(character2.getWeaponRank() + 1);
-            character2.isChangeWeapon = true;
+            if (character2.currentWeapon.type < 2)
+            {
+                character2.currentWeapon.type++;
+                character2.currentWeapon.switchWeapon();
+            }
+            else if (character2.currentWeapon.type >=2)
+                character2.currentWeapon.refillAmmo();
             character.lostLife = false;
         }
 
         if (character2 != null && character2.lostLife)
         {
             // Upgrade character 2 on killing character 1
-            character.setWeaponRank(character.getWeaponRank() + 1);
-            character.isChangeWeapon = true;
+            if (character.currentWeapon.type < 2)
+            {
+                character.currentWeapon.type++;
+                character.currentWeapon.switchWeapon();
+            }
+            else if (character.currentWeapon.type >=2)
+                character.currentWeapon.refillAmmo();
             character2.lostLife = false;
         }
 
@@ -195,7 +194,6 @@ public class PlayScreen implements Screen
             System.out.println("--------- GAME STATS --------- " );
             System.out.println("\t\t-Player 1-    -Player 2- " );
             System.out.println("Lives: \t\t"+character.current_lives+"      \t\t" + character2.current_lives);
-            System.out.println("Weapon: \t"+character.getWeaponRank() +"      \t\t" + character2.getWeaponRank());
             System.out.println("Armored: "+character.isArmored+"      \t" + character2.isArmored);
             System.out.println("Ammo: \t"+character.currentWeapon.getAmmo()+"      \t" + character2.currentWeapon.getAmmo());
         }

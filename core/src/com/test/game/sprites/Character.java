@@ -50,13 +50,8 @@ public class Character extends Sprite
 
     // attaching weapon to character
     public Weapon currentWeapon;
-    //determines type of weapon carried -- initially a pistol
-    private int weaponRank = 0;
-    private final int MAX_WEAPON = 2;
     //the key for firing the weapon
     private int weaponKey;
-    // for tracking weapon upgrade on kills
-    public boolean isChangeWeapon;
     // Hit timer (logic explained in start Hit timer function)
     private final int MAX_HIT_TIMER = 4;
     public float hitTimer = 0;
@@ -86,6 +81,8 @@ public class Character extends Sprite
         this.world = world;
         this.screen = screen;
         this.charNum = charNum;
+
+
         defineCharacterPhysics();
         NUMBER_OF_CHARACTERS++;
         CHARACTER_CONTROLS = new int[4];
@@ -116,8 +113,7 @@ public class Character extends Sprite
         weaponKey = Input.Keys.SPACE;
         if (charNum == 1)
             weaponKey = Input.Keys.CONTROL_LEFT;
-
-        update_weapon();
+        currentWeapon = new Weapon(world,screen,this,weaponKey);
     }
 
     public void defineCharacterPhysics()
@@ -150,7 +146,6 @@ public class Character extends Sprite
             physicsBody.setLinearVelocity(new Vector2(0,0));
             physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
-            weaponRank--;
 
 
             //don't upgrade opponent on self kill
@@ -162,10 +157,9 @@ public class Character extends Sprite
             }
 
             // degrade weapon on death
-            update_weapon();
-
-
-
+            if (currentWeapon.type > 0)
+                currentWeapon.type--;
+            currentWeapon.switchWeapon();
         }
 
 
@@ -183,20 +177,6 @@ public class Character extends Sprite
 
         setRegion(animationManager.getFrame(delta));
 
-
-
-        ////////////// WEAPONS MECHANICS ///////////////
-        // upgrade weapon on kills
-        if (isChangeWeapon)
-            update_weapon();
-
-
-        //if ammo finished return to pistol
-        if (currentWeapon.getAmmo() == 0)
-        {
-            weaponRank = 0;
-            isChangeWeapon = true;
-        }
 
         if (isTimerStarted)
             hitTimer += Gdx.graphics.getDeltaTime();
@@ -285,47 +265,6 @@ public class Character extends Sprite
         speedCap = DEFAULT_SPEED;
     }
 
-
-    //Update weapons on death
-    private void update_weapon()
-    {
-        isChangeWeapon = false;
-        // if fallen with a pistol
-        if (weaponRank < 0)
-            weaponRank = 0;
-
-        switch (weaponRank){
-
-            // MG
-            case 1:
-                currentWeapon = new Weapon(world, screen, this,
-                        Weapon.MG_SPEED, Weapon.MG_AMMO, Weapon.MG_FORCE, Weapon.MG_RATE, Weapon.MG_TYPE, weaponKey);
-                //System.out.println( "Char : " + charNum + " MG " + weaponRank);
-                break;
-            // Sniper
-            case 2:
-                currentWeapon = new Weapon(world, screen, this,
-                        Weapon.Sniper_SPEED, Weapon.Sniper_AMMO, Weapon.Sniper_FORCE,Weapon.Sniper_RATE, Weapon.Sniper_TYPE, weaponKey);
-                //System.out.println(charNum + " Sniper");
-                break;
-
-            // Pistol
-            default:
-                currentWeapon = new Weapon(world, screen,this,
-                        Weapon.PISTOL_SPEED, Weapon.PISTOL_AMMO, Weapon.PISTOL_FORCE, Weapon.PISTOL_RATE, Weapon.PISTOL_TYPE, weaponKey);
-                //System.out.println(charNum + " Pistol");
-                break;
-
-        }
-    }
-
-    public int getWeaponRank() {
-        return weaponRank;
-    }
-
-    public void setWeaponRank(int weaponRank) {
-        this.weaponRank = Math.min(weaponRank, MAX_WEAPON);
-    }
 
     /**
      * When a player hits an opponent a hit timer is started
