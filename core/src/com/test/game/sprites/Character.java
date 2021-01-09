@@ -116,7 +116,7 @@ public class Character extends Sprite
 
         current_lives = MAX_LIVES;
 
-        currentWeapon = new Weapon(world,screen,this, CHARACTER_CONTROLS[4]);
+        currentWeapon = new Weapon(world,screen,this);
     }
 
     public void defineCharacterPhysics()
@@ -282,6 +282,12 @@ public class Character extends Sprite
         {
             moveRight();
         }
+
+        if (Gdx.input.isKeyPressed(CHARACTER_CONTROLS[4]))
+        {
+            currentWeapon.shoot();
+        }
+
     }
 
     public void dispose()
