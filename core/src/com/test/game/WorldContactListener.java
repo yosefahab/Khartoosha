@@ -2,12 +2,9 @@ package com.test.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.test.game.sprites.Bullets;
+import com.test.game.Weapons.Bullets;
 import com.test.game.sprites.Character;
-import com.test.game.sprites.PowerUps.Armor;
-import com.test.game.sprites.PowerUps.ExtraLife;
 import com.test.game.sprites.PowerUps.PowerUp;
-import com.test.game.sprites.PowerUps.SpeedBoost;
 
 public class WorldContactListener implements com.badlogic.gdx.physics.box2d.ContactListener
 {
