@@ -18,7 +18,7 @@ public class Khartoosha extends Game
 	// Gravity constant
 	public static final float GRAVITY = -1;
 
-	public SpriteBatch batch;
+	public static SpriteBatch batch;
 
 	@Override
 	public void create ()
@@ -30,8 +30,7 @@ public class Khartoosha extends Game
 		* USE THIS.DISPOSE()
 		*
 		* */
-		//this.setScreen(new PlayScreen(this, 1, 1, 2));
-		this.setScreen(new MainMenuScreen(this));
+		this.setScreen(new PlayScreen(this, 1, 1, 2));
 	}
 
 	@Override

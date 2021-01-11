@@ -12,7 +12,6 @@ import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 
-import javax.xml.soap.Text;
 
 public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
     

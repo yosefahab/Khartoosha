@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="62" height="42" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="16">
- <tileset firstgid="1" name="skyline-a" tilewidth="16" tileheight="16" tilecount="120" columns="8">
+ <tileset firstgid="1" name="skyline-a" tilewidth="16" tileheight="16" tilecount="0" columns="8">
   <image source="warped city files/ENVIRONMENT/background/skyline-a.png" width="128" height="240"/>
  </tileset>
  <imagelayer id="7" name="Image Layer 1" offsetx="-54" offsety="18">
   <image source="Untitled.png" width="1103" height="643"/>
  </imagelayer>
- <layer id="1" name="Tile Layer 1" width="62" height="42">
+ <layer id="1" name="Tile Layer 1" width="62" height="42" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

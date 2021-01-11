@@ -113,5 +113,17 @@ Ayman, 5 Jan
     - Slight modifications to weapons properties ( increased force and fire rate)
     - fixed a bug where bullets stuck in platforms
 
-
+Yahia, 8 Jan
+    -Removed switching weapon mechanics from Character to Weapon
+    -Weapon is updated when dying/killing the opponent
+    -If the Player has the MAX_LEVEL Weapon (Sniper) He gets an ammo refill when killing the opponent
+    -If he has the LOWEST_LEVEL Weapon (Pistol) He gets a refill when dying
+    -Weapons now are easily modified in case wanting to add more weapons
    
+
+
+Bassel, 8 Jan
+    - Moved character render & update logic from PlayScreen to Character 
+    - Moved powerups render & update logic from PlayScreen to PowerupsHandler 
+    - Removed old useless commented code 
+    - Fixed a bug where character position and fire key were determined based on texture number instead of character number
