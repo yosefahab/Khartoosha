@@ -7,9 +7,16 @@ public class MenuTextureDimDynamic extends MenuTextureDim { //texture that is ei
     private Texture active;
     private Texture inActive;
 
-    public MenuTextureDimDynamic(int WIDTH, int HEIGHT, int y, int x, String textureName) {
+    public MenuTextureDimDynamic(float WIDTH, float HEIGHT, float y, float x, String textureName) {
         super(WIDTH, HEIGHT, y, x);
-        this.active = new Texture("menu/menu_" + textureName + "_active.png");
+        if(textureName.contains("char")) // if its a character choice texture
+        {
+            this.active = new Texture("menu/menu_char_choice_active.png");
+        }
+        else
+        {
+            this.active = new Texture("menu/menu_" + textureName + "_active.png");
+        }
         this.inActive = new Texture("menu/menu_" + textureName + "_inactive.png");
         /*
         *********************VERY IMPORTANT********************
@@ -17,12 +24,11 @@ public class MenuTextureDimDynamic extends MenuTextureDim { //texture that is ei
         * each class or screen has an array that includes all the textures name, each textureNames[] set differently
          in different classes
         * name the pic as:
-        * " menu_(here put the name and remove parentheses)_active.png " for the active pic
-        * and " menu_char_(here put the number of the char and remove parentheses)_inactive.png " for the inactive pic
+        * " menu_char_(here put the number of the char and remove parentheses)_inactive.png " for the inactive pic
          */
     }
 
-    public MenuTextureDimDynamic(int WIDTH, int HEIGHT, int y, int x, String textureName, boolean activeWhenHover) {
+    /*public MenuTextureDimDynamic(int WIDTH, int HEIGHT, int y, int x, String textureName, boolean activeWhenHover) {
         super(WIDTH, HEIGHT, y, x);
         if (!activeWhenHover) {
             this.active = new Texture("menu/menu_" + textureName + ".png");
@@ -31,7 +37,7 @@ public class MenuTextureDimDynamic extends MenuTextureDim { //texture that is ei
             this.active = new Texture("menu/menu_" + textureName + "_active.png");
             this.inActive = new Texture("menu/menu_" + textureName + "_inactive.png");
         }
-    }
+    }*/
 
     public Texture getActive() {
         return active;

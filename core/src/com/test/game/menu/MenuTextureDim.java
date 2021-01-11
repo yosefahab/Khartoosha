@@ -1,55 +1,56 @@
 package com.test.game.menu;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-
 public class MenuTextureDim {
-    protected int WIDTH;
-    protected int HEIGHT;
-    protected int Y;
-    protected int X;
+    protected float WIDTH;
+    protected float HEIGHT;
+    protected float Y;
+    protected float X;
 
-    public void setDim(int WIDTH,int HEIGHT,int Y,int X)
+    public void setDim(float WIDTH, float HEIGHT)
     {
         setWIDTH(WIDTH);
         setHEIGHT(HEIGHT);
+    }
+
+    public void setPos(float Y, float X)
+    {
         setY(Y);
         setX(X);
     }
 
-    public void setWIDTH(int WIDTH) {
+    public void setWIDTH(float WIDTH) {
         this.WIDTH = WIDTH;
     }
 
-    public void setHEIGHT(int HEIGHT) {
+    public void setHEIGHT(float HEIGHT) {
         this.HEIGHT = HEIGHT;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         Y = y;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         X = x;
     }
 
-    public int getWIDTH() {
+    public float getWIDTH() {
         return WIDTH;
     }
 
-    public int getHEIGHT() {
+    public float getHEIGHT() {
         return HEIGHT;
     }
 
-    public int getY() {
+    public float getY() {
         return Y;
     }
 
-    public int getX() {
+    public float getX() {
         return X;
     }
 
-    public MenuTextureDim(int WIDTH, int HEIGHT, int y, int x) {
+    public MenuTextureDim(float WIDTH, float HEIGHT, float y, float x) {
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
         Y = y;

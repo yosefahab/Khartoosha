@@ -169,6 +169,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         {
             currDynamicTexture = 0; // if mouse is active disable handle keyboard
             game.batch.draw(dim[charNum].getActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
+            game.batch.draw(dim[charNum].getInActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(charNum);
             }
