@@ -36,7 +36,7 @@ public class PauseMenu{
 
     private static Khartoosha currGame;
 
-    public static void displayPauseScreen(Khartoosha game, Camera camera, Vector2 initCamPos, PlayScreen playScreen)
+    public static void displayPauseScreen(Khartoosha game, Camera camera, PlayScreen playScreen)
     {
         Vector2 vec;
         currPlayScreen = playScreen;

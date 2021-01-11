@@ -3,6 +3,7 @@ package com.test.game.sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.test.game.Khartoosha;
@@ -124,5 +125,11 @@ public class Camera
         gameCam.position.y = camY;
     }
 
-
+    public Vector2 getMid()
+    {
+        Vector2 vec = new Vector2();
+        vec.x = gameCam.position.x;
+        vec.y = gameCam.position.y;
+        return vec;
+    }
 }

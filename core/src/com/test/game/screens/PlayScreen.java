@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
+import com.test.game.menu.PauseMenu;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
@@ -31,16 +32,20 @@ public class PlayScreen implements Screen
     private Box2DDebugRenderer box2dDebugRenderer;
 
     private Camera camera;
+    private Khartoosha game;
 
     //Powerups array that contains 1 of each type
     private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
     PowerUpsHandler powerUpsHandler;
 
-
+    //Pause menu
+    public static boolean isGamePaused;
+    public static boolean goToMainMenu;
 
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
+        this.game = game;
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
@@ -66,6 +71,10 @@ public class PlayScreen implements Screen
         powerUpsHandler = new PowerUpsHandler(PUPs, box2dWorld, this);
         powerUpsHandler.init();
 
+        //Pause Menu
+        PauseMenu.alloc();
+        isGamePaused = false;
+        goToMainMenu = false;
     }
 
     // 1 Player constructor
@@ -147,7 +156,14 @@ public class PlayScreen implements Screen
     @Override
     public void render(float delta)
     {
-        update();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            isGamePaused = !isGamePaused;
+        }
+        if(!isGamePaused)
+        {
+            update();
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render();
@@ -159,6 +175,15 @@ public class PlayScreen implements Screen
         if (character2 != null)
         {
             character2.render();
+        }
+        if(isGamePaused)
+        {
+            if(goToMainMenu)
+            {
+                this.dispose();
+                game.setScreen(new MainMenuScreen(game));
+            }
+            PauseMenu.displayPauseScreen(game,camera,this);
         }
         Khartoosha.batch.end();
     }
