@@ -20,7 +20,7 @@ public class Armor extends PowerUp {
     public Armor(World world, PlayScreen screen) {
 
         super(world,screen.GetAtlas().findRegion("armorPowerup"));
-        this.powerupTexture = new TextureRegion(getTexture(),2*100,0, 100, 100);
+        this.powerupTexture = new TextureRegion(getTexture(),2*435,0, 435, 418);
         setBounds(0,0, 35 /Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);
 

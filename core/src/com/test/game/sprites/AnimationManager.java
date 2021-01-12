@@ -29,8 +29,8 @@ public class AnimationManager {
     //@param charNum number of character in pack image, depends on which character selected
     public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
-        for (int i=0;i<4;i++){
-            frames.add(new TextureRegion(this.texture, (i * 188),(charNum-1)*235,188,235 ));
+        for (int i=1;i<4;i++){
+            frames.add(new TextureRegion(this.texture, (i * 374),(charNum-1)*471,374,471 ));
         }
         tempAnimation = new Animation<> (player.speedCap*0.1f,frames);
         return tempAnimation;

@@ -26,7 +26,7 @@ public class ExtraLife extends PowerUp {
 
         super(world,screen.GetAtlas().findRegion("armorPowerup"));
 
-        this.powerupTexture = new TextureRegion(getTexture(),0,0, 100, 100);
+        this.powerupTexture = new TextureRegion(getTexture(),0,0, 435, 418);
         //setOrigin(1.0f* getTexture().getWidth() / 2,1.0f * getTexture().getHeight() / 2);
         setBounds(0,0, 35 / Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);

@@ -33,7 +33,7 @@ public class SpeedBoost  extends PowerUp
 
         super(world,screen.GetAtlas().findRegion("armorPowerup"));
 
-        this.powerupTexture = new TextureRegion(getTexture(),100,0, 100, 100);
+        this.powerupTexture = new TextureRegion(getTexture(),435,0, 435, 418);
         setBounds(0,0, 35 /Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);
 
