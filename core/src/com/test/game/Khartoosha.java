@@ -8,7 +8,7 @@ import com.test.game.screens.PlayScreen;
 public class Khartoosha extends Game
 {
 
-	public static final float Gwidth= 800, Gheight = 480;
+	public static final float Gwidth= 1000, Gheight = 680;
 	public static final String title = "Khartoosha";
 	public static final int NUM_OF_CHARS = 3; //number of characters in the game
 
@@ -30,7 +30,7 @@ public class Khartoosha extends Game
 		* USE THIS.DISPOSE()
 		*
 		* */
-		this.setScreen(new PlayScreen(this, 1, 1, 2));
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.test.game.menu.MenuTextures;
 public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
     private static final int ONE_PLAYER_BUTTON_HEIGHT = 155;
-    private static final int ONE_PLAYER_BUTTON_Y = (int) (Khartoosha.Gheight - 170);
+    private static final int ONE_PLAYER_BUTTON_Y = (int) (Khartoosha.Gheight - 270);
     private static final int ONE_PLAYER_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (ONE_PLAYER_BUTTON_WIDTH / 2));
 
     private static final int TWO_PLAYER_BUTTON_WIDTH = 340;

@@ -11,12 +11,13 @@ import com.test.game.menu.MenuBG;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 
-public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTextures {
+public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTextures
+{
     private static final int MARGIN = 50;
 
     private static final int HEADER_WIDTH = 720;
     private static final int HEADER_HEIGHT = 60;
-    private static final int HEADER_Y = (int) (Khartoosha.Gheight - 100);
+    private static final int HEADER_Y = (int) (Khartoosha.Gheight - 200);
     private static final int HEADER_X = (int) ((Khartoosha.Gwidth / 2) - (HEADER_WIDTH / 2));
 
     private static final int FIRST_SECOND_HEADER_WIDTH = HEADER_WIDTH;
