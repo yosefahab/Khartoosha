@@ -46,10 +46,7 @@ public abstract class PowerUp extends Sprite {
         //initial position is set randomly in game world
         bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 150) / Khartoosha.PPM + (100 / Khartoosha.PPM) , Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
         bdef.type = BodyDef.BodyType.StaticBody;
-
         pupBody = world.createBody(bdef);
-
-
     }
 
     /**

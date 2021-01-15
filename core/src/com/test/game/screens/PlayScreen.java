@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
 import com.test.game.menu.PauseMenu;
@@ -180,7 +181,8 @@ public class PlayScreen implements Screen
         {
             if(goToMainMenu)
             {
-                this.dispose();
+                //this.dispose();
+
                 game.setScreen(new MainMenuScreen(game));
             }
             PauseMenu.displayPauseScreen(game,camera,this);

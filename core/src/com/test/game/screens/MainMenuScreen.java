@@ -15,7 +15,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
 {
     private static final int PLAY_BUTTON_WIDTH = 340;
     private static final int PLAY_BUTTON_HEIGHT = 145;
-    private static final int PLAY_BUTTON_Y = (int) (Khartoosha.Gheight - 160);
+    private static final int PLAY_BUTTON_Y = (int) (Khartoosha.Gheight - 260);
     private static final int PLAY_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (PLAY_BUTTON_WIDTH / 2));
 
     private static final int SETTINGS_BUTTON_WIDTH = 300;
@@ -73,7 +73,8 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     }
 
     @Override
-    public void chosenTexture(int dynamicTextureNum){
+    public void chosenTexture(int dynamicTextureNum)
+    {
         if(dynamicTextureNum == 1) { //if play is clicked
             this.dispose();
             game.setScreen(new PlayMenuScreen(game));

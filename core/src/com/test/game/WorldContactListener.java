@@ -39,9 +39,6 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 //only start hit timer when not shielded
                 character.startHitTimer();
             }
-
-
-
         }
         else if (o2 instanceof Bullets && o1 instanceof Character)
         {
@@ -57,7 +54,6 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 //only start hit timer when not shielded
                 character.startHitTimer();
             }
-
 
         }
 
@@ -109,10 +105,15 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 ((PowerUp) o2).platforms_To_Skip--;
                 contact.setEnabled(false);
             }
-
         }
 
-        //Disable  PUP collision before spawning
+        if (o1 instanceof PowerUp && o2 instanceof Bullets)
+        {
+            contact.setEnabled(false);
+        }
+
+
+        // Disable  PUP collision before spawning
         if ((o1 instanceof Character && o2 instanceof PowerUp)) {
             if (!((PowerUp) o2).isSpawned())
                 contact.setEnabled(false);
