@@ -198,18 +198,9 @@ public class Weapon extends Sprite
                 bulletFlipped = true;
                 bullets.add(new Bullets(box2dWorld,screen,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
             }
-            recoil();
 
         }
 
     }
-
-    public void recoil()
-    {
-        if (type == 2)
-            this.character.physicsBody.applyForceToCenter(new Vector2(100, 0), true);
-    }
-
-
 
 }
