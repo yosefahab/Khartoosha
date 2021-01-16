@@ -3,6 +3,7 @@ package com.test.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MenuBG;
@@ -35,8 +36,16 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
 
     Khartoosha game;
 
+    protected static Music menuMusic;
+
     public MainMenuScreen(Khartoosha game) {
         this.game = game;
+
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.9f);
+        menuMusic.play();
 
         dynamicTextureNames[1] = "play";
         dynamicTextureNames[2] = "settings";

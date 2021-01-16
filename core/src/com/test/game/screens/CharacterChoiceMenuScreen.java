@@ -122,11 +122,13 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     @Override
     public void chosenTexture(int charNum)
     {
+
         if(charNum == Khartoosha.NUM_OF_CHARS + 1){ //back was clicked
             this.dispose();
             game.setScreen(new PlayMenuScreen(game));
         } else if(!twoPlayers){
             char1Num = charNum;
+            MainMenuScreen.menuMusic.stop();
             this.dispose();
             game.setScreen(new PlayScreen(game, 0, char1Num));
         } else{
@@ -136,6 +138,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
 
             } else{
                 char2Num = charNum;
+                MainMenuScreen.menuMusic.stop();
                 this.dispose();
                 game.setScreen(new PlayScreen(game, 0,char1Num, char2Num));
             }
@@ -219,6 +222,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         for(int charNum = 1; charNum <= Khartoosha.NUM_OF_CHARS; charNum++) {
             Char[charNum].dispose();
         }
+        MainMenuScreen.menuMusic.dispose();
         bg.dispose();
     }
 }

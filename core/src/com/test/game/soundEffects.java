@@ -44,7 +44,7 @@ public class soundEffects {
     }
 
     public static void gameOver() {
-        gameOver.play();
+        gameOver.play(1);
     }
 
     public static void pistolReload() {
