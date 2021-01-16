@@ -51,7 +51,6 @@ public class Camera
         float camY = gameCam.position.y;
 
 
-
         // Cam Debug Mode
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0))
         {
