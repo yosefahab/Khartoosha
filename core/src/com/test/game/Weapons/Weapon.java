@@ -1,7 +1,6 @@
 package com.test.game.Weapons;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,9 +11,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
+import com.test.game.soundEffects;
 import com.test.game.sprites.Character;
-
 import java.util.ArrayList;
+
 
 public class Weapon extends Sprite
 {
@@ -24,7 +24,6 @@ public class Weapon extends Sprite
     PlayScreen screen;
     BodyDef weaponBody= new BodyDef();
     Body physicsBodyWeapon;
-    private TextureRegion textureRegion;
     public boolean faceRight=true;
 
 
@@ -44,11 +43,9 @@ public class Weapon extends Sprite
     protected int MAX_AMMO;
     protected int FORCE;
     protected float BULLET_SPEED;
-    protected float FIREING_RATE;
+    protected float FIRING_RATE;
     protected Texture TEXTURE_IDLE;
     protected Texture TEXTURE_SHOOTING;
-    protected Sound SHOOT_SOUND;
-    protected Sound RELOAD_SOUND;
 
 
     public Weapon(World box2dWorld, PlayScreen screen, Character character)
@@ -58,7 +55,7 @@ public class Weapon extends Sprite
         this.position = character.getBodyPosition();
         position.y += 4f;
         this.screen = screen;
-        bullets = new ArrayList<Bullets>();
+        bullets = new ArrayList<>();
         this.character = character;
 
         switchWeapon();
@@ -66,7 +63,7 @@ public class Weapon extends Sprite
         defineGunPhysics();
         character.currentWeapon = this;
 
-        textureRegion = new TextureRegion(getTexture(),0,0,193,130); //define region of certain texture in png
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 193, 130); //define region of certain texture in png
         setBounds(0,0,58/ Khartoosha.PPM,29/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
     }
@@ -76,29 +73,20 @@ public class Weapon extends Sprite
         if (faceRight)
         {
             setPosition(position.x+0.5f, yPos);
-            if (stopFalling)
-            {
-                yPos=character.getBodyPosition().y+0.3f;
-            }
-            if (yPos<character.getBodyPosition().y+0.3)
-                stopFalling=true;
-            if (!stopFalling)
-                yPos-=0.098f;
         }
-        else if (!faceRight)
-        {
+        else {
             setPosition(position.x - 1f, yPos);
-            if (stopFalling)
-            {
-                yPos = character.getBodyPosition().y + 0.3f;
-            }
-            if (yPos<character.getBodyPosition().y + 0.3)
-                stopFalling = true;
 
-            if (!stopFalling)
-                yPos -= 0.098f;
         }
-        ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<Bullets>();
+        if (stopFalling)
+        {
+            yPos=character.getBodyPosition().y+0.3f;
+        }
+        if (yPos<character.getBodyPosition().y+0.3)
+            stopFalling=true;
+        if (!stopFalling)
+            yPos-=0.098f;
+        ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<>();
         for(Bullets bullet:bullets )
         {
             bullet.update(Gdx.graphics.getDeltaTime());
@@ -153,13 +141,17 @@ public class Weapon extends Sprite
 
         switch (type)
         {
-            case 0: WeaponManager.initPistol(this); break;
-            case 1: WeaponManager.initMG(this); break;
-            case 2: WeaponManager.initSniper(this); break;
+            case 0: WeaponManager.initPistol(this);
+            soundEffects.pistolReload();
+            break;
+            case 1: WeaponManager.initMG(this);
+            soundEffects.mgReload();
+            break;
+            case 2: WeaponManager.initSniper(this);
+            soundEffects.sniperReload();
+            break;
         }
         CURRENT_AMMO = MAX_AMMO;
-        RELOAD_SOUND.play();
-
 
     }
     public void refillAmmo()
@@ -170,9 +162,20 @@ public class Weapon extends Sprite
 
     public void shoot()
     {
-        if (CURRENT_AMMO > 0 && keyPressTimer > FIREING_RATE)
+        if (CURRENT_AMMO > 0 && keyPressTimer > FIRING_RATE)
         {
-            SHOOT_SOUND.play();
+            switch (type)
+            {
+                case 0:
+                    soundEffects.pistolFire();
+                    break;
+                case 1:
+                    soundEffects.mgFire();
+                    break;
+                case 2:
+                    soundEffects.sniperFire();
+                    break;
+            }
             keyPressTimer = 0;
             shootingTimer = 0;
             CURRENT_AMMO--;
@@ -190,13 +193,13 @@ public class Weapon extends Sprite
 
             if (faceRight) {
                 bulletFlipped = false;
-                bullets.add(new Bullets(box2dWorld,screen,new Vector2(position.x+0.4f,position.y+0.4f), BULLET_SPEED, FORCE) );
+                bullets.add(new Bullets(box2dWorld,new Vector2(position.x+0.4f,position.y+0.4f), BULLET_SPEED, FORCE) );
 
             }
             else
             {
                 bulletFlipped = true;
-                bullets.add(new Bullets(box2dWorld,screen,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
+                bullets.add(new Bullets(box2dWorld,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
             }
             recoil();
 

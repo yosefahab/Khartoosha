@@ -17,7 +17,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o2 = contact.getFixtureB().getUserData();
 
         if (o2 instanceof Character && o1 instanceof Body)
-            beginContactCHARACTERxPlatform(o1, o2);
+            beginContactCHARACTERxPlatform(o2);
 
 
         if ((o1 instanceof Character && o2 instanceof PowerUp))
@@ -32,6 +32,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Bullets bullet = (Bullets) o1;
             bullet.isContacted = true;
             Character character = (Character) o2;
+            character.takeDamage();
             if (!character.isArmored)
             {
                 character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
@@ -46,11 +47,9 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             bullet.isContacted = true;
 
             Character character = (Character) o1;
-
             if (!character.isArmored)
             {
                 character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
-
                 //only start hit timer when not shielded
                 character.startHitTimer();
             }
@@ -82,7 +81,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o2 = contact.getFixtureB().getUserData();
 
         if (o2 instanceof Character && o1 instanceof Body)
-            preSolveCHARACTERxPlatform(o1, o2, contact);
+            preSolveCHARACTERxPlatform(o2, contact);
 
 
         if (o1 instanceof Character && o2 instanceof Character)
@@ -148,26 +147,25 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         {
             p.setContacted(true);
             p.attachedChar = character;
+            soundEffects.powerUp();
             //System.out.println("Pup char contact 1");
         }
 
     }
 
 
-    private void beginContactCHARACTERxPlatform (Object o1, Object o2)
+    private void beginContactCHARACTERxPlatform (Object o2)
     {
         // Reset ALLOWED_JUMPS on contact with ground
-        Character c = (Character) o2;
         ((Character) o2).ALLOWED_JUMPS = 2;
     }
 
 
-    private void preSolveCHARACTERxPlatform (Object o1, Object o2, Contact contact)
+    private void preSolveCHARACTERxPlatform (Object o2, Contact contact)
     {
 
-        Character c = (Character) o2;
         // Jumping or going down --> No contact
-        if (c.physicsBody.getLinearVelocity().y > 0 || c.isGoingDown)
+        if (((Character) o2).physicsBody.getLinearVelocity().y > 0 || ((Character) o2).isGoingDown)
         {
             contact.setEnabled(false);
         }

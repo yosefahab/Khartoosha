@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
+import com.test.game.soundEffects;
 
 
 import java.util.Random;
@@ -32,7 +33,6 @@ public class Character extends Sprite
     private final float DEFAULT_SPEED = 2;
     public float speedCap = DEFAULT_SPEED;
     private float speedScale = 0.4f;
-    private float jumpScale = 4;
     public int ALLOWED_JUMPS = 2;
 
     private final int  MAX_LIVES = 5;
@@ -53,10 +53,9 @@ public class Character extends Sprite
     private final int CHARACTER_ID;
 
 
+
     // attaching weapon to character
     public Weapon currentWeapon;
-    // Hit timer (logic explained in start Hit timer function)
-    private final int MAX_HIT_TIMER = 4;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
 
@@ -129,7 +128,7 @@ public class Character extends Sprite
         }
         else
         {
-            bodyDefinition.position.set(650 / Khartoosha.PPM, 200/ Khartoosha.PPM);
+            bodyDefinition.position.set(800 / Khartoosha.PPM, 200/ Khartoosha.PPM);
         }
 
         bodyDefinition.type = BodyDef.BodyType.DynamicBody;
@@ -151,6 +150,8 @@ public class Character extends Sprite
         setPosition((float) (physicsBody.getPosition().x- (2.5)*getWidth()/5), physicsBody.getPosition().y-getHeight()/3);
 
         //if body falls, reset position and decrease lives
+        // Hit timer (logic explained in start Hit timer function)
+        int MAX_HIT_TIMER = 4;
         if (physicsBody.getPosition().y < -800/Khartoosha.PPM)
         {
             Random rand = new Random();
@@ -158,6 +159,7 @@ public class Character extends Sprite
             physicsBody.setLinearVelocity(new Vector2(0,0));
             physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
+            takeDamage();
 
 
             //don't upgrade opponent on self kill
@@ -181,6 +183,7 @@ public class Character extends Sprite
         {
             System.out.println("Player " + TextureNumber + " lost");
             current_lives = MAX_LIVES;
+            soundEffects.gameOver();
             //TODO: reset game
         }
 
@@ -230,9 +233,16 @@ public class Character extends Sprite
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
 
 
+    public void takeDamage(){
+        if (CHARACTER_ID==1)
+            soundEffects.player1Grunt();
+        else
+            soundEffects.player2Grunt();
+    }
     private void jump()
     {
         this.physicsBody.setLinearVelocity(new Vector2(0, 0));
+        float jumpScale = 4;
         this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
     }
 
@@ -288,9 +298,7 @@ public class Character extends Sprite
 
     public void dispose()
     {
-
     }
-
     // Speed boost pup
     public void setSpeedCap(float speedCap)
     {

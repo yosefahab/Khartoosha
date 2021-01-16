@@ -8,14 +8,13 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class AnimationManager {
-    public enum State { STANDING, JUMPING, RUNNING, DEAD }
+    public enum State { STANDING, JUMPING, RUNNING }
 
     public State currentState;
     public State previousState;
     private boolean faceRight;
     private float stateTimer;
     private Array<TextureRegion> frames;
-    private Animation<TextureRegion> tempAnimation;
     private Character player;
     private Texture texture;
     public AnimationManager(boolean faceRight, Texture texture, Character player) {
@@ -32,8 +31,7 @@ public class AnimationManager {
         for (int i=1;i<4;i++){
             frames.add(new TextureRegion(this.texture, (i * 374),(charNum-1)*471,374,471 ));
         }
-        tempAnimation = new Animation<> (player.speedCap*0.1f,frames);
-        return tempAnimation;
+        return new Animation<> (player.speedCap*0.1f,frames);
     }
 
     public TextureRegion getFrame(float delta){
@@ -69,5 +67,5 @@ public class AnimationManager {
             return State.RUNNING;
         else return State.STANDING;
     }
-    public void clearFrames(){frames.clear(); tempAnimation=null;}
+    public void clearFrames(){frames.clear();}
 }

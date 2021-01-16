@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.bullet.Bullet;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
 import com.test.game.menu.PauseMenu;
@@ -43,6 +41,7 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
+
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
@@ -55,6 +54,7 @@ public class PlayScreen implements Screen
 
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
+
 
         // Initialize map
         map = new Map(box2dWorld);

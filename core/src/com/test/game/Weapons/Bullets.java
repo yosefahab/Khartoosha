@@ -7,14 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
 
 public class Bullets extends Sprite
 {
 
     BodyDef bulletBody= new BodyDef();
     Body physicsBodyBullet;
-    private TextureRegion textureRegion;
     World world;
     Vector2 position;
     Texture bul=new Texture("vfx/weapons/pistol/bullet.png");
@@ -24,7 +22,7 @@ public class Bullets extends Sprite
     // for collision detection
     public boolean isContacted = false;
     public int force;
-    public Bullets(World world, PlayScreen screen, Vector2 position,float speed, int force)
+    public Bullets(World world,Vector2 position,float speed, int force)
     {
         this.speed=speed;
         this.world=world;
@@ -34,7 +32,7 @@ public class Bullets extends Sprite
         defineBulletPhysics();
 
         setTexture(bul);
-        textureRegion = new TextureRegion(getTexture(),0,0,220,48); //define region of certain texture in png
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 220, 48); //define region of certain texture in png
         setRegion(textureRegion);
         setBounds(0,0,120/Khartoosha.PPM,30/Khartoosha.PPM); //set size rendered texture
 
