@@ -148,7 +148,7 @@ public class Character extends Sprite
     {
         handleInput();
         currentWeapon.update(delta);
-        setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/3);
+        setPosition((float) (physicsBody.getPosition().x- (2.5)*getWidth()/5), physicsBody.getPosition().y-getHeight()/3);
 
         //if body falls, reset position and decrease lives
         if (physicsBody.getPosition().y < -800/Khartoosha.PPM)
@@ -236,7 +236,7 @@ public class Character extends Sprite
         this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
     }
 
-    private void moveRight()
+    public void moveRight()
     {
         if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
@@ -244,7 +244,7 @@ public class Character extends Sprite
         }
     }
 
-    private void moveLeft()
+    public void moveLeft()
     {
         if (this.physicsBody.getLinearVelocity().x >= -speedCap)
         {
