@@ -82,7 +82,7 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
     }
 
@@ -90,8 +90,8 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true);
-        character2 = new Character(box2dWorld, this,  char2Num,false);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false);
+        character2 = new Character(box2dWorld, this,  char2Num,false, true);
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);

@@ -1,6 +1,5 @@
 package com.test.game.sprites.PowerUps;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -10,16 +9,19 @@ import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
+/**
+ * Reduce hit force of bullets fired at character for a certain amount of time by a certain factor
+ */
 public class Armor extends PowerUp {
 
-    private final int spawnRate = 9970, maxRate = 10000;
-    private final float MAX_TIME = 10;
+
+    public static final float ARMOR_VALUE = 0.5f; // the value that scales the hit force
 
     private TextureRegion powerupTexture;
 
     public Armor(World world, PlayScreen screen) {
 
-        super(world,screen.GetAtlas().findRegion("armorPowerup"));
+        super(world,screen.GetAtlas().findRegion("armorPowerup"), 9985, 10000, 10);
         this.powerupTexture = new TextureRegion(getTexture(),2*435,0, 435, 418);
         setBounds(0,0, 35 /Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);
@@ -33,17 +35,7 @@ public class Armor extends PowerUp {
         pupBody.createFixture(fdef).setUserData(this);
     }
 
-    @Override
-    public void spawn() {
 
-        // if not spawned and not active spawn it
-        if (!isSpawned() && !isActive() && rand.nextInt(maxRate) > spawnRate)
-        {
-            pupBody.setType(BodyDef.BodyType.DynamicBody);
-            setSpawned(true);
-            currentPups++;
-        }
-    }
 
     @Override
     public void effect(Character player) {
@@ -59,34 +51,7 @@ public class Armor extends PowerUp {
 
     }
 
-    @Override
-    public void update()
-    {
-        //if it falls off map
-        if (pupBody.getPosition().y < - 2)
-        {
-            setSpawned(false);
-            resetPupPosition();
-            currentPups--;
-        }
 
-        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
-        if (isContacted)
-        {
-            effect(attachedChar);
-            isContacted = false;
-        }
-        if (isActive())
-        {
-            active_time += Gdx.graphics.getDeltaTime();
-            if (active_time > MAX_TIME)
-            {
-                reset();
-            }
-
-        }
-
-    }
 
     @Override
     public void reset() {

@@ -127,3 +127,25 @@ Bassel, 8 Jan
     - Moved powerups render & update logic from PlayScreen to PowerupsHandler 
     - Removed old useless commented code 
     - Fixed a bug where character position and fire key were determined based on texture number instead of character number
+
+Ayman, 17, Jan
+    - Added:
+        • Basic AI can be enabled/disabled from character constructor
+        • New Powerup -> UpgradeWeapon
+    - Modified:
+        • Character:
+            - Added attributes shape_width, shape_height that control the physics body shape
+                (Used by AI to check whether the character in shooting range or not)
+            - Added Ai related code
+            - Moved the Allowed_Jumps check to the Jump() function
+            - Changed Access Modifiers of movement functions to Public (Used by AI)
+            - Speedboost now doesn't stack more than twice
+        • Powerups:
+            - General Cleanup: Moved redundant code from child classes to parent class
+            - Armor now decreases shot force by a certain factor instead of disabling it completely
+            - Fixed a bug where RefillAmmo had no effect
+        • Weapon: added MAX_TYPE attribute to determine the number of current weapons
+            (used by UpgradeWeapon Powerup)
+
+
+
