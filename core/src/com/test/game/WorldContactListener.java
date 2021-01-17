@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Weapons.Bullets;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
 
 public class WorldContactListener implements com.badlogic.gdx.physics.box2d.ContactListener
@@ -32,27 +33,29 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Bullets bullet = (Bullets) o1;
             bullet.isContacted = true;
             Character character = (Character) o2;
-            character.takeDamage();
-            if (!character.isArmored)
-            {
-                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+            float hitForce =  bullet.force;
 
-                //only start hit timer when not shielded
-                character.startHitTimer();
-            }
+            character.takeDamage();
+
+            if (character.isArmored)
+                hitForce *= Armor.ARMOR_VALUE;
+
+            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.startHitTimer();
         }
         else if (o2 instanceof Bullets && o1 instanceof Character)
         {
             Bullets bullet = (Bullets) o2;
-            bullet.isContacted = true;
-
             Character character = (Character) o1;
-            if (!character.isArmored)
-            {
-                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
-                //only start hit timer when not shielded
-                character.startHitTimer();
-            }
+            bullet.isContacted = true;
+            float hitForce =  bullet.force;
+
+            character.takeDamage();
+            if (character.isArmored)
+                hitForce *= Armor.ARMOR_VALUE;
+
+            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.startHitTimer();
 
         }
 

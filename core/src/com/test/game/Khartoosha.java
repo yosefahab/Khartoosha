@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.test.game.screens.MainMenuScreen;
+import com.test.game.screens.PlayScreen;
 
 public class Khartoosha extends Game
 {
@@ -36,6 +37,7 @@ public class Khartoosha extends Game
 		soundManager = new soundEffects();
 
 		this.setScreen(new MainMenuScreen(this));
+		//this.setScreen(new PlayScreen(this, 1, 1, 2));
 	}
 
 	@Override

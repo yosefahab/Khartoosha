@@ -38,7 +38,7 @@ public class Weapon extends Sprite
     private float yPos;
     private boolean stopFalling=false;
 
-
+    public final static int MAX_TYPE = 2;
     private int CURRENT_AMMO;
     protected int MAX_AMMO;
     protected int FORCE;

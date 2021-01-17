@@ -1,8 +1,6 @@
 package com.test.game.sprites.PowerUps;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,6 +8,10 @@ import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
+
+/**
+ * Refill current weapon's ammo
+ */
 public class RefillAmmo extends PowerUp {
 
     // a random number less than max_rate is generated if it's larger than spawn_rate then it's spawned
@@ -21,7 +23,7 @@ public class RefillAmmo extends PowerUp {
 
     public RefillAmmo(World world, PlayScreen screen) {
 
-        super(world,screen.GetAtlas().findRegion("armorPowerup"));
+        super(world,screen.GetAtlas().findRegion("armorPowerup"), 9990, 10000, 0);
 
         this.powerupTexture = new TextureRegion(getTexture(),0,0, 100, 100);
         setBounds(0,0, 35 / Khartoosha.PPM, 35 /Khartoosha.PPM);
@@ -37,42 +39,16 @@ public class RefillAmmo extends PowerUp {
         pupBody.createFixture(fdef).setUserData(this);
     }
 
-    @Override
-    public void spawn() {
-        // if not spawned and not active spawn it
-        if (!isSpawned() && !isActive() && rand.nextInt(maxRate) > spawnRate)
-        {
-            pupBody.setType(BodyDef.BodyType.DynamicBody);
-            setSpawned(true);
-            currentPups++;
-        }
-    }
+
 
     @Override
     public void effect(Character c) {
 
-
+        attachedChar.currentWeapon.refillAmmo();
         resetPupPosition();
 
         reset();
     }
 
-    @Override
-    public void update() {
-        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
-        if (isContacted)
-        {
-            effect(attachedChar);
-            isContacted = false;
-        }
-    }
 
-    @Override
-    public void reset() {
-        setSpawned(false);
-        attachedChar = null;
-        currentPups--;
-        platforms_To_Skip = rand.nextInt(MAX_PLATFORMS);
-
-    }
 }
