@@ -77,8 +77,8 @@ public class Character extends Sprite
     private void loadCharacter(int TextureNumber)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 471, 374, 471);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 374),(TextureNumber-1)* 471, 374, 471);
+        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 235, 188, 235);
+        this.jumping =  new TextureRegion(getTexture(),(4 * 188),(TextureNumber-1)* 235, 188, 235);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);

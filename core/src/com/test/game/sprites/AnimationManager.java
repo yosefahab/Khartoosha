@@ -29,7 +29,7 @@ public class AnimationManager {
     public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
         for (int i=1;i<4;i++){
-            frames.add(new TextureRegion(this.texture, (i * 374),(charNum-1)*471,374,471 ));
+            frames.add(new TextureRegion(this.texture, (i * 188),(charNum-1)*235,188,235 ));
         }
         return new Animation<> (player.speedCap*0.1f,frames);
     }

@@ -8,6 +8,7 @@ public class soundEffects
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
 
+    public static float soundVolume =1;
 
     public soundEffects() {
 
@@ -29,49 +30,58 @@ public class soundEffects
     }
 
     public static void player1Grunt() {
-        player1Grunt.play();
+        player1Grunt.play(soundVolume);
     }
 
     public static void player2Grunt() {
-        player2Grunt.play();
+        player2Grunt.play(soundVolume);
     }
 
     public static void click() {
-        click.play();
+        click.play(soundVolume);
     }
 
     public static void powerUp() {
-        powerUp.play();
+        powerUp.play(soundVolume);
     }
 
     public static void gameOver() {
-        gameOver.play();
+        gameOver.play(1);
     }
 
-    public static void pistolReload() {
-        pistolReload.play();
+    public static void pistolReload()
+    {
+        pistolReload.play(soundVolume);
     }
     public static void sniperReload() {
-       sniperReload.play();
+       sniperReload.play(soundVolume);
     }
     public static void mgReload() {
-        mgReload.play();
+        mgReload.play(soundVolume);
     }
 
     public static void pistolFire() {
-        pistolShoot.play();
+        pistolShoot.play(soundVolume);
     }
     public static void sniperFire() {
-        sniperShoot.play();
+        sniperShoot.play(soundVolume);
     }
     public static void mgFire() {
-        mgShoot.play();
+        mgShoot.play(soundVolume);
     }
-    public static void shotgunFire()
+    public static void shotgunFire() { shotgunShoot.play(); }
+    public void dispose()
     {
-        shotgunShoot.play();
+        sniperShoot.dispose();
+        pistolShoot.dispose();
+        mgShoot.dispose();
+        sniperReload.dispose();
+        pistolReload.dispose();
+        mgReload.dispose();
+        player1Grunt.dispose();
+        player2Grunt.dispose();
+        click.dispose();
+        gameOver.dispose();
+        powerUp.dispose();
     }
-
-
-    public void dispose(){}
 }
