@@ -7,6 +7,7 @@ public class soundEffects {
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniper,pistol,mg,sniperR,pistolR,mgR;
 
+    private static float soundLevel =1;
 
     public soundEffects() {
 
@@ -28,19 +29,19 @@ public class soundEffects {
     }
 
     public static void player1Grunt() {
-        player1Grunt.play();
+        player1Grunt.play(soundLevel);
     }
 
     public static void player2Grunt() {
-        player2Grunt.play();
+        player2Grunt.play(soundLevel);
     }
 
     public static void click() {
-        click.play();
+        click.play(soundLevel);
     }
 
     public static void powerUp() {
-        powerUp.play();
+        powerUp.play(soundLevel);
     }
 
     public static void gameOver() {
@@ -48,23 +49,23 @@ public class soundEffects {
     }
 
     public static void pistolReload() {
-        pistolR.play();
+        pistolR.play(soundLevel);
     }
     public static void sniperReload() {
-       sniperR.play();
+       sniperR.play(soundLevel);
     }
     public static void mgReload() {
-        mgR.play();
+        mgR.play(soundLevel);
     }
 
     public static void pistolFire() {
-        pistol.play();
+        pistol.play(soundLevel);
     }
     public static void sniperFire() {
-        sniper.play();
+        sniper.play(soundLevel);
     }
     public static void mgFire() {
-        mg.play();
+        mg.play(soundLevel);
     }
 
     public void dispose(){}

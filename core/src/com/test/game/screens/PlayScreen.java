@@ -3,6 +3,7 @@ package com.test.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -41,11 +42,19 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-
+    protected static Music gameMusic;
+    
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
         this.game = game;
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.5f);
+        gameMusic.play();
+
+        
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
