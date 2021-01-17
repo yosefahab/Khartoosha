@@ -180,7 +180,7 @@ public class PlayScreen implements Screen
         {
             if(goToMainMenu)
             {
-                this.dispose();
+                //this.dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
             PauseMenu.displayPauseScreen(game,camera,this);
