@@ -3,6 +3,7 @@ package com.test.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,8 @@ import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
 import com.test.game.sprites.PowerUps.*;
+
+import java.util.Random;
 
 
 public class PlayScreen implements Screen
@@ -41,11 +44,22 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-
+    protected static Music gameMusic;
+    
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
         this.game = game;
+
+        Khartoosha.menuMusic.stop();
+        Khartoosha.menuMusic.dispose();
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(Khartoosha.musicVolume);
+        gameMusic.play();
+
+        
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
@@ -84,6 +98,10 @@ public class PlayScreen implements Screen
         this(game, mapNum);
         character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
+        Random rand = new Random();
+        character2 = new Character(box2dWorld, this,  rand.nextInt(3),false, true);
+        character1.setEnemy(character2);
+        character2.setEnemy(character1);
     }
 
     // 2 Players constructor
@@ -91,7 +109,7 @@ public class PlayScreen implements Screen
     {
         this(game, mapNum);
         character1 = new Character(box2dWorld, this,  char1Num,true, false);
-        character2 = new Character(box2dWorld, this,  char2Num,false, true);
+        character2 = new Character(box2dWorld, this,  char2Num,false, false);
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);

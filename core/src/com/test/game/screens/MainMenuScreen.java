@@ -35,8 +35,10 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
 
     Khartoosha game;
 
+
     public MainMenuScreen(Khartoosha game) {
         this.game = game;
+
 
         dynamicTextureNames[1] = "play";
         dynamicTextureNames[2] = "settings";
@@ -68,7 +70,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         }
         if(currDynamicTexture >= 1 && currDynamicTexture <= NUM_OF_DYNAMIC_TEXTURES) {
 
-            game.batch.draw(dynamicTextures[currDynamicTexture].getActive(), dynamicTextures[currDynamicTexture].getX(), dynamicTextures[currDynamicTexture].getY(), dynamicTextures[currDynamicTexture].getWIDTH(), dynamicTextures[currDynamicTexture].getHEIGHT());
+            Khartoosha.batch.draw(dynamicTextures[currDynamicTexture].getActive(), dynamicTextures[currDynamicTexture].getX(), dynamicTextures[currDynamicTexture].getY(), dynamicTextures[currDynamicTexture].getWIDTH(), dynamicTextures[currDynamicTexture].getHEIGHT());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);
@@ -104,12 +106,13 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         )
         {
             currDynamicTexture = 0; // if mouse is active disable handle keyboard
-            game.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
+            Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
+                soundEffects.click();
             }
         } else {
-            game.batch.draw(dim[dynamicTextureNum].getInActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
+            Khartoosha.batch.draw(dim[dynamicTextureNum].getInActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
         }
     }
 
@@ -120,13 +123,13 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
+        Khartoosha.batch.begin();
         displayBG(game);
         for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
             checkBoundsAndDrawDynamic(dynamicTextures, dynamicTextureNum);
         }
         handleKeyboard();
-        game.batch.end();
+        Khartoosha.batch.end();
     }
 
     @Override
