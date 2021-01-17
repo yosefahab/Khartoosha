@@ -189,7 +189,7 @@ public class Character extends Sprite
 
         if (current_lives == 0)
         {
-            System.out.println("Player " + TextureNumber + " lost");
+            System.out.println("Player " + CHARACTER_ID + " lost");
             current_lives = MAX_LIVES;
             soundEffects.gameOver();
             //TODO: reset game
@@ -214,7 +214,7 @@ public class Character extends Sprite
 
         if (enemy != null && enemy.lostLife)
         {
-            if (currentWeapon.type < 2)
+            if (currentWeapon.type < Weapon.MAX_TYPE)
             {
                 currentWeapon.type++;
                 currentWeapon.switchWeapon();

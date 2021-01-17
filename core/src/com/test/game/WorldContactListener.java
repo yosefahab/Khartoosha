@@ -2,7 +2,7 @@ package com.test.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.test.game.Weapons.Bullets;
+import com.test.game.Weapons.Bullet;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
@@ -28,9 +28,9 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
 
 
-        if (o1 instanceof Bullets && o2 instanceof Character)
+        if (o1 instanceof Bullet && o2 instanceof Character)
         {
-            Bullets bullet = (Bullets) o1;
+            Bullet bullet = (Bullet) o1;
             bullet.isContacted = true;
             Character character = (Character) o2;
             float hitForce =  bullet.force;
@@ -43,9 +43,9 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
             character.startHitTimer();
         }
-        else if (o2 instanceof Bullets && o1 instanceof Character)
+        else if (o2 instanceof Bullet && o1 instanceof Character)
         {
-            Bullets bullet = (Bullets) o2;
+            Bullet bullet = (Bullet) o2;
             Character character = (Character) o1;
             bullet.isContacted = true;
             float hitForce =  bullet.force;
@@ -109,7 +109,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             }
         }
 
-        if (o1 instanceof PowerUp && o2 instanceof Bullets)
+        if (o1 instanceof PowerUp && o2 instanceof Bullet)
         {
             contact.setEnabled(false);
         }
@@ -126,11 +126,11 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         }
 
         //Disable  Bullet collision with platforms (fixed bullet stuck in platform)
-        if ((o1 instanceof Bullets && o2 instanceof Body)) {
+        if ((o1 instanceof Bullet && o2 instanceof Body)) {
             contact.setEnabled(false);
         }
-        if ((o2 instanceof Bullets && o1 instanceof Body)) {
-                contact.setEnabled(false);
+        if ((o2 instanceof Bullet && o1 instanceof Body)) {
+            contact.setEnabled(false);
         }
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class WeaponManager
 {
+    protected static float SHOTGUN_RANGE = 0.75F;
     protected static void initPistol(Weapon weapon)
     {
         weapon.MAX_AMMO = 7;
@@ -33,6 +34,17 @@ public class WeaponManager
         weapon.FIRING_RATE = 1f;
         weapon.TEXTURE_IDLE = new Texture("vfx/weapons/sniper/idle.png");
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/sniper/shooting.png");
+
+    }
+
+    protected static void initShotgun(Weapon weapon)
+    {
+        weapon.MAX_AMMO = 10;
+        weapon.FORCE = 1000;
+        weapon.BULLET_SPEED = 0.1F;
+        weapon.FIRING_RATE = 1;
+        weapon.TEXTURE_IDLE = new Texture("vfx/weapons/shotgun/idle.png");
+        weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/shotgun/shooting.png");
 
     }
 

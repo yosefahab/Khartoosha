@@ -8,40 +8,44 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Khartoosha;
 
-public class Bullets extends Sprite
+public class Bullet extends Sprite
 {
 
     BodyDef bulletBody= new BodyDef();
     Body physicsBodyBullet;
     World world;
-    Vector2 position;
-    Texture bul=new Texture("vfx/weapons/pistol/bullet.png");
+    Vector2 Initial_Position;
+    Texture Bullet_Texture =new Texture("vfx/weapons/pistol/bullet.png");
     public boolean remove=false;
     private float speed;
 
     // for collision detection
     public boolean isContacted = false;
     public int force;
-    public Bullets(World world,Vector2 position,float speed, int force)
+    public Bullet (World world,Vector2 position,float speed, int force)
     {
         this.speed=speed;
         this.world=world;
-        this.position=position;
+        this.Initial_Position =position;
         this.force = force;
-
         defineBulletPhysics();
-
-        setTexture(bul);
+        setTexture(Bullet_Texture);
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 220, 48); //define region of certain texture in png
         setRegion(textureRegion);
         setBounds(0,0,120/Khartoosha.PPM,30/Khartoosha.PPM); //set size rendered texture
 
+
     }
+
+    // Shotgun constructor, only difference is that there is no bullet texture
+
+
+
 
     public void defineBulletPhysics()
     {
 
-        bulletBody.position.set(position);
+        bulletBody.position.set(Initial_Position);
         bulletBody.type = BodyDef.BodyType.KinematicBody;
         physicsBodyBullet= world.createBody(bulletBody);
 
@@ -62,27 +66,53 @@ public class Bullets extends Sprite
     {
 
         sped += this.speed;
-        setPosition(position.x+sped, position.y); //update position of texture
+        setPosition(Initial_Position.x+sped, Initial_Position.y); //update position of texture
 
         //attach physics body for collision
-        physicsBodyBullet.setTransform(position.x+sped,position.y,0);
+        physicsBodyBullet.setTransform(Initial_Position.x+sped, Initial_Position.y,0);
 
-        if (physicsBodyBullet.getPosition().x > (Gdx.graphics.getWidth() + 300 )/ Khartoosha.PPM) // add if in the negative side l8r
-        {
-            remove = true;
-        }
 
         //remove bullet on contact
-        if (isContacted || remove)
+        if (isContacted || isOutOfMap())
         {
-            remove = true;
-            physicsBodyBullet.destroyFixture(physicsBodyBullet.getFixtureList().first());
-
-            isContacted = false;
-            bul.dispose();
+            remove();
         }
 
     }
 
+    public Vector2 getInitialPosition()
+    {
+        return Initial_Position;
+    }
+
+    public Vector2 getCurrentPosition()
+    {
+        return physicsBodyBullet.getPosition();
+    }
+
+
+    public void remove()
+    {
+        physicsBodyBullet.destroyFixture(physicsBodyBullet.getFixtureList().first());
+        remove = true;
+        isContacted = false;
+        Bullet_Texture.dispose();
+    }
+
+    private boolean isOutOfMap()
+    {
+        return getCurrentPosition().x > (Gdx.graphics.getWidth() + 300 )/ Khartoosha.PPM
+                ||
+               getCurrentPosition().x < -300 / Khartoosha.PPM;
+    }
+
+    protected boolean isOutOfRange(float range)
+    {
+        float current_x = getCurrentPosition().x;
+        float initial_x = getInitialPosition().x;
+        float distance = Math.abs(current_x - initial_x);
+
+        return distance >= range;
+    }
 
 }

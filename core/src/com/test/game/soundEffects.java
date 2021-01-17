@@ -3,9 +3,10 @@ package com.test.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
-public class soundEffects {
+public class soundEffects
+{
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
-    private static Sound sniper,pistol,mg,sniperR,pistolR,mgR;
+    private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
 
 
     public soundEffects() {
@@ -16,13 +17,13 @@ public class soundEffects {
         powerUp = Gdx.audio.newSound(Gdx.files.internal("sfx/powerUp.ogg"));
         gameOver = Gdx.audio.newSound(Gdx.files.internal("sfx/menu/gameOver.ogg"));
 
-       pistol = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
-       sniper = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
-       mg = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
-
-        pistolR = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/reload.ogg"));
-        sniperR = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/reload.ogg"));
-        mgR = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/reload.ogg"));
+       pistolShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
+       sniperShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
+       mgShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
+       shotgunShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/shotgun/shoot.ogg"));
+        pistolReload = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/reload.ogg"));
+        sniperReload = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/reload.ogg"));
+        mgReload = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/reload.ogg"));
 
 
     }
@@ -48,24 +49,29 @@ public class soundEffects {
     }
 
     public static void pistolReload() {
-        pistolR.play();
+        pistolReload.play();
     }
     public static void sniperReload() {
-       sniperR.play();
+       sniperReload.play();
     }
     public static void mgReload() {
-        mgR.play();
+        mgReload.play();
     }
 
     public static void pistolFire() {
-        pistol.play();
+        pistolShoot.play();
     }
     public static void sniperFire() {
-        sniper.play();
+        sniperShoot.play();
     }
     public static void mgFire() {
-        mg.play();
+        mgShoot.play();
     }
+    public static void shotgunFire()
+    {
+        shotgunShoot.play();
+    }
+
 
     public void dispose(){}
 }
