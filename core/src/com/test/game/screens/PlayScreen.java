@@ -16,6 +16,8 @@ import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
 import com.test.game.sprites.PowerUps.*;
 
+import java.util.Random;
+
 
 public class PlayScreen implements Screen
 {
@@ -49,9 +51,12 @@ public class PlayScreen implements Screen
     {
         this.game = game;
 
+        Khartoosha.menuMusic.stop();
+        Khartoosha.menuMusic.dispose();
+
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         gameMusic.setLooping(true);
-        gameMusic.setVolume(0.5f);
+        gameMusic.setVolume(Khartoosha.musicVolume);
         gameMusic.play();
 
         
@@ -93,6 +98,10 @@ public class PlayScreen implements Screen
         this(game, mapNum);
         character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
+        Random rand = new Random();
+        character2 = new Character(box2dWorld, this,  rand.nextInt(3),false, true);
+        character1.setEnemy(character2);
+        character2.setEnemy(character1);
     }
 
     // 2 Players constructor
@@ -100,7 +109,7 @@ public class PlayScreen implements Screen
     {
         this(game, mapNum);
         character1 = new Character(box2dWorld, this,  char1Num,true, false);
-        character2 = new Character(box2dWorld, this,  char2Num,false, true);
+        character2 = new Character(box2dWorld, this,  char2Num,false, false);
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);

@@ -7,7 +7,7 @@ public class soundEffects {
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniper,pistol,mg,sniperR,pistolR,mgR;
 
-    private static float soundLevel =1;
+    public static float soundVolume =1;
 
     public soundEffects() {
 
@@ -17,9 +17,9 @@ public class soundEffects {
         powerUp = Gdx.audio.newSound(Gdx.files.internal("sfx/powerUp.ogg"));
         gameOver = Gdx.audio.newSound(Gdx.files.internal("sfx/menu/gameOver.ogg"));
 
-       pistol = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
-       sniper = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
-       mg = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
+        pistol = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
+        sniper = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
+        mg = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
 
         pistolR = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/reload.ogg"));
         sniperR = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/reload.ogg"));
@@ -29,19 +29,19 @@ public class soundEffects {
     }
 
     public static void player1Grunt() {
-        player1Grunt.play(soundLevel);
+        player1Grunt.play(soundVolume);
     }
 
     public static void player2Grunt() {
-        player2Grunt.play(soundLevel);
+        player2Grunt.play(soundVolume);
     }
 
     public static void click() {
-        click.play(soundLevel);
+        click.play(soundVolume);
     }
 
     public static void powerUp() {
-        powerUp.play(soundLevel);
+        powerUp.play(soundVolume);
     }
 
     public static void gameOver() {
@@ -49,24 +49,36 @@ public class soundEffects {
     }
 
     public static void pistolReload() {
-        pistolR.play(soundLevel);
+        pistolR.play(soundVolume);
     }
     public static void sniperReload() {
-       sniperR.play(soundLevel);
+       sniperR.play(soundVolume);
     }
     public static void mgReload() {
-        mgR.play(soundLevel);
+        mgR.play(soundVolume);
     }
 
     public static void pistolFire() {
-        pistol.play(soundLevel);
+        pistol.play(soundVolume);
     }
     public static void sniperFire() {
-        sniper.play(soundLevel);
+        sniper.play(soundVolume);
     }
     public static void mgFire() {
-        mg.play(soundLevel);
+        mg.play(soundVolume);
     }
 
-    public void dispose(){}
+    public void dispose(){
+        sniper.dispose();
+        pistol.dispose();
+        mg.dispose();
+        sniperR.dispose();
+        pistolR.dispose();
+        mgR.dispose();
+        player1Grunt.dispose();
+        player2Grunt.dispose();
+        click.dispose();
+        gameOver.dispose();
+        powerUp.dispose();
+    }
 }
