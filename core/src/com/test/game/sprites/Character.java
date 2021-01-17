@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.test.game.AI;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
+import com.test.game.soundEffects;
 
 
 import java.util.Random;
@@ -21,6 +23,8 @@ public class Character extends Sprite
     // Physics world
     public World world;
     public Body physicsBody;
+    public final int SHAPE_WIDTH = 15;
+    public final int SHAPE_HEIGHT = 40;
 
     public TextureRegion idle,jumping;
     private AnimationManager animationManager;
@@ -32,7 +36,6 @@ public class Character extends Sprite
     private final float DEFAULT_SPEED = 2;
     public float speedCap = DEFAULT_SPEED;
     private float speedScale = 0.4f;
-    private float jumpScale = 4;
     public int ALLOWED_JUMPS = 2;
 
     private final int  MAX_LIVES = 5;
@@ -53,14 +56,15 @@ public class Character extends Sprite
     private final int CHARACTER_ID;
 
 
+
     // attaching weapon to character
     public Weapon currentWeapon;
-    // Hit timer (logic explained in start Hit timer function)
-    private final int MAX_HIT_TIMER = 4;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
 
     private Character enemy;
+    private boolean isAI;
+    private AI ai;
 
 
     /*
@@ -73,19 +77,20 @@ public class Character extends Sprite
     private void loadCharacter(int TextureNumber)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 235, 188, 235);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 188),(TextureNumber-1)* 235, 188, 235);
+        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 471, 374, 471);
+        this.jumping =  new TextureRegion(getTexture(),(4 * 374),(TextureNumber-1)* 471, 374, 471);
 
-        setBounds(0,0, 120 /Khartoosha.PPM, 151 /Khartoosha.PPM);
+        setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen, int TextureNumber, boolean player1)
+    public Character(World world, PlayScreen screen, int TextureNumber, boolean player1, boolean isAI)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
         this.screen = screen;
         this.TextureNumber = TextureNumber;
+        this.isAI = isAI;
 
 
         NUMBER_OF_CHARACTERS++;
@@ -129,7 +134,7 @@ public class Character extends Sprite
         }
         else
         {
-            bodyDefinition.position.set(650 / Khartoosha.PPM, 200/ Khartoosha.PPM);
+            bodyDefinition.position.set(800 / Khartoosha.PPM, 200/ Khartoosha.PPM);
         }
 
         bodyDefinition.type = BodyDef.BodyType.DynamicBody;
@@ -137,7 +142,7 @@ public class Character extends Sprite
 
         FixtureDef fixtureDefinition = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(15 / Khartoosha.PPM, 40 / Khartoosha.PPM);
+        shape.setAsBox(SHAPE_WIDTH / Khartoosha.PPM, SHAPE_HEIGHT / Khartoosha.PPM);
         fixtureDefinition.shape = shape;
         fixtureDefinition.friction = 3;
         physicsBody.createFixture(fixtureDefinition).setUserData(this);
@@ -146,11 +151,15 @@ public class Character extends Sprite
 
     public void update(float delta)
     {
+        delta = Gdx.graphics.getDeltaTime();
+
         handleInput();
         currentWeapon.update(delta);
-        setPosition(physicsBody.getPosition().x-getWidth()/5, physicsBody.getPosition().y-getHeight()/3);
+        setPosition((float) (physicsBody.getPosition().x- (2.5)*getWidth()/5), physicsBody.getPosition().y-getHeight()/3);
 
         //if body falls, reset position and decrease lives
+        // Hit timer (logic explained in start Hit timer function)
+        int MAX_HIT_TIMER = 4;
         if (physicsBody.getPosition().y < -800/Khartoosha.PPM)
         {
             Random rand = new Random();
@@ -158,6 +167,7 @@ public class Character extends Sprite
             physicsBody.setLinearVelocity(new Vector2(0,0));
             physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
+            takeDamage();
 
 
             //don't upgrade opponent on self kill
@@ -181,6 +191,7 @@ public class Character extends Sprite
         {
             System.out.println("Player " + TextureNumber + " lost");
             current_lives = MAX_LIVES;
+            soundEffects.gameOver();
             //TODO: reset game
         }
 
@@ -224,19 +235,34 @@ public class Character extends Sprite
             currentWeapon.faceRight = true;
         }
 
+        if (isAI)
+            ai.update(delta);
+
 
     }
 
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
 
 
-    private void jump()
+
+    public void takeDamage(){
+        if (CHARACTER_ID==1)
+            soundEffects.player1Grunt();
+        else
+            soundEffects.player2Grunt();
+    }
+    public void jump()
     {
-        this.physicsBody.setLinearVelocity(new Vector2(0, 0));
-        this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
+        if (ALLOWED_JUMPS != 0)
+        {
+            ALLOWED_JUMPS--;
+            this.physicsBody.setLinearVelocity(new Vector2(0, 0));
+            float jumpScale = 4;
+            this.physicsBody.applyLinearImpulse(new Vector2(0, jumpScale), this.physicsBody.getWorldCenter(), true);
+        }
     }
 
-    private void moveRight()
+    public void moveRight()
     {
         if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
@@ -244,7 +270,7 @@ public class Character extends Sprite
         }
     }
 
-    private void moveLeft()
+    public void moveLeft()
     {
         if (this.physicsBody.getLinearVelocity().x >= -speedCap)
         {
@@ -253,7 +279,7 @@ public class Character extends Sprite
 
     }
 
-    private void moveDown()
+    public void moveDown()
     {
         this.physicsBody.setAwake(true);
         isGoingDown = true;
@@ -261,10 +287,9 @@ public class Character extends Sprite
 
     public void handleInput()
     {
-        if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[0]) && ALLOWED_JUMPS != 0)
+        if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[0]))
         {
             jump();
-            ALLOWED_JUMPS--;
         }
         if (Gdx.input.isKeyPressed(CHARACTER_CONTROLS[1]))
         {
@@ -288,13 +313,13 @@ public class Character extends Sprite
 
     public void dispose()
     {
-
     }
-
     // Speed boost pup
     public void setSpeedCap(float speedCap)
     {
-        this.speedCap *= speedCap;
+        // prevent stacking of speed boosts more than twice
+        if (this.speedCap < DEFAULT_SPEED * speedCap * 2)
+            this.speedCap *= speedCap;
     }
 
     public void resetSpeedCap() {
@@ -304,7 +329,14 @@ public class Character extends Sprite
     public void setEnemy(Character enemy)
     {
         this.enemy = enemy;
+
+        // if wondering about placement here check comment above the function
+        if (isAI)
+            initAI();
     }
+    public Character getEnemy() {return this.enemy;}
+
+    public int getMAX_LIVES() {return  this.MAX_LIVES;}
 
 
 
@@ -331,6 +363,14 @@ public class Character extends Sprite
         currentWeapon.draw(Khartoosha.batch);
         currentWeapon.render(Khartoosha.batch);
 
+    }
+
+    // Had to be done separately not in the constructor because the AI needs the character
+    // to have an enemy assigned and since the set enemy is done separately this had to be
+    // separated too
+    private void initAI()
+    {
+        ai = new AI(this, 1f);
     }
 
 }

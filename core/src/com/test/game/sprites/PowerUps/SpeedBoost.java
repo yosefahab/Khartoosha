@@ -1,8 +1,6 @@
 package com.test.game.sprites.PowerUps;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,19 +8,17 @@ import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Character;
 
+/**
+ * Increases Character's speed by a certain factor
+ */
 public class SpeedBoost  extends PowerUp
 {
-    public final int type = 0;
 
-
-    // a random number less than max_rate is generated if it's larger than spawn_rate then it's spawned
-    // probability of spawn = (maxrate - spawnrate) / max_rate
-    private final int spawnRate = 9980, maxRate = 10000;
 
     // the scale which the speed of character is multiplied by
     private final float speedBoost = 2.0f;
 
-    private final float MAX_TIME = 10;
+
     private TextureRegion powerupTexture;
 
 
@@ -31,9 +27,9 @@ public class SpeedBoost  extends PowerUp
     public SpeedBoost(World world, PlayScreen screen)
     {
 
-        super(world,screen.GetAtlas().findRegion("armorPowerup"));
+        super(world,screen.GetAtlas().findRegion("armorPowerup"), 9980, 10000, 10);
 
-        this.powerupTexture = new TextureRegion(getTexture(),100,0, 100, 100);
+        this.powerupTexture = new TextureRegion(getTexture(),435,0, 435, 418);
         setBounds(0,0, 35 /Khartoosha.PPM, 35 /Khartoosha.PPM);
         setRegion(powerupTexture);
 
@@ -50,20 +46,6 @@ public class SpeedBoost  extends PowerUp
 
 
     @Override
-    public void spawn() {
-
-        // if not spawned and not active spawn it
-        if (!isSpawned() && !isActive() && rand.nextInt(maxRate) > spawnRate)
-        {
-            pupBody.setType(BodyDef.BodyType.DynamicBody);
-            setSpawned(true);
-            currentPups++;
-        }
-    }
-
-
-
-    @Override
     public void effect(Character player) {
         //activate
         setActive(true);
@@ -75,30 +57,6 @@ public class SpeedBoost  extends PowerUp
 
     }
 
-
-    @Override
-    public void update()
-    {
-        if (pupBody.getPosition().y < - 2)
-            resetPupPosition();
-        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
-
-        if (isContacted)
-        {
-            effect(attachedChar);
-            isContacted = false;
-        }
-        if (isActive())
-        {
-            active_time += Gdx.graphics.getDeltaTime();
-            if (active_time > MAX_TIME)
-            {
-                reset();
-            }
-
-        }
-
-    }
 
     @Override
     public void reset() {

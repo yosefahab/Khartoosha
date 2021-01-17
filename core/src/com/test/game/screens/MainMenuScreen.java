@@ -4,18 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MenuBG;
 import com.test.game.menu.MenuTextureDimDynamic;
-import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
+import com.test.game.soundEffects;
 
 public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
 {
     private static final int PLAY_BUTTON_WIDTH = 340;
     private static final int PLAY_BUTTON_HEIGHT = 145;
-    private static final int PLAY_BUTTON_Y = (int) (Khartoosha.Gheight - 160);
+    private static final int PLAY_BUTTON_Y = (int) (Khartoosha.Gheight - 260);
     private static final int PLAY_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (PLAY_BUTTON_WIDTH / 2));
 
     private static final int SETTINGS_BUTTON_WIDTH = 300;
@@ -50,6 +49,8 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     
     void handleKeyboard(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+            soundEffects.click();
+
             if(currDynamicTexture <= 1){
                 currDynamicTexture = NUM_OF_DYNAMIC_TEXTURES;
             } else {
@@ -57,6 +58,8 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+            soundEffects.click();
+
             if(currDynamicTexture >= NUM_OF_DYNAMIC_TEXTURES){
                 currDynamicTexture = 1;
             } else {
@@ -69,11 +72,13 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);
+            soundEffects.click();
         }
     }
 
     @Override
-    public void chosenTexture(int dynamicTextureNum){
+    public void chosenTexture(int dynamicTextureNum)
+    {
         if(dynamicTextureNum == 1) { //if play is clicked
             this.dispose();
             game.setScreen(new PlayMenuScreen(game));
@@ -90,7 +95,6 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     public void drawStatic() {
         //No static textures
     }
-
     @Override
     public void checkBoundsAndDrawDynamic(MenuTextureDimDynamic[]dim, int dynamicTextureNum)
     {

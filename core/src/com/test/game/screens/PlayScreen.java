@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -42,6 +41,7 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
+
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
@@ -54,6 +54,7 @@ public class PlayScreen implements Screen
 
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
+
 
         // Initialize map
         map = new Map(box2dWorld);
@@ -81,7 +82,7 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
     }
 
@@ -89,8 +90,8 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true);
-        character2 = new Character(box2dWorld, this,  char2Num,false);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false);
+        character2 = new Character(box2dWorld, this,  char2Num,false, true);
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);
@@ -181,6 +182,7 @@ public class PlayScreen implements Screen
             if(goToMainMenu)
             {
                 //this.dispose();
+
                 game.setScreen(new MainMenuScreen(game));
             }
             PauseMenu.displayPauseScreen(game,camera,this);

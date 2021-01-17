@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Weapons.Bullets;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.Armor;
 import com.test.game.sprites.PowerUps.PowerUp;
 
 public class WorldContactListener implements com.badlogic.gdx.physics.box2d.ContactListener
@@ -17,7 +18,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o2 = contact.getFixtureB().getUserData();
 
         if (o2 instanceof Character && o1 instanceof Body)
-            beginContactCHARACTERxPlatform(o1, o2);
+            beginContactCHARACTERxPlatform(o2);
 
 
         if ((o1 instanceof Character && o2 instanceof PowerUp))
@@ -32,32 +33,29 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Bullets bullet = (Bullets) o1;
             bullet.isContacted = true;
             Character character = (Character) o2;
-            if (!character.isArmored)
-            {
-                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+            float hitForce =  bullet.force;
 
-                //only start hit timer when not shielded
-                character.startHitTimer();
-            }
+            character.takeDamage();
 
+            if (character.isArmored)
+                hitForce *= Armor.ARMOR_VALUE;
 
-
+            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.startHitTimer();
         }
         else if (o2 instanceof Bullets && o1 instanceof Character)
         {
             Bullets bullet = (Bullets) o2;
-            bullet.isContacted = true;
-
             Character character = (Character) o1;
+            bullet.isContacted = true;
+            float hitForce =  bullet.force;
 
-            if (!character.isArmored)
-            {
-                character.physicsBody.applyForce(new Vector2(bullet.force,0), character.physicsBody.getWorldCenter(), true);
+            character.takeDamage();
+            if (character.isArmored)
+                hitForce *= Armor.ARMOR_VALUE;
 
-                //only start hit timer when not shielded
-                character.startHitTimer();
-            }
-
+            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.startHitTimer();
 
         }
 
@@ -86,7 +84,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o2 = contact.getFixtureB().getUserData();
 
         if (o2 instanceof Character && o1 instanceof Body)
-            preSolveCHARACTERxPlatform(o1, o2, contact);
+            preSolveCHARACTERxPlatform(o2, contact);
 
 
         if (o1 instanceof Character && o2 instanceof Character)
@@ -109,10 +107,15 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
                 ((PowerUp) o2).platforms_To_Skip--;
                 contact.setEnabled(false);
             }
-
         }
 
-        //Disable  PUP collision before spawning
+        if (o1 instanceof PowerUp && o2 instanceof Bullets)
+        {
+            contact.setEnabled(false);
+        }
+
+
+        // Disable  PUP collision before spawning
         if ((o1 instanceof Character && o2 instanceof PowerUp)) {
             if (!((PowerUp) o2).isSpawned())
                 contact.setEnabled(false);
@@ -147,26 +150,25 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         {
             p.setContacted(true);
             p.attachedChar = character;
+            soundEffects.powerUp();
             //System.out.println("Pup char contact 1");
         }
 
     }
 
 
-    private void beginContactCHARACTERxPlatform (Object o1, Object o2)
+    private void beginContactCHARACTERxPlatform (Object o2)
     {
         // Reset ALLOWED_JUMPS on contact with ground
-        Character c = (Character) o2;
         ((Character) o2).ALLOWED_JUMPS = 2;
     }
 
 
-    private void preSolveCHARACTERxPlatform (Object o1, Object o2, Contact contact)
+    private void preSolveCHARACTERxPlatform (Object o2, Contact contact)
     {
 
-        Character c = (Character) o2;
         // Jumping or going down --> No contact
-        if (c.physicsBody.getLinearVelocity().y > 0 || c.isGoingDown)
+        if (((Character) o2).physicsBody.getLinearVelocity().y > 0 || ((Character) o2).isGoingDown)
         {
             contact.setEnabled(false);
         }

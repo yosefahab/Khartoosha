@@ -16,8 +16,8 @@ public class Camera
     private final float worldHight = Khartoosha.Gheight;
 
     // Camera positioning should work correctly as long as these values are correct
-    private final float mapWIDTH = 992;
-    private final float mapHEIGHT = 672;
+    private final float mapWIDTH = 1120;
+    private final float mapHEIGHT = 800;
     boolean bound = true;
 
 
@@ -51,12 +51,10 @@ public class Camera
         float camY = gameCam.position.y;
 
 
-
-
-
         // Cam Debug Mode
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0))
         {
+
             bound = !bound;
             System.out.println("Camera Bound " + bound);
         }
@@ -81,6 +79,9 @@ public class Camera
             viewport.setWorldHeight(viewport.getWorldHeight() + 0.1f);
             viewport.setWorldWidth(viewport.getWorldWidth() + (0.1f* Khartoosha.Gwidth / Khartoosha.Gheight)  );
             viewport.apply();
+            System.out.println(viewport.getWorldWidth());
+            System.out.println(viewport.getWorldHeight());
+
         }
 
 

@@ -28,11 +28,13 @@ public class PowerUpsHandler
     public void init()
     {
         PUPs[0] = new SpeedBoost(box2dWorld,playScreen);
-        PUPs[1] = new SpeedBoost(box2dWorld,playScreen);
+        PUPs[1] = new UpgradeWeapon(box2dWorld,playScreen);
         PUPs[2] = new Armor(box2dWorld,playScreen);
         PUPs[3] = new ExtraLife(box2dWorld,playScreen);
         PUPs[4] = new RefillAmmo(box2dWorld,playScreen);
-        PUPs[5] = new RefillAmmo(box2dWorld,playScreen);
+
+
+
 
     }
 
