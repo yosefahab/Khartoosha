@@ -40,7 +40,7 @@ public class WeaponManager
     protected static void initShotgun(Weapon weapon)
     {
         weapon.MAX_AMMO = 10;
-        weapon.FORCE = 1000;
+        weapon.FORCE = 1500;
         weapon.BULLET_SPEED = 0.1F;
         weapon.FIRING_RATE = 1;
         weapon.TEXTURE_IDLE = new Texture("vfx/weapons/shotgun/idle.png");

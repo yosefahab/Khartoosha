@@ -93,6 +93,7 @@ public class Bullet extends Sprite
 
     public void remove()
     {
+        if (!physicsBodyBullet.getFixtureList().isEmpty())
         physicsBodyBullet.destroyFixture(physicsBodyBullet.getFixtureList().first());
         remove = true;
         isContacted = false;
