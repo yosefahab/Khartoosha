@@ -8,7 +8,7 @@ import com.test.game.Khartoosha;
 import com.test.game.menu.MenuBG;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
 {
@@ -50,7 +50,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     
     void handleKeyboard(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            soundEffects.click();
+            soundsManager.click();
 
             if(currDynamicTexture <= 1){
                 currDynamicTexture = NUM_OF_DYNAMIC_TEXTURES;
@@ -59,7 +59,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
-            soundEffects.click();
+            soundsManager.click();
 
             if(currDynamicTexture >= NUM_OF_DYNAMIC_TEXTURES){
                 currDynamicTexture = 1;
@@ -73,7 +73,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);
-            soundEffects.click();
+            soundsManager.click();
         }
     }
 
@@ -108,7 +108,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
             Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
-                soundEffects.click();
+                soundsManager.click();
             }
         } else if(!(Gdx.input.getX() < dim[dynamicTextureNum].getX() + dim[dynamicTextureNum].getWIDTH() && Gdx.input.getX() > dim[dynamicTextureNum].getX()
             && Khartoosha.Gheight - Gdx.input.getY() < dim[dynamicTextureNum].getY() + dim[dynamicTextureNum].getHEIGHT()

@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 import com.test.game.sprites.Character;
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Weapon extends Sprite
 {
     Vector2 position;
-    ArrayList<Bullets> bullets;
+    ArrayList<Bullet> bullets;
     World box2dWorld;
     PlayScreen screen;
     BodyDef weaponBody= new BodyDef();
@@ -38,7 +38,7 @@ public class Weapon extends Sprite
     private float yPos;
     private boolean stopFalling=false;
 
-    public final static int MAX_TYPE = 2;
+    public final static int MAX_TYPE = 3;
     private int CURRENT_AMMO;
     protected int MAX_AMMO;
     protected int FORCE;
@@ -86,13 +86,19 @@ public class Weapon extends Sprite
             stopFalling=true;
         if (!stopFalling)
             yPos-=0.098f;
-        ArrayList<Bullets> bulletsToBeRemoved = new ArrayList<>();
-        for(Bullets bullet:bullets )
+        ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
+
+        for(Bullet bullet:bullets )
         {
             bullet.update(Gdx.graphics.getDeltaTime());
-            if (bullet.remove)
-                bulletsToBeRemoved.add(bullet);
 
+            if (type == 3 && bullet.isOutOfRange(WeaponManager.SHOTGUN_RANGE))
+                bullet.remove();
+
+            if (bullet.remove)
+            {
+                bulletsToBeRemoved.add(bullet);
+            }
         }
         bullets.removeAll(bulletsToBeRemoved);
 
@@ -111,12 +117,13 @@ public class Weapon extends Sprite
         else if (shootingTimer > 0.4f)
             setTexture(TEXTURE_IDLE);
 
-        for(Bullets bullet:bullets)
+        for(Bullet bullet:bullets)
         {
             if (bulletFlipped)
             {
                 bullet.setFlip(true,false);
             }
+            if (type != 3)
             bullet.draw(sb);
         }
 
@@ -142,14 +149,15 @@ public class Weapon extends Sprite
         switch (type)
         {
             case 0: WeaponManager.initPistol(this);
-            soundEffects.pistolReload();
-            break;
+                soundsManager.pistolReload();
+                break;
             case 1: WeaponManager.initMG(this);
-            soundEffects.mgReload();
-            break;
+                soundsManager.mgReload();
+                break;
             case 2: WeaponManager.initSniper(this);
-            soundEffects.sniperReload();
-            break;
+                soundsManager.sniperReload();
+                break;
+            case 3: WeaponManager.initShotgun(this);
         }
         CURRENT_AMMO = MAX_AMMO;
 
@@ -167,14 +175,16 @@ public class Weapon extends Sprite
             switch (type)
             {
                 case 0:
-                    soundEffects.pistolFire();
+                    soundsManager.pistolFire();
                     break;
                 case 1:
-                    soundEffects.mgFire();
+                    soundsManager.mgFire();
                     break;
                 case 2:
-                    soundEffects.sniperFire();
+                    soundsManager.sniperFire();
                     break;
+                case 3:
+                    soundsManager.shotgunFire();
             }
             keyPressTimer = 0;
             shootingTimer = 0;
@@ -193,17 +203,19 @@ public class Weapon extends Sprite
 
             if (faceRight) {
                 bulletFlipped = false;
-                bullets.add(new Bullets(box2dWorld,new Vector2(position.x+0.4f,position.y+0.4f), BULLET_SPEED, FORCE) );
+                bullets.add(new Bullet(box2dWorld,new Vector2(position.x+0.4f,position.y+0.4f), BULLET_SPEED, FORCE) );
 
             }
             else
             {
                 bulletFlipped = true;
-                bullets.add(new Bullets(box2dWorld,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
+                bullets.add(new Bullet(box2dWorld,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
             }
 
         }
 
     }
+
+
 
 }

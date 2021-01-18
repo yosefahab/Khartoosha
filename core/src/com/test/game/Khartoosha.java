@@ -1,7 +1,6 @@
 package com.test.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.test.game.screens.MainMenuScreen;
@@ -22,9 +21,10 @@ public class Khartoosha extends Game
 
 	public static SpriteBatch batch;
 
-	public soundEffects soundManager;
+	public soundsManager soundManager;
 	public static Music menuMusic;
 	public static float musicVolume = DEFAULT_MUSIC_VOL;
+
 	@Override
 	public void create ()
 	{
@@ -33,12 +33,9 @@ public class Khartoosha extends Game
 
 		//musicVolume = DEFAULT_MUSIC_VOL;
 
-		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		menuMusic.setLooping(true);
-		menuMusic.setVolume(musicVolume);
-		menuMusic.play();
+		soundManager = new soundsManager();
 
-		soundManager = new soundEffects();
+		soundsManager.playMenuMusic();
 
 		this.setScreen(new MainMenuScreen(this));
 		//this.setScreen(new PlayScreen(this, 1, 1, 2));

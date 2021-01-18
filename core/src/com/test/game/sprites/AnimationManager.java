@@ -28,10 +28,10 @@ public class AnimationManager {
     //@param charNum number of character in pack image, depends on which character selected
     public Animation<TextureRegion> runAnimation(int charNum){
         frames = new Array<>();
-        for (int i=1;i<4;i++){
-            frames.add(new TextureRegion(this.texture, (i * 188),(charNum-1)*235,188,235 ));
+        for (int i=1;i<7;i++){
+            frames.add(new TextureRegion(this.texture, (i * 513),(charNum-1)*637,513,637 ));
         }
-        return new Animation<> (player.speedCap*0.1f,frames);
+        return new Animation<> (player.speedCap*0.08f,frames);
     }
 
     public TextureRegion getFrame(float delta){

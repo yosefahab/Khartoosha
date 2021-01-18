@@ -33,6 +33,11 @@ public class PowerUpsHandler
         PUPs[3] = new ExtraLife(box2dWorld,playScreen);
         PUPs[4] = new RefillAmmo(box2dWorld,playScreen);
 
+//        for (int i = 0; i < 5; i++)
+//        {
+//            PUPs[i]  = new SpeedBoost(box2dWorld,playScreen);
+//        }
+
 
 
 

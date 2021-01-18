@@ -11,7 +11,7 @@ import com.test.game.menu.MenuTextureDim;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 
 public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
@@ -91,13 +91,13 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
         dynamicTextures[2] = new MenuTextureDimDynamic(SOUNDFX_WIDTH,SOUNDFX_HEIGHT,SOUNDFX_Y,SOUNDFX_X,dynamicTextureNames[2]);
         dynamicTextures[NUM_OF_DYNAMIC_TEXTURES] = new MenuTextureDimDynamic(BACK_BUTTON_WIDTH,BACK_BUTTON_HEIGHT,BACK_BUTTON_Y,BACK_BUTTON_X,dynamicTextureNames[NUM_OF_DYNAMIC_TEXTURES]);
         
-        //setting the on off buttons according to the set values in Khartoosha(music) and soundEffects(sfx vol)
+        //setting the on off buttons according to the set values in Khartoosha(music) and soundsManager(sfx vol)
         if(Khartoosha.musicVolume > 0f){
             isOn[1] = true;
         } else{
             isOn[1] = false;
         }
-        if (soundEffects.soundVolume > 0f){
+        if (soundsManager.soundVolume > 0f){
             isOn[2] = true;
         } else{
             isOn[2] = false;
@@ -114,7 +114,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             chosenTexture(NUM_OF_DYNAMIC_TEXTURES); //click back
-            soundEffects.click();
+            soundsManager.click();
 
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -176,9 +176,10 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
         }
         if (onOffTextureNum == 2) { //if its music onOff button
             if (isOn[onOffTextureNum]){
-                soundEffects.soundVolume = soundEffects.DEFAULT_SOUND_VOL;
+               //TODO:MENUSTUFF
+                // soundsManager.soundVolume = soundsManager.DEFAULT_SOUND_VOL;
             } else{
-                soundEffects.soundVolume = 0f;
+                soundsManager.soundVolume = 0f;
             }
         }
     }
@@ -201,7 +202,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
                 Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     chosenTexture(dynamicTextureNum);
-                    soundEffects.click();
+                    soundsManager.click();
 
                 }
             } else {
@@ -213,10 +214,10 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
     public void checkBoundsAndDrawOnOff(MenuTextureDim[] dim){
         for (int onOffTextureNum = 1; onOffTextureNum <= NUM_OF_ON_OFF_BUTTONS; onOffTextureNum++) {
             if(isOn[onOffTextureNum]){
-                soundEffects.soundVolume =1;
+                soundsManager.soundVolume =1;
                 Khartoosha.batch.draw(on, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             } else {
-                soundEffects.soundVolume =0;
+                soundsManager.soundVolume =0;
                 Khartoosha.batch.draw(off, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             }
 
@@ -226,7 +227,11 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
             ) {
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     chosenOnOff(onOffTextureNum);
-                    soundEffects.click();
+                    soundsManager.click();
+
+                   /* isOn[onOffTextureNum] = !isOn[onOffTextureNum];
+                    soundsManager.click();*/
+
 
                 }
             }
@@ -235,7 +240,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
 
     void handleKeyboard(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            soundEffects.click();
+            soundsManager.click();
             if(currDynamicTexture <= 1){
                 currDynamicTexture = NUM_OF_DYNAMIC_TEXTURES;
             } else {
@@ -243,7 +248,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
-            soundEffects.click();
+            soundsManager.click();
 
             if(currDynamicTexture >= NUM_OF_DYNAMIC_TEXTURES){
                 currDynamicTexture = 1;
@@ -257,7 +262,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);
-            soundEffects.click();
+            soundsManager.click();
         }
     }
     private void toggleSettingsValue(int onOffTextureNum){

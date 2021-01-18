@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuBG;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTextures
 {
@@ -247,8 +246,13 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             Khartoosha.batch.draw(dim[charNum].getInActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
 
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+<<<<<<< HEAD
                 chosenCharacter(charNum);
                 soundEffects.click();
+=======
+                chosenTexture(charNum);
+                soundsManager.click();
+>>>>>>> 3071c8b1d83d1b6fd3454464c0f04c6f42509f69
             }
         }
         else {
