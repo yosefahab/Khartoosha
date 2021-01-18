@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 public class soundEffects {
+    public static final float DEFAULT_SOUND_VOL = 1f;
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniper,pistol,mg,sniperR,pistolR,mgR;
 
-    public static float soundVolume =1;
+    public static float soundVolume = DEFAULT_SOUND_VOL;
 
     public soundEffects() {
 

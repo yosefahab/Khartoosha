@@ -18,5 +18,6 @@ public class MenuBG {
         }
         game.batch.draw(bg, -bgOffset,0, 900, Khartoosha.Gheight);
         game.batch.draw(bg, -bgOffset + 900,0, 900,Khartoosha.Gheight);
+        game.batch.draw(bg, -bgOffset + 900 + 900 ,0, 900,Khartoosha.Gheight);
     }
 }

@@ -12,6 +12,7 @@ public class Khartoosha extends Game
 	public static final float Gwidth= 1000, Gheight = 680;
 	public static final String title = "Khartoosha";
 	public static final int NUM_OF_CHARS = 3; //number of characters in the game
+	public static final float DEFAULT_MUSIC_VOL = 0.7f;
 
 	// Pixel per meter, used for scaling objects wrt Box2D default scaling
 	public static final float PPM = 100;
@@ -23,14 +24,14 @@ public class Khartoosha extends Game
 
 	public soundEffects soundManager;
 	public static Music menuMusic;
-	public static float musicVolume;
+	public static float musicVolume = DEFAULT_MUSIC_VOL;
 	@Override
 	public void create ()
 	{
 
 		batch = new SpriteBatch();
 
-		musicVolume=1.0f;
+		//musicVolume = DEFAULT_MUSIC_VOL;
 
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
 		menuMusic.setLooping(true);
