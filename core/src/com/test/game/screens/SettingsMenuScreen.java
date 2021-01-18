@@ -11,7 +11,7 @@ import com.test.game.menu.MenuTextureDim;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 
 public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
@@ -103,7 +103,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             chosenTexture(1); //click back
-            soundEffects.click();
+            soundsManager.click();
 
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -166,7 +166,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
                 Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     chosenTexture(dynamicTextureNum);
-                    soundEffects.click();
+                    soundsManager.click();
 
                 }
             } else {
@@ -178,10 +178,10 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
     public void checkBoundsAndDrawOnOff(MenuTextureDim[] dim){
         for (int onOffTextureNum = 1; onOffTextureNum <= NUM_OF_ON_OFF_BUTTONS; onOffTextureNum++) {
             if(isOn[onOffTextureNum]){
-                soundEffects.soundVolume =1;
+                soundsManager.soundVolume =1;
                 Khartoosha.batch.draw(on, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             } else {
-                soundEffects.soundVolume =0;
+                soundsManager.soundVolume =0;
                 Khartoosha.batch.draw(off, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             }
 
@@ -191,7 +191,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
             ) {
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     isOn[onOffTextureNum] = !isOn[onOffTextureNum];
-                    soundEffects.click();
+                    soundsManager.click();
 
                 }
             }

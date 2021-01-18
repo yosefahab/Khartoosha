@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 import com.test.game.sprites.Character;
 import java.util.ArrayList;
 
@@ -149,13 +149,13 @@ public class Weapon extends Sprite
         switch (type)
         {
             case 0: WeaponManager.initPistol(this);
-                soundEffects.pistolReload();
+                soundsManager.pistolReload();
                 break;
             case 1: WeaponManager.initMG(this);
-                soundEffects.mgReload();
+                soundsManager.mgReload();
                 break;
             case 2: WeaponManager.initSniper(this);
-                soundEffects.sniperReload();
+                soundsManager.sniperReload();
                 break;
             case 3: WeaponManager.initShotgun(this);
         }
@@ -175,16 +175,16 @@ public class Weapon extends Sprite
             switch (type)
             {
                 case 0:
-                    soundEffects.pistolFire();
+                    soundsManager.pistolFire();
                     break;
                 case 1:
-                    soundEffects.mgFire();
+                    soundsManager.mgFire();
                     break;
                 case 2:
-                    soundEffects.sniperFire();
+                    soundsManager.sniperFire();
                     break;
                 case 3:
-                    soundEffects.shotgunFire();
+                    soundsManager.shotgunFire();
             }
             keyPressTimer = 0;
             shootingTimer = 0;

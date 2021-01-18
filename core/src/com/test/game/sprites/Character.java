@@ -11,7 +11,7 @@ import com.test.game.AI;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 
 import java.util.Random;
@@ -77,8 +77,8 @@ public class Character extends Sprite
     private void loadCharacter(int TextureNumber)
     {
 
-        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 235, 188, 235);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 188),(TextureNumber-1)* 235, 188, 235);
+        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 637, 513, 637);
+        this.jumping =  new TextureRegion(getTexture(),(7 * 513),(TextureNumber-1)* 637, 513, 637);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);
@@ -191,7 +191,7 @@ public class Character extends Sprite
         {
             System.out.println("Player " + CHARACTER_ID + " lost");
             current_lives = MAX_LIVES;
-            soundEffects.gameOver();
+            soundsManager.gameOver();
             //TODO: reset game
         }
 
@@ -247,9 +247,9 @@ public class Character extends Sprite
 
     public void takeDamage(){
         if (CHARACTER_ID==1)
-            soundEffects.player1Grunt();
+            soundsManager.player1Grunt();
         else
-            soundEffects.player2Grunt();
+            soundsManager.player2Grunt();
     }
     public void jump()
     {

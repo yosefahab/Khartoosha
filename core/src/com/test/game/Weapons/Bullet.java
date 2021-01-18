@@ -15,7 +15,7 @@ public class Bullet extends Sprite
     Body physicsBodyBullet;
     World world;
     Vector2 Initial_Position;
-    Texture Bullet_Texture =new Texture("vfx/weapons/pistol/bullet.png");
+    Texture Bullet_Texture =new Texture("vfx/weapons/bullet.png");
     public boolean remove=false;
     private float speed;
 

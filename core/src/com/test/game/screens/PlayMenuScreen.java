@@ -8,7 +8,7 @@ import com.test.game.Khartoosha;
 import com.test.game.menu.MenuBG;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
@@ -104,7 +104,7 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
             Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
-                soundEffects.click();
+                soundsManager.click();
             }
         } else {
 

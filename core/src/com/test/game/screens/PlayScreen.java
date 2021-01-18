@@ -3,7 +3,6 @@ package com.test.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
 import com.test.game.menu.PauseMenu;
+import com.test.game.soundsManager;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
@@ -44,20 +44,14 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-    protected static Music gameMusic;
-    
+
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
         this.game = game;
 
-        Khartoosha.menuMusic.stop();
-        Khartoosha.menuMusic.dispose();
-
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-        gameMusic.setLooping(true);
-        gameMusic.setVolume(Khartoosha.musicVolume);
-        gameMusic.play();
+        soundsManager.stopMenuMusic();
+        soundsManager.playGameMusic();
 
         
         atlas = new TextureAtlas("Characters.pack");
@@ -99,7 +93,7 @@ public class PlayScreen implements Screen
         character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
         Random rand = new Random();
-        character2 = new Character(box2dWorld, this,  rand.nextInt(3),false, true);
+        character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true);
         character1.setEnemy(character2);
         character2.setEnemy(character1);
     }

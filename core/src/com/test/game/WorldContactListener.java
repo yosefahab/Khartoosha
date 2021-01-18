@@ -150,7 +150,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         {
             p.setContacted(true);
             p.attachedChar = character;
-            soundEffects.powerUp();
+            soundsManager.powerUp();
             //System.out.println("Pup char contact 1");
         }
 

@@ -1,16 +1,21 @@
 package com.test.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-public class soundEffects
+public class soundsManager
 {
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
 
     public static float soundVolume =1;
 
-    public soundEffects() {
+    protected static Music gameMusic;
+    public static Music menuMusic;
+    public static float musicVolume;
+
+    public soundsManager() {
 
         player1Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt1.ogg"));
         player2Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt2.ogg"));
@@ -18,14 +23,24 @@ public class soundEffects
         powerUp = Gdx.audio.newSound(Gdx.files.internal("sfx/powerUp.ogg"));
         gameOver = Gdx.audio.newSound(Gdx.files.internal("sfx/menu/gameOver.ogg"));
 
-       pistolShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
-       sniperShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
-       mgShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
-       shotgunShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/shotgun/shoot.ogg"));
+        pistolShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/shoot.ogg"));
+        sniperShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/shoot.ogg"));
+        mgShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/shoot.ogg"));
+        shotgunShoot = Gdx.audio.newSound(Gdx.files.internal("sfx/shotgun/shoot.ogg"));
         pistolReload = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/reload.ogg"));
         sniperReload = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/reload.ogg"));
         mgReload = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/reload.ogg"));
 
+
+        musicVolume=1.0f;
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(musicVolume);
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(musicVolume);
 
     }
 
@@ -69,6 +84,12 @@ public class soundEffects
     public static void mgFire() {
         mgShoot.play(soundVolume);
     }
+    public static void playGameMusic(){gameMusic.play(); }
+    public static void playMenuMusic(){menuMusic.play(); }
+    public static void stopMenuMusic(){
+        menuMusic.stop();
+        menuMusic.dispose();
+    }
     public static void shotgunFire() { shotgunShoot.play(); }
     public void dispose()
     {
@@ -83,5 +104,7 @@ public class soundEffects
         click.dispose();
         gameOver.dispose();
         powerUp.dispose();
+        gameMusic.stop();
+        gameMusic.dispose();
     }
 }
