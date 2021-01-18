@@ -318,7 +318,7 @@ public class Character extends Sprite
     public void setSpeedCap(float speedCap)
     {
         // prevent stacking of speed boosts more than twice
-        if (this.speedCap < DEFAULT_SPEED * speedCap * 2)
+        if (this.speedCap <  DEFAULT_SPEED * 2)
             this.speedCap *= speedCap;
     }
 
@@ -330,7 +330,7 @@ public class Character extends Sprite
     {
         this.enemy = enemy;
 
-        // if wondering about placement here check comment above the function
+        // if wondering about placement here check com+ent above the function
         if (isAI)
             initAI();
     }

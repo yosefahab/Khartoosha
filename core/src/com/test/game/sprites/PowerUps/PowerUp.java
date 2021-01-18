@@ -25,7 +25,7 @@ public abstract class PowerUp extends Sprite {
     private boolean isSpawned = false;
     private boolean isActive = false;
     protected boolean isContacted = false;
-    private boolean isOneShot = true; //Indicator for powerups that don't run for certain time (Extra life, upgrade weapon, etc..)
+    private boolean isOneShot = false; //Indicator for powerups that don't run for certain time (Extra life, upgrade weapon, etc..)
     public final int MAX_PLATFORMS = 6;
     public int platforms_To_Skip = rand.nextInt(MAX_PLATFORMS);
 
