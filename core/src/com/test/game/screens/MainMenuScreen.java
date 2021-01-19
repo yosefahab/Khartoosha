@@ -28,12 +28,12 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
     private static final int EXIT_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (EXIT_BUTTON_WIDTH / 2));
 
     private static final int NUM_OF_DYNAMIC_TEXTURES = 3;
-    private String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
-    private MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private final String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private final MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
     
     private static int currDynamicTexture = 0;
 
-    Khartoosha game;
+    private final Khartoosha game;
 
 
     public MainMenuScreen(Khartoosha game) {
@@ -46,6 +46,8 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         dynamicTextures[1] = new MenuTextureDimDynamic(PLAY_BUTTON_WIDTH,PLAY_BUTTON_HEIGHT,PLAY_BUTTON_Y,PLAY_BUTTON_X, dynamicTextureNames[1]);
         dynamicTextures[2] = new MenuTextureDimDynamic(SETTINGS_BUTTON_WIDTH,SETTINGS_BUTTON_HEIGHT,SETTINGS_BUTTON_Y,SETTINGS_BUTTON_X, dynamicTextureNames[2]);
         dynamicTextures[3] = new MenuTextureDimDynamic(EXIT_BUTTON_WIDTH,EXIT_BUTTON_HEIGHT,EXIT_BUTTON_Y,EXIT_BUTTON_X,dynamicTextureNames[3]);
+
+        SettingsMenuScreen.initializeSettings();
     }
     
     void handleKeyboard(){
@@ -126,7 +128,7 @@ public class MainMenuScreen extends MenuBG implements Screen, MenuTextures
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Khartoosha.batch.begin();
-        displayBG(game);
+        displayBG();
 
         for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
             checkBoundsAndDrawDynamic(dynamicTextures, dynamicTextureNum);

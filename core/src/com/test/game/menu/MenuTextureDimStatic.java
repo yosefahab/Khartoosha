@@ -2,7 +2,7 @@ package com.test.game.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class MenuTextureDimStatic extends MenuTextureDim { //texture that doesn't change on mouse hover
+public class MenuTextureDimStatic extends MenuTextureDim { //texture that doesn't change when active
     Texture texture;
 
     public MenuTextureDimStatic(int WIDTH, int HEIGHT, int y, int x, String textureName) {

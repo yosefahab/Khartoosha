@@ -6,10 +6,12 @@ import com.badlogic.gdx.audio.Sound;
 
 public class soundsManager
 {
+    public static final float DEFAULT_MUSIC_VOL = 0.5f;
+    public static final float DEFAULT_SOUND_VOL = 1f;
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
 
-    public static float soundVolume =1;
+    public static float soundVolume; // IMPORTANT: soundVolume and musicVolume MUST be used in any play() function to be able to control them from settings
 
     protected static Music gameMusic;
     public static Music menuMusic;
@@ -31,8 +33,8 @@ public class soundsManager
         sniperReload = Gdx.audio.newSound(Gdx.files.internal("sfx/sniper/reload.ogg"));
         mgReload = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/reload.ogg"));
 
-
-        musicVolume=1.0f;
+        soundVolume = DEFAULT_SOUND_VOL;
+        musicVolume = DEFAULT_MUSIC_VOL;
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         gameMusic.setLooping(true);
@@ -90,7 +92,7 @@ public class soundsManager
         menuMusic.stop();
         menuMusic.dispose();
     }
-    public static void shotgunFire() { shotgunShoot.play(); }
+    public static void shotgunFire() { shotgunShoot.play(soundVolume); }
     public void dispose()
     {
         sniperShoot.dispose();

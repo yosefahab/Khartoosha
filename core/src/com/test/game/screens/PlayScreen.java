@@ -51,7 +51,11 @@ public class PlayScreen implements Screen
         this.game = game;
 
         soundsManager.stopMenuMusic();
-        soundsManager.playGameMusic();
+        System.out.println(SettingsMenuScreen.isMusicOn());
+        if(SettingsMenuScreen.isMusicOn())
+        {
+            soundsManager.playGameMusic();
+        }
 
         
         atlas = new TextureAtlas("Characters.pack");
@@ -197,7 +201,7 @@ public class PlayScreen implements Screen
 
                 game.setScreen(new MainMenuScreen(game));
             }
-            PauseMenu.displayPauseScreen(game,camera,this);
+            PauseMenu.displayPauseScreen(camera);
         }
         Khartoosha.batch.end();
     }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.test.game.Khartoosha;
-import com.test.game.screens.MainMenuScreen;
 import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Camera;
 
@@ -32,15 +31,9 @@ public class PauseMenu{
 
     private static int currDynamicTexture = 1;
 
-    private static PlayScreen currPlayScreen;
-
-    private static Khartoosha currGame;
-
-    public static void displayPauseScreen(Khartoosha game, Camera camera, PlayScreen playScreen)
+    public static void displayPauseScreen(Camera camera)
     {
         Vector2 vec;
-        currPlayScreen = playScreen;
-        currGame = game;
         vec = camera.getMid();
 
         resumeWidth = 400F / Khartoosha.PPM;
@@ -64,11 +57,11 @@ public class PauseMenu{
         textures[2].setPos(exitY,exitX);
         textures[2].setDim(exitWidth,exitHeight);
 
-        game.batch.draw(pauseBGTexture, pauseBGX, pauseBGY, pauseBGWidth, pauseBGHeight);
+        Khartoosha.batch.draw(pauseBGTexture, pauseBGX, pauseBGY, pauseBGWidth, pauseBGHeight);
 
         for (int textureNum = 1; textureNum <= NUM_OF_DYNAMIC_TEXTURES; textureNum++)
         {
-            game.batch.draw(textures[textureNum].getInActive(), textures[textureNum].getX(), textures[textureNum].getY(), textures[textureNum].getWIDTH(), textures[textureNum].getHEIGHT());
+            Khartoosha.batch.draw(textures[textureNum].getInActive(), textures[textureNum].getX(), textures[textureNum].getY(), textures[textureNum].getWIDTH(), textures[textureNum].getHEIGHT());
         }
         
         handleKeyboard();
@@ -101,7 +94,7 @@ public class PauseMenu{
         }
         if(currDynamicTexture >= 1 && currDynamicTexture <= NUM_OF_DYNAMIC_TEXTURES) {
 
-            currGame.batch.draw(textures[currDynamicTexture].getActive(), textures[currDynamicTexture].getX(), textures[currDynamicTexture].getY(), textures[currDynamicTexture].getWIDTH(), textures[currDynamicTexture].getHEIGHT());
+            Khartoosha.batch.draw(textures[currDynamicTexture].getActive(), textures[currDynamicTexture].getX(), textures[currDynamicTexture].getY(), textures[currDynamicTexture].getWIDTH(), textures[currDynamicTexture].getHEIGHT());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);

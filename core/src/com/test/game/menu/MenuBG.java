@@ -11,13 +11,13 @@ public class MenuBG {
         bg = new Texture("menu/menu_bg_darker1.png");
     }
 
-    protected void displayBG(Khartoosha game){
+    protected void displayBG(){
         bgOffset+=2;
         if(bgOffset % 900 == 0){
             bgOffset = 0;
         }
-        game.batch.draw(bg, -bgOffset,0, 900, Khartoosha.Gheight);
-        game.batch.draw(bg, -bgOffset + 900,0, 900,Khartoosha.Gheight);
-        game.batch.draw(bg, -bgOffset + 900 + 900 ,0, 900,Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset,0, 900, Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset + 900,0, 900,Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset + 900 + 900 ,0, 900,Khartoosha.Gheight);
     }
 }

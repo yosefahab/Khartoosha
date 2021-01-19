@@ -46,17 +46,17 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
     private static final int BACK_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (BACK_BUTTON_WIDTH / 2));
     
     private static final int NUM_OF_DYNAMIC_TEXTURES = 1;
-    private MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
-    private String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES +  1];
+    private final MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private final String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES +  1];
 
-    private MenuTextureDimDynamic[] Char = new MenuTextureDimDynamic[Khartoosha.NUM_OF_CHARS + 1]; //array containing all character info
-    private String[] charNames = new String[Khartoosha.NUM_OF_CHARS +  1]; //textureNames[] here is charNames[]
+    private final MenuTextureDimDynamic[] Char = new MenuTextureDimDynamic[Khartoosha.NUM_OF_CHARS + 1]; //array containing all character info
+    private final String[] charNames = new String[Khartoosha.NUM_OF_CHARS +  1]; //textureNames[] here is charNames[]
 
     private static final int NUM_OF_STATIC_TEXTURES = 3;
-    private String[] staticTextureNames = new String[NUM_OF_STATIC_TEXTURES + 1];
-    private MenuTextureDimStatic[] staticTextures = new MenuTextureDimStatic[NUM_OF_STATIC_TEXTURES + 1];
+    private final String[] staticTextureNames = new String[NUM_OF_STATIC_TEXTURES + 1];
+    private final MenuTextureDimStatic[] staticTextures = new MenuTextureDimStatic[NUM_OF_STATIC_TEXTURES + 1];
 
-    private Khartoosha game;
+    private final Khartoosha game;
 
     private boolean twoPlayers;
 
@@ -105,7 +105,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         {   //if the back or any other dynamic texture is active, don't accept right or left buttons (to avoid making character and texture both active at the same time)
             if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
             {
-                soundEffects.click();
+                soundsManager.click();
                 if (currCharacter <= 1)
                 {
                     currCharacter = Khartoosha.NUM_OF_CHARS;
@@ -116,7 +116,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
             {
-                soundEffects.click();
+                soundsManager.click();
                 if (currCharacter >= Khartoosha.NUM_OF_CHARS)
                 {
                     currCharacter = 1;
@@ -134,14 +134,14 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
 
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && currDynamicTexture > 0) {
-            soundEffects.click();
+            soundsManager.click();
             currDynamicTexture--;
             if(currDynamicTexture == 0){
                 currCharacter = 1;
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            soundEffects.click();
+            soundsManager.click();
             currDynamicTexture++; //back button
             currCharacter = 0;
             if(currDynamicTexture > NUM_OF_DYNAMIC_TEXTURES){
@@ -153,12 +153,12 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
-            soundEffects.click();
+            soundsManager.click();
             chosenTexture(NUM_OF_DYNAMIC_TEXTURES); //click back
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-            soundEffects.click();
+            soundsManager.click();
             if (currDynamicTexture != 0)
             {
                 chosenTexture(currDynamicTexture);
@@ -226,7 +226,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
-                soundEffects.click();
+                soundsManager.click();
             }
         } else {
             Khartoosha.batch.draw(dim[dynamicTextureNum].getInActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
@@ -246,13 +246,8 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
             Khartoosha.batch.draw(dim[charNum].getInActive(), dim[charNum].getX(), dim[charNum].getY(), dim[charNum].getWIDTH(), dim[charNum].getHEIGHT());
 
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-<<<<<<< HEAD
                 chosenCharacter(charNum);
-                soundEffects.click();
-=======
-                chosenTexture(charNum);
                 soundsManager.click();
->>>>>>> 3071c8b1d83d1b6fd3454464c0f04c6f42509f69
             }
         }
         else {
@@ -268,7 +263,7 @@ public class CharacterChoiceMenuScreen extends MenuBG implements Screen, MenuTex
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Khartoosha.batch.begin();
-        displayBG(game);
+        displayBG();
         drawStatic();
         for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++)
         {
