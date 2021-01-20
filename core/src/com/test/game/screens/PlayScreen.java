@@ -51,12 +51,8 @@ public class PlayScreen implements Screen
         this.game = game;
 
         soundsManager.stopMenuMusic();
-        System.out.println(SettingsMenuScreen.isMusicOn());
-        if(SettingsMenuScreen.isMusicOn())
-        {
-            soundsManager.playGameMusic();
-        }
-
+        //TODO: uncomment if you want game music to start by default
+        //soundsManager.playGameMusic();
         
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");

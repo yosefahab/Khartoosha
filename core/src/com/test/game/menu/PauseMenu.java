@@ -8,7 +8,7 @@ import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
 import com.test.game.sprites.Camera;
-//TODO: menu: pause music when pause screen is on
+//TODO: menu: add sound clicks when moving in menu options and clicking
 public class PauseMenu{
     private static float pauseBGWidth;
     private static float pauseBGHeight;
