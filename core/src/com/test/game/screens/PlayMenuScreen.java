@@ -27,12 +27,12 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int BACK_BUTTON_X = (int) ((Khartoosha.Gwidth / 2) - (BACK_BUTTON_WIDTH / 2));
 
     private static final int NUM_OF_DYNAMIC_TEXTURES = 3;
-    private String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
-    private MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private final String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
+    private final MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
 
     private static int currDynamicTexture = 0;
     
-    Khartoosha game;
+    private final Khartoosha game;
 
     public PlayMenuScreen(Khartoosha game) {
         this.game = game;
@@ -120,7 +120,7 @@ public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Khartoosha.batch.begin();
-        displayBG(game);
+        displayBG();
         for (int dynamicTextureNum = 1; dynamicTextureNum <= NUM_OF_DYNAMIC_TEXTURES; dynamicTextureNum++){
             checkBoundsAndDrawDynamic(dynamicTextures, dynamicTextureNum);
         }

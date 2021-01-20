@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 
 public class MenuTextureDimDynamic extends MenuTextureDim { //texture that is either active or inactive
-    private Texture active;
-    private Texture inActive;
+    private final Texture active;
+    private final Texture inActive;
 
     public MenuTextureDimDynamic(float WIDTH, float HEIGHT, float y, float x, String textureName) {
         super(WIDTH, HEIGHT, y, x);

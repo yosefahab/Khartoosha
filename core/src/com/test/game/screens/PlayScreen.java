@@ -50,6 +50,12 @@ public class PlayScreen implements Screen
     {
         this.game = game;
 
+        soundsManager.stopMenuMusic();
+        System.out.println(SettingsMenuScreen.isMusicOn());
+        if(SettingsMenuScreen.isMusicOn())
+        {
+            soundsManager.playGameMusic();
+        }
 
         
         atlas = new TextureAtlas("Characters.pack");
@@ -170,6 +176,7 @@ public class PlayScreen implements Screen
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             isGamePaused = !isGamePaused;
+            PauseMenu.pauseMenuPageNum = 1;
         }
         if(!isGamePaused)
         {
@@ -195,7 +202,7 @@ public class PlayScreen implements Screen
 
                 game.setScreen(new MainMenuScreen(game));
             }
-            PauseMenu.displayPauseScreen(game,camera,this);
+            PauseMenu.displayPauseScreen(camera);
         }
         Khartoosha.batch.end();
     }

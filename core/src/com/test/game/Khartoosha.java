@@ -1,16 +1,17 @@
 package com.test.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.test.game.screens.MainMenuScreen;
 
 public class Khartoosha extends Game
 {
-
 	public static final float Gwidth= 1000, Gheight = 680;
 	public static final String title = "Khartoosha";
 	public static final int NUM_OF_CHARS = 3; //number of characters in the game
+
 
 	// Pixel per meter, used for scaling objects wrt Box2D default scaling
 	public static final float PPM = 100;
@@ -27,9 +28,9 @@ public class Khartoosha extends Game
 	{
 
 		batch = new SpriteBatch();
-		shapeRenderer = new ShapeRenderer();
-		soundManager = new soundsManager();
+		//musicVolume = DEFAULT_MUSIC_VOL;
 
+		soundManager = new soundsManager();
 
 		this.setScreen(new MainMenuScreen(this));
 		//this.setScreen(new PlayScreen(this, 1, 1, 2));
