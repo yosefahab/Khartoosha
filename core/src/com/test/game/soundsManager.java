@@ -13,7 +13,7 @@ public class soundsManager
 
     public static float soundVolume; // IMPORTANT: soundVolume and musicVolume MUST be used in any play() function to be able to control them from settings
 
-    protected static Music gameMusic;
+    public static Music gameMusic;
     public static Music menuMusic;
     public static float musicVolume;
 
@@ -91,6 +91,10 @@ public class soundsManager
     public static void stopMenuMusic(){
         menuMusic.stop();
         menuMusic.dispose();
+    }
+    public static void stopGameMusic(){
+        gameMusic.stop();
+        gameMusic.dispose();
     }
     public static void shotgunFire() { shotgunShoot.play(soundVolume); }
     public void dispose()

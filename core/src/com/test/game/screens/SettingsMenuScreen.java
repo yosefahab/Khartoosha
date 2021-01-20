@@ -59,7 +59,7 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
     private final String[] dynamicTextureNames = new String[NUM_OF_DYNAMIC_TEXTURES + 1];
     private final MenuTextureDimDynamic[] dynamicTextures = new MenuTextureDimDynamic[NUM_OF_DYNAMIC_TEXTURES + 1];
 
-    Texture on, off;
+    private final Texture on, off;
 
     Khartoosha game;
 
@@ -177,10 +177,9 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
                 soundsManager.musicVolume = soundsManager.DEFAULT_MUSIC_VOL;
             } else{
                 soundsManager.stopMenuMusic();
-                soundsManager.musicVolume = 0f;
             }
         }
-        if (onOffTextureNum == 2) { //if its music onOff button
+        if (onOffTextureNum == 2) { //if its soundfx onOff button
             if (isOn[onOffTextureNum]){
                 soundsManager.soundVolume = soundsManager.DEFAULT_SOUND_VOL;
             } else{

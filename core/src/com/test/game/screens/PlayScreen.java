@@ -176,6 +176,7 @@ public class PlayScreen implements Screen
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             isGamePaused = !isGamePaused;
+            PauseMenu.pauseMenuPageNum = 1;
         }
         if(!isGamePaused)
         {
