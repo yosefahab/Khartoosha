@@ -11,7 +11,7 @@ import com.test.game.AI;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundEffects;
+import com.test.game.soundsManager;
 
 
 import java.util.Random;
@@ -77,8 +77,9 @@ public class Character extends Sprite
     private void loadCharacter(int TextureNumber)
     {
          current_char=TextureNumber;
-        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 471, 374, 471);
-        this.jumping =  new TextureRegion(getTexture(),(4 * 374),(TextureNumber-1)* 471, 374, 471);
+
+        this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 637, 513, 637);
+        this.jumping =  new TextureRegion(getTexture(),(7 * 513),(TextureNumber-1)* 637, 513, 637);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);
@@ -193,9 +194,9 @@ public class Character extends Sprite
 
         if (current_lives == 0)
         {
-            System.out.println("Player " + TextureNumber + " lost");
+            System.out.println("Player " + CHARACTER_ID + " lost");
             current_lives = MAX_LIVES;
-            soundEffects.gameOver();
+            soundsManager.gameOver();
             //TODO: reset game
         }
 
@@ -218,7 +219,7 @@ public class Character extends Sprite
 
         if (enemy != null && enemy.lostLife)
         {
-            if (currentWeapon.type < 2)
+            if (currentWeapon.type < Weapon.MAX_TYPE)
             {
                 currentWeapon.type++;
                 currentWeapon.switchWeapon();
@@ -251,9 +252,9 @@ public class Character extends Sprite
 
     public void takeDamage(){
         if (CHARACTER_ID==1)
-            soundEffects.player1Grunt();
+            soundsManager.player1Grunt();
         else
-            soundEffects.player2Grunt();
+            soundsManager.player2Grunt();
     }
     public void jump()
     {
@@ -313,7 +314,6 @@ public class Character extends Sprite
             currentWeapon.shoot();
         }
 
-
     }
 
     public void dispose()
@@ -323,7 +323,7 @@ public class Character extends Sprite
     public void setSpeedCap(float speedCap)
     {
         // prevent stacking of speed boosts more than twice
-        if (this.speedCap < DEFAULT_SPEED * speedCap * 2)
+        if (this.speedCap <  DEFAULT_SPEED * 2)
             this.speedCap *= speedCap;
     }
 
@@ -335,7 +335,7 @@ public class Character extends Sprite
     {
         this.enemy = enemy;
 
-        // if wondering about placement here check comment above the function
+        // if wondering about placement here check com+ent above the function
         if (isAI)
             initAI();
     }
