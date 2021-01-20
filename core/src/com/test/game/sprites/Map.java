@@ -14,7 +14,7 @@ import com.test.game.Khartoosha;
 public class Map
 {
     // Reference to box2D world
-    private World world;
+    private World box2dWorld;
 
     // The map itself
     private TiledMap map;
@@ -28,7 +28,7 @@ public class Map
 
     public Map(World world)
     {
-        this.world = world;
+        this.box2dWorld = world;
     }
 
     public void loadMap(int mapID)
@@ -41,41 +41,24 @@ public class Map
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / Khartoosha.PPM);
         fixtures = new Array<Fixture>();
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        Body body;
+        if (mapID == 1)
+            box2dWorld.setGravity(new Vector2(0, -5));
 
 
-        int index = 0;
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class))
+        int platformIndex = 0;
+        for (MapObject object : map.getLayers().get(2).getObjects())
         {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM, (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2 / Khartoosha.PPM, rect.getHeight() / 2 / Khartoosha.PPM);
-            fixtureDef.shape = shape;
-
-            // Adding current platform body to the fixture array
-            Fixture f = body.createFixture(fixtureDef);
-            fixtures.insert(index, f);
-            fixtures.get(index).setUserData(body);
-
-            index++;
+            if (object instanceof RectangleMapObject)
+            {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                createRectanglePlatform(rect, platformIndex);
+            }
+            platformIndex++;
 
         }
 
     }
 
-    public int getMapID ()
-    {
-        return ID;
-    }
     public void render()
     {
         mapRenderer.render();
@@ -85,6 +68,25 @@ public class Map
     {
         mapRenderer.dispose();
         map.dispose();
-        world.dispose();
+        box2dWorld.dispose();
     }
+
+    private void createRectanglePlatform(Rectangle rect, int platformIndex)
+    {
+        BodyDef bdef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fixtureDef = new FixtureDef();
+        Body body;
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set((rect.getX() + rect.getWidth() / 2) / Khartoosha.PPM, (rect.getY() + rect.getHeight() / 2) / Khartoosha.PPM);
+        body = box2dWorld.createBody(bdef);
+        shape.setAsBox(rect.getWidth() / 2 / Khartoosha.PPM, rect.getHeight() / 2 / Khartoosha.PPM);
+        fixtureDef.shape = shape;
+
+        // Adding current platform body to the fixture array
+        Fixture f = body.createFixture(fixtureDef);
+        fixtures.insert(platformIndex, f);
+        fixtures.get(platformIndex).setUserData(body);
+    }
+
 }

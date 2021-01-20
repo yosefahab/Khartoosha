@@ -2,6 +2,7 @@ package com.test.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.test.game.screens.MainMenuScreen;
 
 public class Khartoosha extends Game
@@ -18,7 +19,7 @@ public class Khartoosha extends Game
 	public static final float GRAVITY = -1;
 
 	public static SpriteBatch batch;
-
+	public static ShapeRenderer shapeRenderer;
 	public soundsManager soundManager;
 
 	@Override
@@ -26,10 +27,9 @@ public class Khartoosha extends Game
 	{
 
 		batch = new SpriteBatch();
-
+		shapeRenderer = new ShapeRenderer();
 		soundManager = new soundsManager();
 
-		soundsManager.playMenuMusic();
 
 		this.setScreen(new MainMenuScreen(this));
 		//this.setScreen(new PlayScreen(this, 1, 1, 2));

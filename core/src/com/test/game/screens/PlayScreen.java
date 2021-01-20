@@ -50,8 +50,6 @@ public class PlayScreen implements Screen
     {
         this.game = game;
 
-        soundsManager.stopMenuMusic();
-        soundsManager.playGameMusic();
 
         
         atlas = new TextureAtlas("Characters.pack");

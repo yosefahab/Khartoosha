@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="18">
- <imagelayer id="2" name="Image Layer 1" offsetx="1.33333" offsety="2.66667">
-  <image source="map_resources/map1_background.png" width="1120" height="800"/>
- </imagelayer>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="12">
  <layer id="1" name="Tile Layer 1" width="70" height="50">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -57,11 +54,19 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="map_resources/map2_background.png" width="1120" height="800"/>
+ </imagelayer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="13" x="104.667" y="197.333" width="305.333" height="0.666667"/>
-  <object id="14" x="685.333" y="201.667" width="305.333" height="0.666667"/>
-  <object id="15" x="392.667" y="405" width="305.333" height="0.666667"/>
-  <object id="16" x="110" y="597" width="305.333" height="0.666667"/>
-  <object id="17" x="682" y="597" width="305.333" height="0.666667"/>
+  <object id="1" x="96" y="271" width="230" height="0.5"/>
+  <object id="3" x="499.5" y="188" width="124" height="1"/>
+  <object id="4" x="523.5" y="355" width="123.5" height="0.5"/>
+  <object id="5" x="69" y="424" width="302" height="0.5"/>
+  <object id="6" x="108" y="595.5" width="123" height="1"/>
+  <object id="7" x="372.5" y="661.5" width="124" height="1"/>
+  <object id="8" x="587" y="576" width="122.5" height="1"/>
+  <object id="9" x="853.5" y="616.5" width="123" height="1"/>
+  <object id="10" x="822" y="444" width="124" height="0.5"/>
+  <object id="11" x="853" y="240" width="123"/>
  </objectgroup>
 </map>

@@ -6,16 +6,17 @@ import com.badlogic.gdx.audio.Sound;
 
 public class soundsManager
 {
-    private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
+    private static Sound player1Grunt, player2Grunt, click, gameOver, powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
 
-    public static float soundVolume =1;
+    public static float soundVolume = 1;
 
     protected static Music gameMusic;
     public static Music menuMusic;
     public static float musicVolume;
 
-    public soundsManager() {
+    public soundsManager()
+    {
 
         player1Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt1.ogg"));
         player2Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt2.ogg"));
@@ -32,7 +33,7 @@ public class soundsManager
         mgReload = Gdx.audio.newSound(Gdx.files.internal("sfx/mg/reload.ogg"));
 
 
-        musicVolume=1.0f;
+        musicVolume = 1.0f;
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         gameMusic.setLooping(true);
@@ -44,23 +45,28 @@ public class soundsManager
 
     }
 
-    public static void player1Grunt() {
+    public static void player1Grunt()
+    {
         player1Grunt.play(soundVolume);
     }
 
-    public static void player2Grunt() {
+    public static void player2Grunt()
+    {
         player2Grunt.play(soundVolume);
     }
 
-    public static void click() {
+    public static void click()
+    {
         click.play(soundVolume);
     }
 
-    public static void powerUp() {
+    public static void powerUp()
+    {
         powerUp.play(soundVolume);
     }
 
-    public static void gameOver() {
+    public static void gameOver()
+    {
         gameOver.play(1);
     }
 
@@ -68,29 +74,53 @@ public class soundsManager
     {
         pistolReload.play(soundVolume);
     }
-    public static void sniperReload() {
-       sniperReload.play(soundVolume);
+
+    public static void sniperReload()
+    {
+        sniperReload.play(soundVolume);
     }
-    public static void mgReload() {
+
+    public static void mgReload()
+    {
         mgReload.play(soundVolume);
     }
 
-    public static void pistolFire() {
+    public static void pistolFire()
+    {
         pistolShoot.play(soundVolume);
     }
-    public static void sniperFire() {
+
+    public static void sniperFire()
+    {
         sniperShoot.play(soundVolume);
     }
-    public static void mgFire() {
+
+    public static void mgFire()
+    {
         mgShoot.play(soundVolume);
     }
-    public static void playGameMusic(){gameMusic.play(); }
-    public static void playMenuMusic(){menuMusic.play(); }
-    public static void stopMenuMusic(){
+
+    public static void playGameMusic()
+    {
+        gameMusic.play();
+    }
+
+    public static void playMenuMusic()
+    {
+        menuMusic.play();
+    }
+
+    public static void stopMenuMusic()
+    {
         menuMusic.stop();
         menuMusic.dispose();
     }
-    public static void shotgunFire() { shotgunShoot.play(); }
+
+    public static void shotgunFire()
+    {
+        shotgunShoot.play();
+    }
+
     public void dispose()
     {
         sniperShoot.dispose();
