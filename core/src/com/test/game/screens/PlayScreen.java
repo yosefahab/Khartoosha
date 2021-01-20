@@ -62,11 +62,12 @@ public class PlayScreen implements Screen
 
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
+        //box2dDebugRenderer.setDrawBodies(false);
 
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(1);
+        map.loadMap(0);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -90,20 +91,24 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true, false);
+
+        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
 
         Random rand = new Random();
-        character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true);
+        character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true, map.getSpawnPoints().get(1));
         character1.setEnemy(character2);
         character2.setEnemy(character1);
+        character2.getAi().setJumpPoints(map.getJumpPoints());
+        character2.getAi().setJumpDirections(map.getJumpDirections());
+        character2.getAi().PUPs = powerUpsHandler.getPUPs();
     }
 
     // 2 Players constructor
     public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true, false);
-        character2 = new Character(box2dWorld, this,  char2Num,false, false);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
+        character2 = new Character(box2dWorld, this,  char2Num,false, false, map.getSpawnPoints().get(1));
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);
@@ -200,6 +205,7 @@ public class PlayScreen implements Screen
             }
             PauseMenu.displayPauseScreen(camera);
         }
+
         Khartoosha.batch.end();
     }
 

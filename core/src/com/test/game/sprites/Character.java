@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.AI;
 import com.test.game.Khartoosha;
+import com.test.game.Weapons.Bomb;
+import com.test.game.Weapons.Bullet;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
@@ -61,10 +63,12 @@ public class Character extends Sprite
     public Weapon currentWeapon;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
+    private Vector2 spawnLocation;
 
     private Character enemy;
-    private boolean isAI;
+    public boolean isAI;
     private AI ai;
+    private Bomb bomb;
 
 
     /*
@@ -84,13 +88,15 @@ public class Character extends Sprite
         setRegion(idle);
     }
 
-    public Character(World world, PlayScreen screen, int TextureNumber, boolean player1, boolean isAI)
+    public Character(World world, PlayScreen screen, int TextureNumber, boolean player1, boolean isAI, Vector2 spawnLocation)
     {
         super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
         this.screen = screen;
         this.TextureNumber = TextureNumber;
         this.isAI = isAI;
+        this.bomb = new Bomb(world);
+        this.spawnLocation = spawnLocation;
 
 
         NUMBER_OF_CHARACTERS++;
@@ -130,11 +136,11 @@ public class Character extends Sprite
         BodyDef bodyDefinition = new BodyDef();
         if (CHARACTER_ID == 1)
         {
-            bodyDefinition.position.set(200 / Khartoosha.PPM, 200 / Khartoosha.PPM);
+            bodyDefinition.position.set(spawnLocation);
         }
         else
         {
-            bodyDefinition.position.set(800 / Khartoosha.PPM, 200/ Khartoosha.PPM);
+            bodyDefinition.position.set(spawnLocation);
         }
 
         bodyDefinition.type = BodyDef.BodyType.DynamicBody;
@@ -239,6 +245,9 @@ public class Character extends Sprite
             ai.update(delta);
 
 
+        bomb.update();
+
+
     }
 
     public Vector2 getBodyPosition(){return this.physicsBody.getPosition();}
@@ -264,7 +273,7 @@ public class Character extends Sprite
 
     public void moveRight()
     {
-        if (this.physicsBody.getLinearVelocity().x <= speedCap)
+       if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
             this.physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), this.physicsBody.getWorldCenter(), true);
         }
@@ -308,6 +317,19 @@ public class Character extends Sprite
         {
             currentWeapon.shoot();
         }
+
+        if (CHARACTER_ID == 1 && Gdx.input.isKeyJustPressed(Input.Keys.G))
+        {
+            bomb.KA(this);
+        }
+
+        if (CHARACTER_ID == 2 && Gdx.input.isKeyJustPressed(Input.Keys.F))
+        {
+            bomb.KA(this);
+        }
+
+
+
 
     }
 
@@ -363,6 +385,7 @@ public class Character extends Sprite
         currentWeapon.draw(Khartoosha.batch);
         currentWeapon.render(Khartoosha.batch);
 
+
     }
 
     // Had to be done separately not in the constructor because the AI needs the character
@@ -372,5 +395,11 @@ public class Character extends Sprite
     {
         ai = new AI(this, 1f);
     }
+
+    public int getCHARACTER_ID() {
+        return CHARACTER_ID;
+    }
+
+    public AI getAi(){return ai;}
 
 }

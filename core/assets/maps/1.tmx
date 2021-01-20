@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="18">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="27">
  <imagelayer id="2" name="Image Layer 1" offsetx="1.33333" offsety="2.66667">
   <image source="map_resources/map1_background.png" width="1120" height="800"/>
  </imagelayer>
@@ -58,10 +58,64 @@
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="13" x="104.667" y="197.333" width="305.333" height="0.666667"/>
-  <object id="14" x="685.333" y="201.667" width="305.333" height="0.666667"/>
-  <object id="15" x="392.667" y="405" width="305.333" height="0.666667"/>
-  <object id="16" x="110" y="597" width="305.333" height="0.666667"/>
-  <object id="17" x="682" y="597" width="305.333" height="0.666667"/>
+  <object id="13" type="platform" x="104.667" y="197.333" width="305.333" height="0.666667">
+   <properties>
+    <property name="droppable" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" type="platform" x="685.333" y="201.667" width="305.333" height="0.666667">
+   <properties>
+    <property name="droppable" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="15" type="platform" x="392.667" y="405" width="305.333" height="0.666667">
+   <properties>
+    <property name="droppable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="16" type="platform" x="110" y="597" width="305.333" height="0.666667">
+   <properties>
+    <property name="droppable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="17" type="platform" x="682" y="597" width="305.333" height="0.666667">
+   <properties>
+    <property name="droppable" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="navigation">
+  <object id="18" type="Jump Point" x="720" y="592">
+   <properties>
+    <property name="jumpDirection" type="int" value="2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="19" type="Jump Point" x="400" y="592">
+   <properties>
+    <property name="jumpDirection" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="20" type="Jump Point" x="416" y="400">
+   <properties>
+    <property name="jumpDirection" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="21" type="Jump Point" x="688" y="400">
+   <properties>
+    <property name="jumpDirection" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="spawnPoints">
+  <object id="22" name="player1" x="176" y="592">
+   <point/>
+  </object>
+  <object id="23" name="player1" x="928" y="592">
+   <point/>
+  </object>
  </objectgroup>
 </map>

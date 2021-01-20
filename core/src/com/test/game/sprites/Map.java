@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
 
+import java.util.ArrayList;
+
 public class Map
 {
     // Reference to box2D world
@@ -23,6 +25,10 @@ public class Map
     public Array<Fixture> fixtures;
 
     public OrthogonalTiledMapRenderer mapRenderer;
+    private Array<Rectangle> jumpPoints = new Array<>();
+    private Array<Integer> jumpDirections = new Array<>();
+    private Array<Vector2> spawnPoints = new Array<>();
+
 
     int ID;
 
@@ -51,10 +57,33 @@ public class Map
             if (object instanceof RectangleMapObject)
             {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                createRectanglePlatform(rect, platformIndex);
+                createRectanglePlatform(rect, platformIndex, object);
             }
             platformIndex++;
 
+        }
+
+        for (MapObject object : map.getLayers().get("navigation").getObjects().getByType(RectangleMapObject.class))
+        {
+            if (object != null)
+            {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                //System.out.println(rect.getX()+ "  " + rect.getY());
+                jumpPoints.add(rect);
+                jumpDirections.add((Integer)object.getProperties().get("jumpDirection"));
+            }
+        }
+
+
+        // spawn point are orderd from 0 to numPlayers so the first element in array is the p1 spawn Location
+        for (MapObject object : map.getLayers().get("spawnPoints").getObjects().getByType(RectangleMapObject.class))
+        {
+            if (object != null)
+            {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+                spawnPoints.add(new Vector2(rect.getX() / Khartoosha.PPM, rect.getY() / Khartoosha.PPM));
+            }
         }
 
     }
@@ -71,7 +100,7 @@ public class Map
         box2dWorld.dispose();
     }
 
-    private void createRectanglePlatform(Rectangle rect, int platformIndex)
+    private void createRectanglePlatform(Rectangle rect, int platformIndex, Object object)
     {
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -86,7 +115,23 @@ public class Map
         // Adding current platform body to the fixture array
         Fixture f = body.createFixture(fixtureDef);
         fixtures.insert(platformIndex, f);
-        fixtures.get(platformIndex).setUserData(body);
+        Object[] userData = new Object[2];
+        userData[0] = body;
+        userData[1] = object;
+        fixtures.get(platformIndex).setUserData(userData);
+    }
+
+
+    public Array<Rectangle> getJumpPoints() {
+        return jumpPoints;
+    }
+
+    public Array<Integer> getJumpDirections() {
+        return jumpDirections;
+    }
+
+    public Array<Vector2> getSpawnPoints() {
+        return spawnPoints;
     }
 
 }

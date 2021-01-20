@@ -1,5 +1,6 @@
 package com.test.game;
 
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Weapons.Bullet;
@@ -17,8 +18,17 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o1 = contact.getFixtureA().getUserData();
         Object o2 = contact.getFixtureB().getUserData();
 
-        if (o2 instanceof Character && o1 instanceof Body)
-            beginContactCHARACTERxPlatform(o2);
+        Object[] o;
+        Object platform = new Object();
+        if (o1 instanceof  Object[])
+        {
+            o = (Object[])o1;
+            o1 = o[0];
+            platform = o[1];
+        }
+
+        if (o1 instanceof Body && o2 instanceof Character )
+            beginContactCHARACTERxPlatform(platform, o2);
 
 
         if ((o1 instanceof Character && o2 instanceof PowerUp))
@@ -33,6 +43,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Bullet bullet = (Bullet) o1;
             bullet.isContacted = true;
             Character character = (Character) o2;
+
             float hitForce =  bullet.force;
 
             character.takeDamage();
@@ -68,6 +79,12 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o1 = contact.getFixtureA().getUserData();
         Object o2 = contact.getFixtureB().getUserData();
 
+        Object[] o;
+        if (o1 instanceof  Object[])
+        {
+            o = (Object[])o1;
+            o1 = o[0];
+        }
         if (o2 instanceof Character && o1 instanceof Body)
         {
             Character c = (Character) o2;
@@ -83,6 +100,12 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Object o1 = contact.getFixtureA().getUserData();
         Object o2 = contact.getFixtureB().getUserData();
 
+        Object[] o;
+        if (o1 instanceof  Object[])
+        {
+            o = (Object[])o1;
+            o1 = o[0];
+        }
         if (o2 instanceof Character && o1 instanceof Body)
             preSolveCHARACTERxPlatform(o2, contact);
 
@@ -104,7 +127,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         if ((o2 instanceof Body && o1 instanceof PowerUp)) {
             if (((PowerUp) o1).platforms_To_Skip > 0)
             {
-                ((PowerUp) o2).platforms_To_Skip--;
+                ((PowerUp) o1).platforms_To_Skip--;
                 contact.setEnabled(false);
             }
         }
@@ -157,10 +180,15 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
     }
 
 
-    private void beginContactCHARACTERxPlatform (Object o2)
+    private void beginContactCHARACTERxPlatform (Object platform, Object o2)
     {
         // Reset ALLOWED_JUMPS on contact with ground
-        ((Character) o2).ALLOWED_JUMPS = 2;
+        MapObject mapObject = (MapObject) platform;
+        Character character = (Character) o2;
+
+        character.ALLOWED_JUMPS = 2;
+        if (character.isAI)
+            character.getAi().canDrop = (boolean) mapObject.getProperties().get("droppable");
     }
 
 
