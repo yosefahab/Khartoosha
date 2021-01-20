@@ -66,7 +66,7 @@ public class Character extends Sprite
     private boolean isAI;
     private AI ai;
 
-
+    public int current_char=0;
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -76,12 +76,16 @@ public class Character extends Sprite
     */
     private void loadCharacter(int TextureNumber)
     {
-
+         current_char=TextureNumber;
         this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 471, 374, 471);
         this.jumping =  new TextureRegion(getTexture(),(4 * 374),(TextureNumber-1)* 471, 374, 471);
 
         setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);
+    }
+    public int current_char()
+    {
+        return current_char;
     }
 
     public Character(World world, PlayScreen screen, int TextureNumber, boolean player1, boolean isAI)
@@ -308,6 +312,7 @@ public class Character extends Sprite
         {
             currentWeapon.shoot();
         }
+
 
     }
 

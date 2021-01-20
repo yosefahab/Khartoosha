@@ -39,13 +39,14 @@ public class Weapon extends Sprite
     private boolean stopFalling=false;
 
     public final static int MAX_TYPE = 2;
-    private int CURRENT_AMMO;
+    private  int CURRENT_AMMO;
     protected int MAX_AMMO;
     protected int FORCE;
     protected float BULLET_SPEED;
     protected float FIRING_RATE;
     protected Texture TEXTURE_IDLE;
     protected Texture TEXTURE_SHOOTING;
+    public boolean isShoting=false;
 
 
     public Weapon(World box2dWorld, PlayScreen screen, Character character)
@@ -162,6 +163,7 @@ public class Weapon extends Sprite
 
     public void shoot()
     {
+        //isShoting=true;
         if (CURRENT_AMMO > 0 && keyPressTimer > FIRING_RATE)
         {
             switch (type)

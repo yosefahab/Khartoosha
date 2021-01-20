@@ -13,7 +13,7 @@ import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 
-public class PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
+public class  PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
     private static final int ONE_PLAYER_BUTTON_HEIGHT = 155;
     private static final int ONE_PLAYER_BUTTON_Y = (int) (Khartoosha.Gheight - 270);

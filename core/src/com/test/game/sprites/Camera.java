@@ -133,4 +133,9 @@ public class Camera
         vec.y = gameCam.position.y;
         return vec;
     }
+
+    public Vector2 getCamPos()
+    {
+        return new Vector2(gameCam.position.x,gameCam.position.y);
+    }
 }
