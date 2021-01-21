@@ -140,12 +140,7 @@ public class PlayScreen implements Screen
         }
 
         powerUpsHandler.update();
-
         H.Lose_life(character1, character2);
-
-      //  System.out.println("this is the character one lives "+character2.current_lives);
-       // System.out.println("this is the character two lives "+character1.current_lives);
-
 
     }
 

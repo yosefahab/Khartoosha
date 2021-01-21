@@ -67,6 +67,7 @@ public class Character extends Sprite
     private AI ai;
 
     public int current_char=0;
+    public boolean dead=false;
     /*
     @param x starting x-coordinate on pack
     @param y starting y-coordinate on pack
@@ -165,6 +166,7 @@ public class Character extends Sprite
         //if body falls, reset position and decrease lives
         // Hit timer (logic explained in start Hit timer function)
         int MAX_HIT_TIMER = 4;
+        dead=false;
         if (physicsBody.getPosition().y < -800/Khartoosha.PPM)
         {
             Random rand = new Random();
@@ -173,6 +175,7 @@ public class Character extends Sprite
             physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
             takeDamage();
+              dead=true;
 
 
             //don't upgrade opponent on self kill
@@ -377,5 +380,6 @@ public class Character extends Sprite
     {
         ai = new AI(this, 1f);
     }
+
 
 }
