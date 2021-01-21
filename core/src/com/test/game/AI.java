@@ -1,14 +1,16 @@
 package com.test.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.test.game.sprites.Character;
+import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.sprites.PowerUps.PowerUpsHandler;
+import com.test.game.sprites.PowerUps.SpeedBoost;
 
 import java.util.Random;
 
 import static java.lang.Math.abs;
-import static java.lang.Math.pow;
 
 public class AI {
 
@@ -16,6 +18,9 @@ public class AI {
     private final int IDLE_STATE = 0;
     private final int ATTACK_STATE = 1;
     private final int CHASE_STATE = 2;
+
+    private final int POST_JUMP_RIGHT = 1;
+    private final int POST_JUMP_LEFT = 2;
 
     private int currentState = 0;
 
@@ -27,18 +32,25 @@ public class AI {
     private boolean atPeace = true;
     private final float GAME_START_PEACE = 1f;
     private float gameStartTimer;
-
+    private Array<Rectangle> jumpPoints;
+    private Array<Integer> jumpDirections;
+    private boolean jumped = false;
     private Character character, enemy;
+    private Object[] jumpPair;
+    public boolean canDrop;
+    public PowerUp[] PUPs;
 
     public AI(Character character, float SWITCH_INTERVAL)
     {
         this.character = character;
-        this.SWITCH_INTERVAL = SWITCH_INTERVAL;
+        this.SWITCH_INTERVAL = 0.5f;
         this.enemy = character.getEnemy();
+
     }
 
     public void update(float delta)
     {
+
         if (atPeace)
         {
             gameStartTimer += delta;
@@ -57,9 +69,11 @@ public class AI {
                 switch_timer = 0;
                 //update state
                 currentState = stateManager();
+                //System.out.println("Current State : " + currentState);
 
 
             }
+
 
 
             switch (currentState){
@@ -74,23 +88,28 @@ public class AI {
             }
         }
 
+
+        //when getting shot move towards character
+        if (character.hitTimer <= 1 && character.hitTimer > 0)
+        {
+            chase();
+        }
+
     }
 
     private int stateManager()
     {
         // character in shooting range
         // TODO: add weapon range consideration
-
+        jumped = false;
         if (inShootingRange())
             return ATTACK_STATE;
-
-
 
         //the following will probably be changed
 
         // if the character is away a certain distance and not in shooting range chase him
         float distanceX = abs(character.getBodyPosition().x - enemy.getBodyPosition().x);
-        float distanceY = abs(character.getBodyPosition().y - enemy.getBodyPosition().y);
+        float distanceY = character.getBodyPosition().y - enemy.getBodyPosition().y;
 
         Random rand = new Random();
         // changes the distance that triggers the chase state
@@ -100,32 +119,48 @@ public class AI {
 
 
 
-        if (distanceX > x_distance_epsilon || distanceY > y_distance_epsilon )
+        if ( abs(distanceY) > y_distance_epsilon || distanceX > x_distance_epsilon )
             return CHASE_STATE;
+
 
 
         return IDLE_STATE;
     }
 
+
     private void attack()
     {
         character.currentWeapon.shoot();
     }
+
+
     private void chase()
     {
-        float y_distance_epsilon = 50 / Khartoosha.PPM;
-        float x_distance_epsilon = 400 / Khartoosha.PPM;
+        Random rand = new Random();
+        float y_distance_epsilon = rand.nextInt(50)  / Khartoosha.PPM;
+        float x_distance_epsilon = (rand.nextInt(200) + 200) / Khartoosha.PPM;
+
 
         // enemy in higher platform
         if (enemy.getBodyPosition().y - character.getBodyPosition().y > y_distance_epsilon)
         {
-            character.jump();
+            if (!jumped)
+                jumpPair =  find_closest_jump();
+            seek_jump((Rectangle)jumpPair[0], (int)jumpPair[1]);
+            return;
         }
+
         // enemy in lower platform
-        else if (character.getBodyPosition().y - enemy.getBodyPosition().y > y_distance_epsilon
-                && character.getBodyPosition().y > 300 / Khartoosha.PPM )//prevent falling down from last platform
+        else if (character.getBodyPosition().y - enemy.getBodyPosition().y > y_distance_epsilon )//prevent falling down from last platform
         {
-            character.moveDown();
+            if (canDrop)
+            {
+                character.moveDown();
+                canDrop = false;
+            }
+            else //if can't drop to his level apporach target
+                x_distance_epsilon -= 200 / Khartoosha.PPM;
+
         }
 
         //enemy far right
@@ -162,4 +197,88 @@ public class AI {
 
         return  false;
     }
+
+    public void setJumpPoints(Array<Rectangle> jumpPoints) {
+        this.jumpPoints = jumpPoints;
+    }
+    public void setJumpDirections(Array<Integer> jumpDirections) {
+        this.jumpDirections = jumpDirections;
+    }
+
+
+    /**
+     * The function takes the closest jump point and starts navigating towards it
+     * when it arrives it jumps and activates a boolean to trigger movement in a certain direction
+     * while in air
+     *
+     * @param point contains the closest jump point on the same platform
+     * @param idx index of the point (to check the jump direction
+     */
+    private void seek_jump(Rectangle point, int idx)
+    {
+        Vector2 jump_position = new Vector2(point.getX() / Khartoosha.PPM, point.getY() / Khartoosha.PPM);
+        Vector2 char_position = new Vector2(character.getBodyPosition());
+
+        // if in air
+        if (jumped)
+        {
+            if (jumpDirections.get(idx) == POST_JUMP_LEFT)
+                character.moveLeft();
+            else if (jumpDirections.get(idx) == POST_JUMP_RIGHT)
+                character.moveRight();
+            else
+                character.jump();
+
+            return;
+        }
+
+        // navigating to point
+        // on jump
+        if (abs(jump_position.x - char_position.x) < 0.01)
+        {
+            //System.out.println(idx);
+            character.jump();
+            jumped = true;
+
+        }
+        // jump point  to the right of char
+        else if (jump_position.x > char_position.x)
+            character.moveRight();
+        // jump point to left
+        else
+            character.moveLeft();
+
+    }
+
+    /**
+     *  Uses linear search to find the closest point on the same level as the character
+     * @return Object pair, object[0] :point, object[1]: indx
+     */
+    private Object[] find_closest_jump()
+    {
+        Object[] rect_indx_pair = new Object[2];
+        Rectangle closestPoint = jumpPoints.get(0);
+        Vector2 char_position = new Vector2(character.getBodyPosition().x,
+                character.getBodyPosition().y - (character.SHAPE_HEIGHT * 1.0f / Khartoosha.PPM) / 2);
+        Vector2 point_position;
+
+        int indx = 0, pointIndx = 0;
+        for (Rectangle point:jumpPoints)
+        {
+            point_position = new Vector2(point.getX() / Khartoosha.PPM, point.getY() / Khartoosha.PPM);
+
+            if (abs(point_position.y - char_position.y) < 0.25 &&
+                    (abs(char_position.x - point_position.x) < abs(char_position.x - closestPoint.getX() / Khartoosha.PPM))  )
+            {
+                closestPoint = point;
+                pointIndx = indx;
+            }
+            indx++;
+        }
+
+        rect_indx_pair[0] = closestPoint;
+        rect_indx_pair[1] =  pointIndx;
+        return rect_indx_pair;
+    }
+
 }

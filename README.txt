@@ -149,3 +149,20 @@ Ayman, 17, Jan
 
 
 
+
+Ayman, 20 Jan
+    - Added:
+        • New AI functionality (can navigate maps and chase player properly now)
+        • **Experimental Bomb class, use F for player1 and G for player2
+    - Modified:
+        • Character:
+            - Modified constructor to get spawn location
+            - Character now spawns in a location from the map (can be edited in Tiled) instead
+                of hard coded values
+            - Added code for grenades
+        • Map:
+            - Added new data to the Tiled map (navigation points for ai - player spawn locations -
+                whether platforms can be dropped from or not)
+            - Added code to retrieve added data from map to the Map class
+            - Modified user data for the platforms (now is a pair of physics body and map object)
+        • Weapons: adjusted weapons forces

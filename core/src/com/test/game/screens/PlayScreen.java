@@ -12,12 +12,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.WorldContactListener;
 import com.test.game.Khartoosha;
 import com.test.game.menu.PauseMenu;
+import com.test.game.soundsManager;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
 import com.test.game.sprites.PowerUps.*;
 
-import java.util.Vector;
+import java.util.Random;
 
 
 public class PlayScreen implements Screen
@@ -51,6 +52,11 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum)
     {
         this.game = game;
+
+        soundsManager.stopMenuMusic();
+        //TODO: uncomment if you want game music to start by default
+        //soundsManager.playGameMusic();
+        
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
@@ -63,7 +69,7 @@ public class PlayScreen implements Screen
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(1);
+        map.loadMap(0);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -89,16 +95,24 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum, int char1Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true, false);
 
+        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
+
+        Random rand = new Random();
+        character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true, map.getSpawnPoints().get(1));
+        character1.setEnemy(character2);
+        character2.setEnemy(character1);
+        character2.getAi().setJumpPoints(map.getJumpPoints());
+        character2.getAi().setJumpDirections(map.getJumpDirections());
+        character2.getAi().PUPs = powerUpsHandler.getPUPs();
     }
 
     // 2 Players constructor
     public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true, false);
-        character2 = new Character(box2dWorld, this,  char2Num,false, true);
+        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
+        character2 = new Character(box2dWorld, this,  char2Num,false, false, map.getSpawnPoints().get(1));
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);
@@ -168,6 +182,7 @@ public class PlayScreen implements Screen
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             isGamePaused = !isGamePaused;
+            PauseMenu.pauseMenuPageNum = 1;
         }
         if(!isGamePaused)
         {
@@ -198,8 +213,9 @@ public class PlayScreen implements Screen
 
                 game.setScreen(new MainMenuScreen(game));
             }
-
+            PauseMenu.displayPauseScreen(camera);
         }
+
         Khartoosha.batch.end();
     }
 

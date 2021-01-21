@@ -71,7 +71,7 @@ public class soundsManager
         pistolReload.play(soundVolume);
     }
     public static void sniperReload() {
-       sniperReload.play(soundVolume);
+        sniperReload.play(soundVolume);
     }
     public static void mgReload() {
         mgReload.play(soundVolume);
