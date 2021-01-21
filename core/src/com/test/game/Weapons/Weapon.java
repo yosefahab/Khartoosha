@@ -45,7 +45,7 @@ public class Weapon extends Sprite
     protected int FORCE;
     protected float BULLET_SPEED;
     protected float FIRING_RATE;
-    protected Texture TEXTURE_IDLE;
+    public Texture TEXTURE_IDLE;
     protected Texture TEXTURE_SHOOTING;
     public boolean isShoting=false;
 

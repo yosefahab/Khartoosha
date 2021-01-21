@@ -45,36 +45,7 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-    //The hearts stuff
-    private Vector<Sprite> lives1 =new Vector<Sprite>(5);
-    private Vector<Sprite> lives2 =new Vector<Sprite>(5);
-    private Sprite s =new Sprite();
-    private Texture tex = new Texture("her.png") ;
-
-    // current character stuff
-    private Texture char1 = new Texture("char1.png") ;
-    private Texture char2 = new Texture("char2.png") ;
-    private Texture char3 = new Texture("char3.png") ;
-    private Sprite num1 =new Sprite();
-    private Sprite num2 =new Sprite();
-    private Sprite num3 =new Sprite();
-    private Sprite player[]=new Sprite[3];
-
-    //current weapon stuff
-    private Texture gun1 = new Texture("pistol.png") ;
-    private Texture gun2 = new Texture("mg.png") ;
-    private Texture gun3 = new Texture("sniper.png") ;
-    private Sprite gun_num1 =new Sprite();
-    private Sprite gun_num2 =new Sprite();
-    private Sprite gun_num3 =new Sprite();
-    private Sprite arr[]=new Sprite[3];
-    private Sprite ar[]=new Sprite[3];
-
-    //Ammo stuff
-    private Texture ammo1 = new Texture ("bulletCount.png");
-    private Sprite amo = new Sprite ();
-    private Vector <Sprite> Ammo1  = new Vector <Sprite>(30);
-
+     public HUD H;
 
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
@@ -111,42 +82,7 @@ public class PlayScreen implements Screen
         isGamePaused = false;
         goToMainMenu = false;
 
-        s.setRegion(tex);
-        s.setSize(25/Khartoosha.PPM ,25/Khartoosha.PPM);
-        for (int i=0 ; i<5 ; i++) {
-            lives1.add(s);
-            lives2.add(s);
-
-        }
-        num1.setRegion(char1);
-        num2.setRegion(char2);
-        num3.setRegion(char3);
-        num1.setSize(75f/Khartoosha.PPM,75f/Khartoosha.PPM);
-        num2.setSize(75f/Khartoosha.PPM,75f/Khartoosha.PPM);
-        num3.setSize(75f/Khartoosha.PPM,75f/Khartoosha.PPM);
-        player[0]=num1;
-        player[1]=num2;
-        player[2]=num3;
-
-        gun_num1.setRegion(gun1);
-        gun_num2.setRegion(gun2);
-        gun_num3.setRegion(gun3);
-        gun_num1.setSize(50/Khartoosha.PPM,50/Khartoosha.PPM);
-        gun_num2.setSize(50/Khartoosha.PPM,50/Khartoosha.PPM);
-        gun_num3.setSize(50/Khartoosha.PPM,50/Khartoosha.PPM);
-        arr[0]=gun_num1;
-        arr[1]=gun_num2;
-        arr[2]=gun_num3;
-        ar[0]=gun_num1;
-        ar[1]=gun_num2;
-        ar[2]=gun_num3;
-
-        amo.setRegion(ammo1);
-        for (int i=0 ; i<30 ; i++)
-        {
-            Ammo1.add(amo);
-        }
-
+        H=new HUD();
     }
 
     // 1 Player constructor
@@ -204,39 +140,12 @@ public class PlayScreen implements Screen
         }
 
         powerUpsHandler.update();
-        if (character1.getBodyPosition().y<-7.92){
-            lives1.remove(lives1.size()-1);
-        }
-        if (character2.getBodyPosition().y<-7.92){
-            lives2.remove(lives2.size()-1);
-        }
 
-        switch (character1.currentWeapon.type)
-        {
-            case 0:
+        H.Lose_life(character1, character2);
 
-                amo.setSize(20/Khartoosha.PPM,20/Khartoosha.PPM);
-                Ammo1.setSize(7);
-               //System.out.println("hamada");
-                break;
+      //  System.out.println("this is the character one lives "+character2.current_lives);
+       // System.out.println("this is the character two lives "+character1.current_lives);
 
-                case 1:
-                    amo.setSize(10/Khartoosha.PPM,10/Khartoosha.PPM);
-                    Ammo1.setSize(30);
-                    break;
-            case 2:
-                amo.flip(false,true);
-                amo.setSize(25/Khartoosha.PPM,50/Khartoosha.PPM);
-                Ammo1.setSize(5);
-               // System.out.println(Ammo1.capacity());
-                break;
-
-        }
-        //if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT))
-        //{
-         //Ammo1.remove(Ammo1.size()-1);
-
-        //}
 
     }
 
@@ -281,35 +190,10 @@ public class PlayScreen implements Screen
         {
             character2.render();
 
-            float l=0;
-            for (int i=0 ; i<lives1.size() ; i++) {
-                l+=.3;
-                lives1.elementAt(i).setPosition(camera.getCamPos().x-((Khartoosha.Gwidth/Khartoosha.PPM)/2)+l,camera.getCamPos().y+ ((Khartoosha.Gheight/Khartoosha.PPM)/2)-6.0f);
-                lives1.elementAt(i).draw(Khartoosha.batch);
-             }
-
-            l=0;
-            for (int i=0 ; i<lives2.size() ; i++) {
-                l+=.3;
-                lives2.elementAt(i).setPosition(-0.2f+camera.getCamPos().x+((Khartoosha.Gwidth/Khartoosha.PPM)/2)-l,camera.getCamPos().y- ((Khartoosha.Gheight/Khartoosha.PPM)/2)+.8f);
-                lives2.elementAt(i).draw(Khartoosha.batch);
-
-            }
-
-            player[character1.current_char-1].setPosition(.1f+camera.getCamPos().x-((Khartoosha.Gwidth/Khartoosha.PPM)/2),camera.getCamPos().y+ ((Khartoosha.Gheight/Khartoosha.PPM)/2)-6.76f);
-            player[character1.current_char-1].draw(Khartoosha.batch);
-            player[character2.current_char-1].setPosition(-.7f+camera.getCamPos().x+((Khartoosha.Gwidth/Khartoosha.PPM)/2),camera.getCamPos().y- ((Khartoosha.Gheight/Khartoosha.PPM)/2)+.04f);
-            player[character2.current_char-1].draw(Khartoosha.batch);
-
-            ar[character1.currentWeapon.type].setPosition(.3f+camera.getCamPos().x-((Khartoosha.Gwidth/Khartoosha.PPM)/2),camera.getCamPos().y+ ((Khartoosha.Gheight/Khartoosha.PPM)/2)-.6f);
-            ar[character1.currentWeapon.type].draw(Khartoosha.batch);
-            arr[character2.currentWeapon.type].setPosition(-0.7f+camera.getCamPos().x+((Khartoosha.Gwidth/Khartoosha.PPM)/2),camera.getCamPos().y- ((Khartoosha.Gheight/Khartoosha.PPM)/2)+6.2f);
-            arr[character2.currentWeapon.type].draw(Khartoosha.batch);
-
-            for(int i=0; i<Ammo1.size(); i++){
-            Ammo1.elementAt(i).setPosition(.3f+camera.getCamPos().x-((Khartoosha.Gwidth/Khartoosha.PPM)/2),camera.getCamPos().y+ ((Khartoosha.Gheight/Khartoosha.PPM)/2)-.6f);
-            Ammo1.elementAt(i).draw(Khartoosha.batch);
-            }
+            H.Hearts_pos(camera);
+            H.Hud_pos(camera);
+            H.char_pos(camera ,character1 , character2);
+            H.Gun_pos(camera , character1,character2);
         }
         if(isGamePaused)
         {
@@ -319,7 +203,7 @@ public class PlayScreen implements Screen
 
                 game.setScreen(new MainMenuScreen(game));
             }
-            PauseMenu.displayPauseScreen(game,camera,this);
+
         }
         Khartoosha.batch.end();
     }
