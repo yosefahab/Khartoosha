@@ -41,7 +41,7 @@ public class Character extends Sprite
     public int ALLOWED_JUMPS = 2;
 
     private final int  MAX_LIVES = 5;
-    public int current_lives=0;
+    public static int current_lives=0;
     // indicator to be used to upgrade weapon for the opponent
     public boolean lostLife = false;
 
