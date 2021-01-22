@@ -19,10 +19,10 @@ public class UpgradeWeapon extends PowerUp {
     private TextureRegion powerupTexture;
     public UpgradeWeapon(World world, PlayScreen screen) {
 
-        super(world,screen.GetAtlas().findRegion("armorPowerup"), 9995, 10000, 0);
+        super(world,screen.GetAtlas().findRegion("weaponPowerup"), 9995, 10000, 0);
 
-        this.powerupTexture = new TextureRegion(getTexture(),0,0, 100, 100);
-        setBounds(0,0, 35 / Khartoosha.PPM, 35 /Khartoosha.PPM);
+        this.powerupTexture = new TextureRegion(getTexture(),4*434,0, 434, 418);
+        setBounds(0,0, 55 / Khartoosha.PPM, 45 /Khartoosha.PPM);
         setRegion(powerupTexture);
 
 

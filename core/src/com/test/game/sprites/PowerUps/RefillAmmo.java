@@ -23,10 +23,10 @@ public class RefillAmmo extends PowerUp {
 
     public RefillAmmo(World world, PlayScreen screen) {
 
-        super(world,screen.GetAtlas().findRegion("armorPowerup"), 9990, 10000, 0);
+        super(world,screen.GetAtlas().findRegion("ammoPowerup"), 9990, 10000, 0);
 
-        this.powerupTexture = new TextureRegion(getTexture(),0,0, 100, 100);
-        setBounds(0,0, 35 / Khartoosha.PPM, 35 /Khartoosha.PPM);
+        this.powerupTexture = new TextureRegion(getTexture(),3*434 ,0, 434, 418);
+        setBounds(0,0, 55 / Khartoosha.PPM, 45 /Khartoosha.PPM);
         setRegion(powerupTexture);
 
 
