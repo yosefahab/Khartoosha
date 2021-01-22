@@ -6,21 +6,21 @@ repeat: none
 mandoSprite
   rotate: false
   xy: 1, 305
-  size: 598, 142
-  orig: 598, 142
+  size: 4110, 637
+  orig: 0, 0
   offset: 0, 0
   index: -1
 bruceSprite
   rotate: false
   xy: 1, 153
-  size: 595, 142
-  orig: 595, 142
+  size: 4110, 637
+  orig: 0, 637
   offset: 0, 0
   index: -1
 johnnySprite
   rotate: false
   xy: 1, 5
-  size: 594, 142
-  orig: 594, 142
+  size: 4110, 637
+  orig: 0, 1274
   offset: 0, 0
   index: -1

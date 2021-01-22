@@ -1,4 +1,3 @@
-
 powerups.png
 format: RGBA8888
 filter: Nearest,Nearest
@@ -6,21 +5,35 @@ repeat: none
 hpPowerup
   rotate: false
   xy: 1, 1
-  size: 101, 100
-  orig: 101, 100
+  size: 434, 418
+  orig: 0, 0
   offset: 0, 0
   index: -1
 movementPowerup
   rotate: false
   xy: 104, 1
-  size: 101, 100
-  orig: 101, 100
+  size: 434, 418
+  orig: 434, 0
   offset: 0, 0
   index: -1
 armorPowerup
   rotate: false
   xy: 207, 3
-  size: 101, 98
-  orig: 101, 98
+  size: 434, 418
+  orig: 868, 0
+  offset: 0, 0
+  index: -1
+ammoPowerup
+  rotate: false
+  xy: 207, 3
+  size: 434, 418
+  orig: 1302, 0
+  offset: 0, 0
+  index: -1
+weaponPowerup
+  rotate: false
+  xy: 207, 3
+  size: 434, 418
+  orig: 1736, 0
   offset: 0, 0
   index: -1
