@@ -15,8 +15,8 @@ public class AnimationManager {
     private boolean faceRight;
     private float stateTimer;
     private Array<TextureRegion> frames;
-    private Character player;
-    private Texture texture;
+    private final Character player;
+    private final Texture texture;
     public AnimationManager(boolean faceRight, Texture texture, Character player) {
         this.faceRight = faceRight;
         this.currentState = State.STANDING;

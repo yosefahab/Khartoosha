@@ -15,7 +15,7 @@ public class Bullet extends Sprite
     Body physicsBodyBullet;
     World world;
     Vector2 Initial_Position;
-    Texture Bullet_Texture =new Texture("vfx/weapons/bullet.png");
+    Texture Bullet_Texture =new Texture("vfx/weapons/pistol/bullet.png");
     public boolean remove=false;
     private float speed;
 
@@ -30,7 +30,7 @@ public class Bullet extends Sprite
         this.force = force;
         defineBulletPhysics();
         setTexture(Bullet_Texture);
-        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 220, 48); //define region of certain texture in png
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 544, 122); //define region of certain texture in png
         setRegion(textureRegion);
         setBounds(0,0,120/Khartoosha.PPM,30/Khartoosha.PPM); //set size rendered texture
 

@@ -63,7 +63,7 @@ public class soundsManager
     }
 
     public static void gameOver() {
-        gameOver.play(1);
+        gameOver.play(soundVolume);
     }
 
     public static void pistolReload()
