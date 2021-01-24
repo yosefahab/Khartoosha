@@ -166,3 +166,7 @@ Ayman, 20 Jan
             - Added code to retrieve added data from map to the Map class
             - Modified user data for the platforms (now is a pair of physics body and map object)
         • Weapons: adjusted weapons forces
+Yahia, 24 Jan
+-Modified weapons texture size
+-Added Texture to Bullet's constructor (To be able to specify a bullet texture for each weapon)
+-Fixed a bug where the player could shoot while the weapon was in air

@@ -15,7 +15,6 @@ public class Bullet extends Sprite
     Body bulletPhysicsBody;
     World box2dWorld;
     Vector2 initialPosition;
-    Texture bulletTexture = new Texture("vfx/weapons/pistol/bullet.png");
     public boolean remove = false;
     protected Vector2 velocity;
     public Vector2 force;
@@ -23,7 +22,7 @@ public class Bullet extends Sprite
     // for collision detection
     public boolean isContacted = false;
 
-    public Bullet(World world, Vector2 position, Vector2 velocity, Vector2 force)
+    public Bullet(World world, Vector2 position, Vector2 velocity, Vector2 force, Texture bulletTexture)
     {
         this.velocity = velocity;
         this.box2dWorld = world;
@@ -97,7 +96,6 @@ public class Bullet extends Sprite
             bulletPhysicsBody.destroyFixture(bulletPhysicsBody.getFixtureList().first());
         remove = true;
         isContacted = false;
-        bulletTexture.dispose();
     }
 
     private boolean isOutOfMap()
