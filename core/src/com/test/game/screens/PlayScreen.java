@@ -4,15 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.test.game.WorldContactListener;
-import com.test.game.Khartoosha;
+import com.test.game.*;
 import com.test.game.menu.PauseMenu;
-import com.test.game.soundsManager;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
@@ -25,7 +21,7 @@ public class PlayScreen implements Screen
 {
 
     private TextureAtlas atlas,powerupAtlas;
-    private Character character1,character2;
+    public static Character character1,character2;
     public float delta = Gdx.graphics.getDeltaTime();
 
     // Tiled map variables
@@ -35,7 +31,7 @@ public class PlayScreen implements Screen
     private World box2dWorld;
     private Box2DDebugRenderer box2dDebugRenderer;
 
-    private Camera camera;
+    public static Camera camera;
     private Khartoosha game;
 
     //Powerups array that contains 1 of each type
@@ -47,7 +43,6 @@ public class PlayScreen implements Screen
     public static boolean goToMainMenu;
 
      public HUD H;
-
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
@@ -56,7 +51,7 @@ public class PlayScreen implements Screen
         soundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
         //soundsManager.playGameMusic();
-        
+
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
@@ -130,10 +125,10 @@ public class PlayScreen implements Screen
         // Update physics world
         box2dWorld.step(1/60F, 6, 2);
 
-        character1.update(delta);
+        character1.update();
         if (character2 != null)
         {
-            character2.update(delta);
+            character2.update();
             camera.update(character1,character2);
         }
         else
@@ -179,7 +174,7 @@ public class PlayScreen implements Screen
     @Override
     public void render(float delta)
     {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)|| Gdx.input.isKeyJustPressed(Input.Keys.P))
         {
             isGamePaused = !isGamePaused;
             PauseMenu.pauseMenuPageNum = 1;
@@ -215,7 +210,6 @@ public class PlayScreen implements Screen
             }
             PauseMenu.displayPauseScreen(camera);
         }
-
         Khartoosha.batch.end();
     }
 

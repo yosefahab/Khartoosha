@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.AI;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Bomb;
-import com.test.game.Weapons.Bullet;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
@@ -29,9 +28,8 @@ public class Character extends Sprite
     public final int SHAPE_HEIGHT = 40;
 
     public TextureRegion idle,jumping;
-    private AnimationManager animationManager;
+    private final AnimationManager animationManager;
     public Animation<?> runAnimation;
-    private PlayScreen screen;
 
     public boolean isGoingDown;
 
@@ -86,7 +84,7 @@ public class Character extends Sprite
         this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 637, 513, 637);
         this.jumping =  new TextureRegion(getTexture(),(7 * 513),(TextureNumber-1)* 637, 513, 637);
 
-        setBounds(0,0, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
+        setBounds(physicsBody.getPosition().x,physicsBody.getPosition().y, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
         setRegion(idle);
     }
     public int current_char()
@@ -96,9 +94,8 @@ public class Character extends Sprite
 
     public Character(World world, PlayScreen screen, int TextureNumber, boolean player1, boolean isAI, Vector2 spawnLocation)
     {
-        super(screen.getAtlas().findRegion("mandoSprite")); //for some reason it doesnt make a difference which string is passed
+        super(screen.getAtlas().findRegion("johnnySprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
-        this.screen = screen;
         this.TextureNumber = TextureNumber;
         this.isAI = isAI;
         this.bomb = new Bomb(world);
@@ -140,14 +137,7 @@ public class Character extends Sprite
     public void defineCharacterPhysics()
     {
         BodyDef bodyDefinition = new BodyDef();
-        if (CHARACTER_ID == 1)
-        {
-            bodyDefinition.position.set(spawnLocation);
-        }
-        else
-        {
-            bodyDefinition.position.set(spawnLocation);
-        }
+        bodyDefinition.position.set(spawnLocation);
 
         bodyDefinition.type = BodyDef.BodyType.DynamicBody;
         physicsBody = world.createBody(bodyDefinition);
@@ -161,9 +151,9 @@ public class Character extends Sprite
 
     }
 
-    public void update(float delta)
+    public void update()
     {
-        delta = Gdx.graphics.getDeltaTime();
+        float delta = Gdx.graphics.getDeltaTime();
 
         handleInput();
         currentWeapon.update(delta);

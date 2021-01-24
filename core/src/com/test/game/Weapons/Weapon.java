@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class Weapon extends Sprite
 {
     Vector2 position;
-    ArrayList<Bullet> bullets;
+    public ArrayList<Bullet> bullets;
     World box2dWorld;
     PlayScreen screen;
     BodyDef weaponBody = new BodyDef();
@@ -66,8 +66,8 @@ public class Weapon extends Sprite
         defineGunPhysics();
         character.currentWeapon = this;
 
-        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 193, 130); //define region of certain texture in png
-        setBounds(0, 0, 58 / Khartoosha.PPM, 29 / Khartoosha.PPM); //set size rendered texture
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 352, 221); //define region of certain texture in png
+        setBounds(0,0,58/ Khartoosha.PPM,29/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
     }
 
