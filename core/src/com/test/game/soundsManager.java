@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 
 public class soundsManager
 {
-    public static final float DEFAULT_MUSIC_VOL = 0.5f;
+    public static final float DEFAULT_MUSIC_VOL = 0;
     public static final float DEFAULT_SOUND_VOL = 1f;
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;

@@ -392,9 +392,9 @@ public class Character extends Sprite
         draw(Khartoosha.batch);
         currentWeapon.draw(Khartoosha.batch);
         currentWeapon.render(Khartoosha.batch);
-
-
     }
+
+
 
     // Had to be done separately not in the constructor because the AI needs the character
     // to have an enemy assigned and since the set enemy is done separately this had to be

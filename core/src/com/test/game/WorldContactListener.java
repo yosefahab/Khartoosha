@@ -3,6 +3,7 @@ package com.test.game;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.test.game.Weapons.Bomb;
 import com.test.game.Weapons.Bullet;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.Armor;
@@ -44,14 +45,17 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             bullet.isContacted = true;
             Character character = (Character) o2;
 
-            float hitForce =  bullet.force;
+            Vector2 hitForce =  bullet.force;
 
             character.takeDamage();
 
             if (character.isArmored)
-                hitForce *= Armor.ARMOR_VALUE;
+            {
+                hitForce.x *= Armor.ARMOR_VALUE;
+                hitForce.y *= Armor.ARMOR_VALUE;
+            }
 
-            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.physicsBody.applyForce(hitForce, character.physicsBody.getWorldCenter(), true);
             character.startHitTimer();
         }
         else if (o2 instanceof Bullet && o1 instanceof Character)
@@ -59,13 +63,16 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
             Bullet bullet = (Bullet) o2;
             Character character = (Character) o1;
             bullet.isContacted = true;
-            float hitForce =  bullet.force;
+            Vector2 hitForce =  bullet.force;
 
             character.takeDamage();
             if (character.isArmored)
-                hitForce *= Armor.ARMOR_VALUE;
+            {
+                hitForce.x *= Armor.ARMOR_VALUE;
+                hitForce.y *= Armor.ARMOR_VALUE;
+            }
 
-            character.physicsBody.applyForce(new Vector2(hitForce,0), character.physicsBody.getWorldCenter(), true);
+            character.physicsBody.applyForce(hitForce, character.physicsBody.getWorldCenter(), true);
             character.startHitTimer();
 
         }
@@ -112,7 +119,6 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
 
         if (o1 instanceof Character && o2 instanceof Character)
             contact.setEnabled(false);
-
 
 
         // Powerups skips platforms

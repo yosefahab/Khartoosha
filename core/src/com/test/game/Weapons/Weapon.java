@@ -13,6 +13,7 @@ import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
 import com.test.game.sprites.Character;
+
 import java.util.ArrayList;
 
 
@@ -22,9 +23,9 @@ public class Weapon extends Sprite
     ArrayList<Bullet> bullets;
     World box2dWorld;
     PlayScreen screen;
-    BodyDef weaponBody= new BodyDef();
+    BodyDef weaponBody = new BodyDef();
     Body physicsBodyWeapon;
-    public boolean faceRight=true;
+    public boolean faceRight = true;
 
 
     private Character character;
@@ -36,18 +37,18 @@ public class Weapon extends Sprite
     private float shootingTimer = 3;
 
     private float yPos;
-    private boolean stopFalling=false;
+    private boolean stopFalling = false;
 
 
     public final static int MAX_TYPE = 3;
     private int CURRENT_AMMO;
     protected int MAX_AMMO;
-    protected int FORCE;
-    protected float BULLET_SPEED;
+    protected Vector2 FORCE;
+    protected Vector2 BULLET_VELOCITY;
     protected float FIRING_RATE;
     public Texture TEXTURE_IDLE;
     protected Texture TEXTURE_SHOOTING;
-    public boolean isShoting=false;
+    public boolean isShoting = false;
 
 
     public Weapon(World box2dWorld, PlayScreen screen, Character character)
@@ -66,7 +67,7 @@ public class Weapon extends Sprite
         character.currentWeapon = this;
 
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 193, 130); //define region of certain texture in png
-        setBounds(0,0,58/ Khartoosha.PPM,29/Khartoosha.PPM); //set size rendered texture
+        setBounds(0, 0, 58 / Khartoosha.PPM, 29 / Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
     }
 
@@ -74,27 +75,27 @@ public class Weapon extends Sprite
     {
         if (faceRight)
         {
-            setPosition(position.x+0.5f, yPos);
-        }
-        else {
+            setPosition(position.x + 0.5f, yPos);
+        } else
+        {
             setPosition(position.x - 1f, yPos);
 
         }
         if (stopFalling)
         {
-            yPos=character.getBodyPosition().y+0.3f;
+            yPos = character.getBodyPosition().y + 0.3f;
         }
-        if (yPos<character.getBodyPosition().y+0.3)
-            stopFalling=true;
+        if (yPos < character.getBodyPosition().y + 0.3)
+            stopFalling = true;
         if (!stopFalling)
-            yPos-=0.098f;
+            yPos -= 0.098f;
         ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
 
-        for(Bullet bullet:bullets )
+        for (Bullet bullet : bullets)
         {
             bullet.update(Gdx.graphics.getDeltaTime());
 
-            if (type == 3 && bullet.isOutOfRange(WeaponManager.SHOTGUN_RANGE))
+            if (type == 3 && bullet.isOutOfRange(WeaponManager.SHOTGUN_RANGE, false))
                 bullet.remove();
 
             if (bullet.remove)
@@ -105,8 +106,8 @@ public class Weapon extends Sprite
         bullets.removeAll(bulletsToBeRemoved);
 
 
-
     }
+
     public void render(SpriteBatch sb)
     {
         keyPressTimer += Gdx.graphics.getDeltaTime();
@@ -119,14 +120,14 @@ public class Weapon extends Sprite
         else if (shootingTimer > 0.4f)
             setTexture(TEXTURE_IDLE);
 
-        for(Bullet bullet:bullets)
+        for (Bullet bullet : bullets)
         {
             if (bulletFlipped)
             {
-                bullet.setFlip(true,false);
+                bullet.setFlip(true, false);
             }
             if (type != 3)
-            bullet.draw(sb);
+                bullet.draw(sb);
         }
 
     }
@@ -135,35 +136,41 @@ public class Weapon extends Sprite
     {
         weaponBody.position.set(position);
         weaponBody.type = BodyDef.BodyType.StaticBody;
-        physicsBodyWeapon= box2dWorld.createBody(weaponBody);
+        physicsBodyWeapon = box2dWorld.createBody(weaponBody);
 
     }
 
-    public int getAmmo() {
+    public int getAmmo()
+    {
         return MAX_AMMO;
     }
 
     public void switchWeapon()
     {
-        yPos = position.y+4f;
+        yPos = position.y + 4f;
         stopFalling = false;
 
         switch (type)
         {
-            case 0: WeaponManager.initPistol(this);
+            case 0:
+                WeaponManager.initPistol(this);
                 soundsManager.pistolReload();
                 break;
-            case 1: WeaponManager.initMG(this);
+            case 1:
+                WeaponManager.initMG(this);
                 soundsManager.mgReload();
                 break;
-            case 2: WeaponManager.initSniper(this);
+            case 2:
+                WeaponManager.initSniper(this);
                 soundsManager.sniperReload();
                 break;
-            case 3: WeaponManager.initShotgun(this);
+            case 3:
+                WeaponManager.initShotgun(this);
         }
         CURRENT_AMMO = MAX_AMMO;
 
     }
+
     public void refillAmmo()
     {
         CURRENT_AMMO = MAX_AMMO;
@@ -194,7 +201,7 @@ public class Weapon extends Sprite
 
             if (CURRENT_AMMO < 1)
             {
-                if(type == 0)
+                if (type == 0)
                     refillAmmo();
                 else
                 {
@@ -203,21 +210,22 @@ public class Weapon extends Sprite
                 }
             }
 
-            if (faceRight) {
+            if (faceRight)
+            {
                 bulletFlipped = false;
-                bullets.add(new Bullet(box2dWorld,new Vector2(position.x+0.4f,position.y+0.4f), BULLET_SPEED, FORCE) );
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE));
 
-            }
-            else
+            } else
             {
                 bulletFlipped = true;
-                bullets.add(new Bullet(box2dWorld,new Vector2(position.x-0.8f,position.y+0.4f),-BULLET_SPEED,  -FORCE));
+                Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
+                Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE));
             }
 
         }
 
     }
-
 
 
 }

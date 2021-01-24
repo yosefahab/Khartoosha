@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
+import com.test.game.Utils;
 import com.test.game.sprites.Character;
 
-public class Bomb extends Sprite {
+public class Bomb extends Sprite
+{
 
     public World world;
     public Body bombBody;
@@ -22,15 +24,34 @@ public class Bomb extends Sprite {
     private boolean isThrown;
     private boolean isExploded;
     private int isChar1;
-    Bullet[] bullets = new Bullet[2];
+    Bullet[] bullets = new Bullet[5];
 
-    public Bomb(World world) {
+
+    private static final float speed = 0.125f;
+    // 0 --> Horizontal, 1 --> Vertical, 2 --> Diagonal
+    private static final Vector2[] VELOCITY_VECTORS =
+            {new Vector2(speed, 0), new Vector2(0, speed), new Vector2(speed, speed)};
+
+
+    private static final int force = 1000;
+    // 0 --> Horizontal, 1 --> Vertical, 2 --> Diagonal
+    private static final Vector2[] FORCE_VECTORS =
+            {new Vector2(force, 0), new Vector2(0, force), new Vector2(force, force)};
+
+
+
+
+
+
+    public Bomb(World world)
+    {
         super();
         this.world = world;
         initBomb();
     }
 
-    private void initBomb() {
+    private void initBomb()
+    {
         BodyDef bdef = new BodyDef();
         bdef.position.set(Khartoosha.Gwidth / Khartoosha.PPM + (200 / Khartoosha.PPM),
                 Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
@@ -55,9 +76,9 @@ public class Bomb extends Sprite {
         else
             isChar1 = -1;
         bombBody.setType(BodyDef.BodyType.StaticBody);
-        bombBody.setTransform(c.getBodyPosition().x , c.getBodyPosition().y, 0);
+        bombBody.setTransform(c.getBodyPosition().x, c.getBodyPosition().y, 0);
         bombBody.setType(BodyDef.BodyType.DynamicBody);
-        bombBody.applyForceToCenter(new Vector2(100 * isChar1,2), true);
+        bombBody.applyForceToCenter(new Vector2(100 * isChar1, 2), true);
         isThrown = true;
 
     }
@@ -66,10 +87,15 @@ public class Bomb extends Sprite {
     {
         Vector2 pos = new Vector2(bombBody.getWorldCenter());
 
-        bullets[0] = new Bullet(world,new Vector2( pos.x+0.4f, pos.y + 0.1f), 0.125f, 1000);
-        bullets[1] = new Bullet(world,new Vector2( pos.x-0.4f, pos.y + 0.1f), -0.125f, -1000);
+        bullets[0] = new Bullet(world, pos, VELOCITY_VECTORS[0], FORCE_VECTORS[0]);
+        bullets[1] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[0]), Utils.flipVectorX(FORCE_VECTORS[0]));
+        bullets[2] = new Bullet(world, pos, VELOCITY_VECTORS[1], FORCE_VECTORS[1]);
+        bullets[3] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[2]), Utils.flipVectorX(VELOCITY_VECTORS[2]));
+        bullets[4] = new Bullet(world, pos, VELOCITY_VECTORS[2], FORCE_VECTORS[2]);
+
+
         bombBody.setTransform(Khartoosha.Gwidth / Khartoosha.PPM + (200 / Khartoosha.PPM),
-            Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM), 0);
+                Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM), 0);
         bombBody.setType(BodyDef.BodyType.StaticBody);
         isExploded = true;
     }
@@ -91,15 +117,19 @@ public class Bomb extends Sprite {
         if (isExploded)
         {
             int cnt = 0;
-            for(Bullet b:bullets)
+            for (Bullet b : bullets)
             {
 
                 if (b != null)
                 {
                     cnt++;
                     b.update(delta);
-                    if (b.remove)
+                    if (b.isOutOfRange(WeaponManager.BOMB_RANGE, true))
+                    {
                         b.remove();
+                        // Prevents memory leaks
+                        bullets[cnt - 1] = null;
+                    }
 
                 }
             }
