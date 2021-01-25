@@ -19,12 +19,12 @@ import java.util.ArrayList;
 
 public class Weapon extends Sprite
 {
-    Vector2 position;
+    private Vector2 position;
     public ArrayList<Bullet> bullets;
-    World box2dWorld;
-    PlayScreen screen;
-    BodyDef weaponBody = new BodyDef();
-    Body physicsBodyWeapon;
+    private World box2dWorld;
+    private PlayScreen screen;
+    private BodyDef weaponBody = new BodyDef();
+    private Body physicsBodyWeapon;
     public boolean faceRight = true;
 
 
@@ -37,6 +37,7 @@ public class Weapon extends Sprite
     private float shootingTimer = 3;
 
     private float yPos;
+    protected float extraPos=0;
     private boolean stopFalling = false;
 
 
@@ -47,27 +48,26 @@ public class Weapon extends Sprite
     protected Vector2 BULLET_VELOCITY;
     protected float FIRING_RATE;
     public Texture TEXTURE_IDLE;
+    public Texture BULLET_TEXTURE;
     protected Texture TEXTURE_SHOOTING;
-    public boolean isShoting = false;
+    public boolean canShoot = false;
 
 
     public Weapon(World box2dWorld, PlayScreen screen, Character character)
     {
-        super(screen.getAtlas().findRegion("bruceSprite"));
         this.box2dWorld = box2dWorld;
         this.position = character.getBodyPosition();
         position.y += 4f;
         this.screen = screen;
         bullets = new ArrayList<>();
         this.character = character;
-
         switchWeapon();
         setTexture(TEXTURE_IDLE);
         defineGunPhysics();
         character.currentWeapon = this;
 
-        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 352, 221); //define region of certain texture in png
-        setBounds(0,0,58/ Khartoosha.PPM,29/Khartoosha.PPM); //set size rendered texture
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 1102, 217); //define region of certain texture in png
+        setBounds(0,0,160/ Khartoosha.PPM,28/Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
     }
 
@@ -75,15 +75,16 @@ public class Weapon extends Sprite
     {
         if (faceRight)
         {
-            setPosition(position.x + 0.5f, yPos);
+            setPosition(position.x + 0.4f + extraPos, yPos);
         } else
         {
-            setPosition(position.x - 1f, yPos);
+            setPosition(position.x - 2f - extraPos, yPos);
 
         }
         if (stopFalling)
         {
-            yPos = character.getBodyPosition().y + 0.3f;
+            yPos = character.getBodyPosition().y + 0.4f;
+            canShoot=true;
         }
         if (yPos < character.getBodyPosition().y + 0.3)
             stopFalling = true;
@@ -115,10 +116,15 @@ public class Weapon extends Sprite
 
 
         if (shootingTimer < 0.4f)
+        {
             setTexture(TEXTURE_SHOOTING);
+        }
 
         else if (shootingTimer > 0.4f)
+        {
+
             setTexture(TEXTURE_IDLE);
+        }
 
         for (Bullet bullet : bullets)
         {
@@ -149,7 +155,7 @@ public class Weapon extends Sprite
     {
         yPos = position.y + 4f;
         stopFalling = false;
-
+        canShoot=false;
         switch (type)
         {
             case 0:
@@ -179,7 +185,7 @@ public class Weapon extends Sprite
 
     public void shoot()
     {
-        if (CURRENT_AMMO > 0 && keyPressTimer > FIRING_RATE)
+        if (CURRENT_AMMO > 0 && keyPressTimer > FIRING_RATE && canShoot)
         {
             switch (type)
             {
@@ -213,14 +219,14 @@ public class Weapon extends Sprite
             if (faceRight)
             {
                 bulletFlipped = false;
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE));
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE));
 
             } else
             {
                 bulletFlipped = true;
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE));
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE));
             }
 
         }

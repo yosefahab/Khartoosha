@@ -172,3 +172,9 @@ Ayman, 20 Jan
 Bassel, 24 Jan
 - Modified Bullet and bomb to support bullets spreading in all directions on explostion 
 - Prevented bomb from memory leaking 
+
+
+Yahia, 24 Jan
+-Modified weapons texture size
+-Added Texture to Bullet's constructor (To be able to specify a bullet texture for each weapon)
+-Fixed a bug where the player could shoot while the weapon was in air

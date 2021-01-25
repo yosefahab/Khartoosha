@@ -49,8 +49,6 @@ public class Camera
         float charactersAVGY = ((c1.physicsBody.getPosition().y + c2.physicsBody.getPosition().y)) / 2;
         float camX = gameCam.position.x;
         float camY = gameCam.position.y;
-
-
         // Cam Debug Mode
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0))
         {
@@ -133,9 +131,5 @@ public class Camera
         vec.y = gameCam.position.y;
         return vec;
     }
-
-    public Vector2 getCamPos()
-    {
-        return new Vector2(gameCam.position.x,gameCam.position.y);
-    }
+    public Vector2 getCamPos() {return new Vector2(gameCam.position.x,gameCam.position.y);}
 }
