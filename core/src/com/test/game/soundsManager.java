@@ -16,8 +16,10 @@ public class soundsManager
     public static Music gameMusic;
     public static Music menuMusic;
     public static float musicVolume;
+    public static Music mapBackgroundMusic;
 
-    public soundsManager() {
+    public soundsManager()
+    {
 
         player1Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt1.ogg"));
         player2Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt2.ogg"));
@@ -88,7 +90,8 @@ public class soundsManager
     }
     public static void playGameMusic(){gameMusic.play(); }
     public static void playMenuMusic(){menuMusic.play(); }
-    public static void stopMenuMusic(){
+    public static void stopMenuMusic()
+    {
         menuMusic.stop();
         menuMusic.dispose();
     }
@@ -97,6 +100,17 @@ public class soundsManager
         gameMusic.dispose();
     }
     public static void shotgunFire() { shotgunShoot.play(soundVolume); }
+    public static void playMapBackgroundSounds()
+    {
+        mapBackgroundMusic.play();
+        mapBackgroundMusic.setLooping(true);
+    }
+    public static void stopMapBackgroundSounds()
+    {
+        mapBackgroundMusic.stop();
+        mapBackgroundMusic.dispose();
+    }
+
     public void dispose()
     {
         sniperShoot.dispose();
@@ -113,4 +127,6 @@ public class soundsManager
         gameMusic.stop();
         gameMusic.dispose();
     }
+
+
 }

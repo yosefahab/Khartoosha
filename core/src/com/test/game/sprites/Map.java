@@ -1,5 +1,7 @@
 package com.test.game.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -10,13 +12,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
+import com.test.game.menu.MovingBackground;
+import com.test.game.soundsManager;
 
 import java.util.ArrayList;
 
 public class Map
 {
     // Reference to box2D world
-    private World box2dWorld;
+    private final World box2dWorld;
 
     // The map itself
     private TiledMap map;
@@ -24,13 +28,18 @@ public class Map
     // Array of fixtures, used to identify platforms in Contact Listener
     public Array<Fixture> fixtures;
 
+    private MovingBackground movingBackground;
+
     public OrthogonalTiledMapRenderer mapRenderer;
-    private Array<Rectangle> jumpPoints = new Array<>();
-    private Array<Integer> jumpDirections = new Array<>();
-    private Array<Vector2> spawnPoints = new Array<>();
+    private final Array<Rectangle> jumpPoints = new Array<>();
+    private final Array<Integer> jumpDirections = new Array<>();
+    private final Array<Vector2> spawnPoints = new Array<>();
 
 
     int ID;
+
+    public static final int mapWidth = 1120;
+    public static final int mapHeight = 800;
 
     public Map(World world)
     {
@@ -47,10 +56,6 @@ public class Map
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / Khartoosha.PPM);
         fixtures = new Array<Fixture>();
 
-        if (mapID == 1)
-            box2dWorld.setGravity(new Vector2(0, -5));
-
-
         int platformIndex = 0;
         for (MapObject object : map.getLayers().get(2).getObjects())
         {
@@ -60,7 +65,6 @@ public class Map
                 createRectanglePlatform(rect, platformIndex, object);
             }
             platformIndex++;
-
         }
 
         for (MapObject object : map.getLayers().get("navigation").getObjects().getByType(RectangleMapObject.class))
@@ -86,11 +90,19 @@ public class Map
             }
         }
 
+        initSpecialBehavior();
+
     }
 
     public void render()
     {
         mapRenderer.render();
+        if (movingBackground != null)
+        {
+            Khartoosha.batch.begin();
+            movingBackground.displayBGmap();
+            Khartoosha.batch.end();
+        }
     }
 
     public void dispose()
@@ -133,5 +145,20 @@ public class Map
     public Array<Vector2> getSpawnPoints() {
         return spawnPoints;
     }
+
+    private void initSpecialBehavior()
+    {
+        if (ID == 1)
+            box2dWorld.setGravity(new Vector2(0, -5));
+
+        if (ID == 2)
+        {
+            movingBackground = new MovingBackground(new Texture("maps/map_resources/map2_moving_background.png"));
+            soundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/map2.wav"));
+            soundsManager.playMapBackgroundSounds();
+        }
+
+    }
+
 
 }

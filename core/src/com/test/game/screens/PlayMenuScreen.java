@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.menu.MenuBG;
+import com.test.game.menu.MovingBackground;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextures;
 import com.test.game.soundsManager;
 
-public class  PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
+public class  PlayMenuScreen extends MovingBackground implements Screen, MenuTextures {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
     private static final int ONE_PLAYER_BUTTON_HEIGHT = 155;
     private static final int ONE_PLAYER_BUTTON_Y = (int) (Khartoosha.Gheight - 270);
@@ -34,7 +35,9 @@ public class  PlayMenuScreen extends MenuBG implements Screen, MenuTextures {
     
     private final Khartoosha game;
 
-    public PlayMenuScreen(Khartoosha game) {
+    public PlayMenuScreen(Khartoosha game)
+    {
+        super(new Texture("menu/menu_bg_darker1.png"));
         this.game = game;
         
         dynamicTextureNames[1] = "onePlayer";

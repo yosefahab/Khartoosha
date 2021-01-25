@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.menu.MenuBG;
+import com.test.game.menu.MovingBackground;
 import com.test.game.menu.MenuTextureDim;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
@@ -14,7 +14,7 @@ import com.test.game.menu.MenuTextures;
 import com.test.game.soundsManager;
 
 
-public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
+public class SettingsMenuScreen extends MovingBackground implements Screen, MenuTextures {
     
     private static final int SETTINGS_BUTTON_WIDTH = 300;
     private static final int SETTINGS_BUTTON_HEIGHT = 80;
@@ -65,7 +65,9 @@ public class SettingsMenuScreen extends MenuBG implements Screen, MenuTextures {
 
     private static int currDynamicTexture = 0;
 
-    public SettingsMenuScreen(Khartoosha game) {
+    public SettingsMenuScreen(Khartoosha game)
+    {
+        super(new Texture("menu/menu_bg_darker1.png"));
         this.game = game;
         on = new Texture("menu/menu_on.png");
         off = new Texture("menu/menu_off.png");

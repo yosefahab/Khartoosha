@@ -166,3 +166,9 @@ Ayman, 20 Jan
             - Added code to retrieve added data from map to the Map class
             - Modified user data for the platforms (now is a pair of physics body and map object)
         • Weapons: adjusted weapons forces
+
+
+
+Bassel, 24 Jan
+- Modified Bullet and bomb to support bullets spreading in all directions on explostion 
+- Prevented bomb from memory leaking 
