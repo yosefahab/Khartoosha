@@ -41,12 +41,12 @@ public class UpgradeWeapon extends PowerUp {
     public void effect(Character c) {
 
         // if the character has the max weapon type refill ammo instead
-        if (attachedChar.currentWeapon.type == Weapon.MAX_TYPE)
-            attachedChar.currentWeapon.refillAmmo();
+        if (attachedChar.weapon.type == Weapon.MAX_TYPE)
+            attachedChar.weapon.refillAmmo();
         else
         {
-            attachedChar.currentWeapon.type++;
-            attachedChar.currentWeapon.switchWeapon();
+            attachedChar.weapon.type++;
+            attachedChar.weapon.switchWeapon();
 
         }
         resetPupPosition();

@@ -44,7 +44,7 @@ public class RefillAmmo extends PowerUp {
     @Override
     public void effect(Character c) {
 
-        attachedChar.currentWeapon.refillAmmo();
+        attachedChar.weapon.refillAmmo();
         resetPupPosition();
 
         reset();

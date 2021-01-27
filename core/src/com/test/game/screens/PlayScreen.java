@@ -1,5 +1,6 @@
 package com.test.game.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -42,7 +43,10 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-     public HUD H;
+    public HUD H;
+
+    public static RayHandler rayHandler;
+
     // General constructor
     public PlayScreen(Khartoosha game, int mapNum)
     {
@@ -57,14 +61,13 @@ public class PlayScreen implements Screen
 
         // Create our Box2D world, setting no gravity in X, -1 gravity in Y, and allow bodies to sleep
         box2dWorld = new World(new Vector2(0, -10), true);
-
         // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
 
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(2);
+        map.loadMap(0);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();
@@ -83,7 +86,7 @@ public class PlayScreen implements Screen
         isGamePaused = false;
         goToMainMenu = false;
 
-        H=new HUD();
+        H = new HUD();
     }
 
     // 1 Player constructor
@@ -92,7 +95,6 @@ public class PlayScreen implements Screen
         this(game, mapNum);
 
         character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
-
         Random rand = new Random();
         character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true, map.getSpawnPoints().get(1));
         character1.setEnemy(character2);
@@ -145,7 +147,7 @@ public class PlayScreen implements Screen
             System.out.println("\t\t-Player 1-    -Player 2- " );
             System.out.println("Lives: \t\t"+ character1.current_lives+"      \t\t" + character2.current_lives);
             System.out.println("Armored: "+ character1.isArmored+"      \t" + character2.isArmored);
-            System.out.println("Ammo: \t"+ character1.currentWeapon.getAmmo()+"      \t" + character2.currentWeapon.getAmmo());
+            System.out.println("Ammo: \t"+ character1.weapon.getAmmo()+"      \t" + character2.weapon.getAmmo());
         }
 
         powerUpsHandler.update();
@@ -211,6 +213,7 @@ public class PlayScreen implements Screen
             PauseMenu.displayPauseScreen(camera);
         }
         Khartoosha.batch.end();
+
     }
 
     @Override

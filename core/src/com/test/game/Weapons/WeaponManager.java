@@ -16,7 +16,7 @@ public class WeaponManager
         weapon.TEXTURE_IDLE = new Texture("vfx/weapons/pistol/idle.png");
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/pistol/shooting.png");
         weapon.BULLET_TEXTURE = new Texture ("vfx/weapons/pistol/bullet.png");
-        weapon.extraPos=0;
+        weapon.extraPos = 0;
     }
 
     protected static void initMG(Weapon weapon)

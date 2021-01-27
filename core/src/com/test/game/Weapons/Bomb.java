@@ -3,14 +3,12 @@ package com.test.game.Weapons;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Null;
 import com.test.game.Khartoosha;
 import com.test.game.Utils;
 import com.test.game.sprites.Character;
@@ -88,11 +86,11 @@ public class Bomb extends Sprite
     {
         Vector2 pos = new Vector2(bombBody.getWorldCenter());
 
-        bullets[0] = new Bullet(world, pos, VELOCITY_VECTORS[0], FORCE_VECTORS[0], new Texture("bomb.png"));
-        bullets[1] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[0]), Utils.flipVectorX(FORCE_VECTORS[0]),new Texture("bomb.png"));
-        bullets[2] = new Bullet(world, pos, VELOCITY_VECTORS[1], FORCE_VECTORS[1],new Texture("bomb.png"));
-        bullets[3] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[2]), Utils.flipVectorX(VELOCITY_VECTORS[2]),new Texture("bomb.png"));
-        bullets[4] = new Bullet(world, pos, VELOCITY_VECTORS[2], FORCE_VECTORS[2],new Texture("bomb.png"));
+        bullets[0] = new Bullet(world, pos, VELOCITY_VECTORS[0], FORCE_VECTORS[0], new Texture("bomb.png") ,4);
+        bullets[1] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[0]), Utils.flipVectorX(FORCE_VECTORS[0]),new Texture("bomb.png"), 4);
+        bullets[2] = new Bullet(world, pos, VELOCITY_VECTORS[1], FORCE_VECTORS[1],new Texture("bomb.png"), 4);
+        bullets[3] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[2]), Utils.flipVectorX(VELOCITY_VECTORS[2]),new Texture("bomb.png"), 4);
+        bullets[4] = new Bullet(world, pos, VELOCITY_VECTORS[2], FORCE_VECTORS[2],new Texture("bomb.png"), 4);
 
 
         bombBody.setTransform(Khartoosha.Gwidth / Khartoosha.PPM + (200 / Khartoosha.PPM),
@@ -127,8 +125,8 @@ public class Bomb extends Sprite
                     b.update(delta);
                     if (b.isOutOfRange(WeaponManager.BOMB_RANGE, true))
                     {
-                        b.remove();
-                        // Prevents memory leaks
+                        b.dispose();
+                        b.pointLight.remove();
                         bullets[cnt - 1] = null;
                     }
 

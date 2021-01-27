@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
 import com.test.game.sprites.Character;
 
@@ -21,14 +20,13 @@ public class Weapon extends Sprite
 {
     private Vector2 position;
     public ArrayList<Bullet> bullets;
-    private World box2dWorld;
-    private PlayScreen screen;
-    private BodyDef weaponBody = new BodyDef();
+    private final World box2dWorld;
+    private final BodyDef weaponBody = new BodyDef();
     private Body physicsBodyWeapon;
     public boolean faceRight = true;
 
 
-    private Character character;
+    private final Character character;
     private boolean bulletFlipped;
     public int type = 0;
 
@@ -37,7 +35,7 @@ public class Weapon extends Sprite
     private float shootingTimer = 3;
 
     private float yPos;
-    protected float extraPos=0;
+    protected float extraPos = 0;
     private boolean stopFalling = false;
 
 
@@ -53,18 +51,17 @@ public class Weapon extends Sprite
     public boolean canShoot = false;
 
 
-    public Weapon(World box2dWorld, PlayScreen screen, Character character)
+    public Weapon(World box2dWorld, Character character)
     {
         this.box2dWorld = box2dWorld;
         this.position = character.getBodyPosition();
         position.y += 4f;
-        this.screen = screen;
         bullets = new ArrayList<>();
         this.character = character;
         switchWeapon();
         setTexture(TEXTURE_IDLE);
         defineGunPhysics();
-        character.currentWeapon = this;
+        character.weapon = this;
 
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 1102, 217); //define region of certain texture in png
         setBounds(0,0,160/ Khartoosha.PPM,28/Khartoosha.PPM); //set size rendered texture
@@ -90,22 +87,8 @@ public class Weapon extends Sprite
             stopFalling = true;
         if (!stopFalling)
             yPos -= 0.098f;
-        ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
 
-        for (Bullet bullet : bullets)
-        {
-            bullet.update(Gdx.graphics.getDeltaTime());
-
-            if (type == 3 && bullet.isOutOfRange(WeaponManager.SHOTGUN_RANGE, false))
-                bullet.remove();
-
-            if (bullet.remove)
-            {
-                bulletsToBeRemoved.add(bullet);
-            }
-        }
-        bullets.removeAll(bulletsToBeRemoved);
-
+        removeBullets();
 
     }
 
@@ -219,19 +202,45 @@ public class Weapon extends Sprite
             if (faceRight)
             {
                 bulletFlipped = false;
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE));
+                Bullet bullet = new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type);
+                bullets.add(bullet);
 
             } else
             {
                 bulletFlipped = true;
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE));
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
             }
 
         }
 
     }
+
+    private void removeBullets()
+    {
+        ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
+        for (Bullet bullet : bullets)
+        {
+            bullet.update(Gdx.graphics.getDeltaTime());
+
+            if (bullet.removeFromArray)
+            {
+                bullet.dispose();
+                bulletsToBeRemoved.add(bullet);
+            }
+        }
+        if (Bullet.isLight)
+        {
+            for (Bullet bullet : bulletsToBeRemoved)
+            {
+                bullet.pointLight.remove();
+            }
+        }
+        bullets.removeAll(bulletsToBeRemoved);
+    }
+
+
 
 
 }

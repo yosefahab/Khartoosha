@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.PowerUp;
-import com.test.game.sprites.PowerUps.PowerUpsHandler;
-import com.test.game.sprites.PowerUps.SpeedBoost;
 
 import java.util.Random;
 
@@ -130,7 +128,7 @@ public class AI {
 
     private void attack()
     {
-        character.currentWeapon.shoot();
+        character.weapon.shoot();
     }
 
 
@@ -186,9 +184,9 @@ public class AI {
                 (weaponLocation.y >= (enemyLocation.y - (enemy.SHAPE_HEIGHT / (2 * Khartoosha.PPM)) ) ))
         {
             //make sure character is facing opponent
-            if (enemyLocation.x > character.getBodyPosition().x && !character.currentWeapon.faceRight)
+            if (enemyLocation.x > character.getBodyPosition().x && !character.weapon.faceRight)
                 character.moveRight();
-            if (enemyLocation.x < character.getBodyPosition().x && character.currentWeapon.faceRight)
+            if (enemyLocation.x < character.getBodyPosition().x && character.weapon.faceRight)
                 character.moveLeft();
             return true;
         }

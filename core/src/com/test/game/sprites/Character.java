@@ -58,7 +58,7 @@ public class Character extends Sprite
 
 
     // attaching weapon to character
-    public Weapon currentWeapon;
+    public Weapon weapon;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
     private Vector2 spawnLocation;
@@ -131,7 +131,7 @@ public class Character extends Sprite
 
         current_lives = MAX_LIVES;
 
-        currentWeapon = new Weapon(world,screen,this);
+        weapon = new Weapon(world,this);
     }
 
     public void defineCharacterPhysics()
@@ -156,7 +156,7 @@ public class Character extends Sprite
         float delta = Gdx.graphics.getDeltaTime();
 
         handleInput();
-        currentWeapon.update(delta);
+        weapon.update(delta);
         setPosition((float) (physicsBody.getPosition().x- (2.5)*getWidth()/5), physicsBody.getPosition().y-getHeight()/3);
 
         //if body falls, reset position and decrease lives
@@ -183,11 +183,11 @@ public class Character extends Sprite
             }
 
             // degrade weapon on death
-            if (currentWeapon.type > 0)
-                currentWeapon.type--;
-            currentWeapon.switchWeapon();
+            if (weapon.type > 0)
+                weapon.type--;
+            weapon.switchWeapon();
 
-            currentWeapon.update(delta);
+            weapon.update(delta);
         }
 
 
@@ -218,25 +218,25 @@ public class Character extends Sprite
 
         if (enemy != null && enemy.lostLife)
         {
-            if (currentWeapon.type < Weapon.MAX_TYPE)
+            if (weapon.type < Weapon.MAX_TYPE)
             {
-                currentWeapon.type++;
-                currentWeapon.switchWeapon();
+                weapon.type++;
+                weapon.switchWeapon();
             }
-            else currentWeapon.refillAmmo();
+            else weapon.refillAmmo();
             enemy.lostLife = false;
         }
 
 
         if (isFlipX())
         {
-            currentWeapon.setFlip(true, false);
-            currentWeapon.faceRight = false;
+            weapon.setFlip(true, false);
+            weapon.faceRight = false;
         }
         else if (!isFlipX())
         {
-            currentWeapon.setFlip(false, false);
-            currentWeapon.faceRight = true;
+            weapon.setFlip(false, false);
+            weapon.faceRight = true;
         }
 
         if (isAI)
@@ -313,7 +313,7 @@ public class Character extends Sprite
 
         if (Gdx.input.isKeyPressed(CHARACTER_CONTROLS[4]))
         {
-            currentWeapon.shoot();
+            weapon.shoot();
         }
 
         if (CHARACTER_ID == 1 && Gdx.input.isKeyJustPressed(Input.Keys.G))
@@ -380,8 +380,8 @@ public class Character extends Sprite
     public void render()
     {
         draw(Khartoosha.batch);
-        currentWeapon.draw(Khartoosha.batch);
-        currentWeapon.render(Khartoosha.batch);
+        weapon.draw(Khartoosha.batch);
+        weapon.render(Khartoosha.batch);
     }
 
 

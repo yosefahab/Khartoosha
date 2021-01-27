@@ -1,6 +1,8 @@
 package com.test.game.sprites;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -12,10 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
+import com.test.game.Weapons.Bullet;
 import com.test.game.menu.MovingBackground;
-import com.test.game.soundsManager;
-
-import java.util.ArrayList;
+import com.test.game.screens.PlayScreen;
 
 public class Map
 {
@@ -35,11 +36,13 @@ public class Map
     private final Array<Integer> jumpDirections = new Array<>();
     private final Array<Vector2> spawnPoints = new Array<>();
 
-
     int ID;
 
     public static final int mapWidth = 1120;
     public static final int mapHeight = 800;
+
+    private float imageLayerFlipTimer = 0;
+    public static RayHandler rayHandler;
 
     public Map(World world)
     {
@@ -67,6 +70,7 @@ public class Map
             platformIndex++;
         }
 
+
         for (MapObject object : map.getLayers().get("navigation").getObjects().getByType(RectangleMapObject.class))
         {
             if (object != null)
@@ -74,7 +78,7 @@ public class Map
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
                 //System.out.println(rect.getX()+ "  " + rect.getY());
                 jumpPoints.add(rect);
-                jumpDirections.add((Integer)object.getProperties().get("jumpDirection"));
+                jumpDirections.add((Integer) object.getProperties().get("jumpDirection"));
             }
         }
 
@@ -97,13 +101,9 @@ public class Map
     public void render()
     {
         mapRenderer.render();
-        if (movingBackground != null)
-        {
-            Khartoosha.batch.begin();
-            movingBackground.displayBGmap();
-            Khartoosha.batch.end();
-        }
+        UpdateAndrenderSpecialBehavior();
     }
+
 
     public void dispose()
     {
@@ -134,31 +134,106 @@ public class Map
     }
 
 
-    public Array<Rectangle> getJumpPoints() {
+    public Array<Rectangle> getJumpPoints()
+    {
         return jumpPoints;
     }
 
-    public Array<Integer> getJumpDirections() {
+    public Array<Integer> getJumpDirections()
+    {
         return jumpDirections;
     }
 
-    public Array<Vector2> getSpawnPoints() {
+    public Array<Vector2> getSpawnPoints()
+    {
         return spawnPoints;
     }
 
     private void initSpecialBehavior()
     {
+
         if (ID == 1)
+        {
             box2dWorld.setGravity(new Vector2(0, -5));
+        }
 
         if (ID == 2)
         {
             movingBackground = new MovingBackground(new Texture("maps/map_resources/map2_moving_background.png"));
-            soundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/map2.wav"));
-            soundsManager.playMapBackgroundSounds();
+           // soundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/map2.wav"));
+           // soundsManager.playMapBackgroundSounds();
+        }
+        if (ID == 3)
+        {
+            Bullet.isLight = true;
+            rayHandler = new RayHandler(box2dWorld);
+
+            // 0 is totally dark, 1 is totally lit up
+            rayHandler.setAmbientLight(0.6f);
+        }
+    }
+
+    private void UpdateAndrenderSpecialBehavior()
+    {
+        if (ID == 2)
+        {
+            Khartoosha.batch.begin();
+            movingBackground.displayBGmap();
+            Khartoosha.batch.end();
         }
 
+        if (ID == 3)
+        {
+            if (Gdx.input.isKeyPressed(Input.Keys.Q))
+            {
+                imageLayerFlip();
+            }
+            rayHandler.setCombinedMatrix(PlayScreen.camera.gameCam);
+            rayHandler.updateAndRender();
+        }
     }
+
+    private void imageLayerFlip()
+    {
+        imageLayerFlipTimer += Gdx.graphics.getDeltaTime();
+        if (imageLayerFlipTimer > 0.05f)
+        {
+            if (map.getLayers().get("1").isVisible())
+                map.getLayers().get("1").setVisible(false);
+            else
+                map.getLayers().get("1").setVisible(true);
+
+            imageLayerFlipTimer = 0;
+        }
+    }
+
+    /*
+    fades in / out lights
+    may become useful sometime later
+    private void fadeInOut()
+    {
+        fadeInOutTimer += Gdx.graphics.getDeltaTime();
+        if (fadeInOutTimer > 0.01)
+        {
+            Color color = new Color(pointLight.getColor());
+            System.out.println(color.a);
+            if (fadeOut)
+            {
+                color.a -= 0.1f;
+                if (color.a <= 0)
+                    fadeOut = false;
+            }
+            else
+            {
+                color.a += 0.1f;
+                if (color.a >= 1)
+                    fadeOut = true;
+            }
+            pointLight.setColor(color);
+            fadeInOutTimer = 0;
+        }
+    }
+     */
 
 
 }

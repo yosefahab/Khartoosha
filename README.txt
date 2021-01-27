@@ -178,3 +178,13 @@ Yahia, 24 Jan
 -Modified weapons texture size
 -Added Texture to Bullet's constructor (To be able to specify a bullet texture for each weapon)
 -Fixed a bug where the player could shoot while the weapon was in air
+
+
+Bassel, 27 Jan
+- New map, map 3, still in progress, AI is not configured with it yet, take a quick look at the map class
+- Press and hold Q for the tile flipping thing, adding it permenatnly will be discussed
+- Modified weapon and bullet to support adding light to bullets in map 3
+- moved removing bullets logic in weapon to a separate method
+- Reduced the opacity and density of moving background in map 2
+/* check out box2dlights, very simple and can do really cool stuff */
+
