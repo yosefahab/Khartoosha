@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.test.game.screens.MainMenuScreen;
+import com.test.game.screens.NewMainMenu;
 import com.test.game.screens.PlayScreen;
 
 public class Khartoosha extends Game
@@ -35,7 +35,7 @@ public class Khartoosha extends Game
 
 		soundsManager.playMenuMusic();
 
-		this.setScreen(new MainMenuScreen(this));
+		this.setScreen(new NewMainMenu());
 //		this.setScreen(new PlayScreen(this, 1, 1, 2));
 //		this.setScreen(new PlayScreen(this, 1, 1));
 	}
