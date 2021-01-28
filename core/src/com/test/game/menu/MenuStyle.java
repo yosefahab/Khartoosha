@@ -56,4 +56,8 @@ public class MenuStyle {
         buttonStyle.checkedFontColor = MenuStyle.active;
         //menuButtonStyle.overFontColor = active;
     }
+
+    public void dispose() {
+        font.dispose();
+    }
 }

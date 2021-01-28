@@ -197,7 +197,8 @@ public class NewMainMenu extends MovingBackground implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        menuStyle.dispose();
     }
 }
 
