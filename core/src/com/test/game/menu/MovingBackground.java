@@ -6,12 +6,24 @@ import com.test.game.sprites.Map;
 
 public class MovingBackground
 {
-    public static int bgOffset = 0;
+    private static int bgOffset = 0;
     public static Texture bg;
 
     public MovingBackground(Texture texture)
     {
         bg = texture;
+    }
+
+    public static void displayMenuBG()
+    {
+        bgOffset += 2;
+        if (bgOffset % 900 == 0)
+        {
+            bgOffset = 0;
+        }
+        Khartoosha.batch.draw(bg, -bgOffset, 0, 900, Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset + 900, 0, 900, Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset + 900 + 900, 0, 900, Khartoosha.Gheight);
     }
 
     public void displayBG()
@@ -39,4 +51,14 @@ public class MovingBackground
 
     }
 
+    public static Texture getBg() {
+        return bg;
+    }
+
+    public static void setBg(Texture bg) {
+        MovingBackground.bg = bg;
+    }
+    public static Texture initializeMenuBG() {
+        return new Texture("menu/menu_bg_darker1.png");
+    }
 }
