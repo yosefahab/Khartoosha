@@ -37,7 +37,7 @@ public class Bullet extends Sprite
         setTexture(bulletTexture);
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 544, 122); //define region of certain texture in png
         setRegion(textureRegion);
-        setBounds(0, 0, 120 / Khartoosha.PPM, 30 / Khartoosha.PPM); //set size rendered texture
+        setBounds(position.x, position.y, 120 / Khartoosha.PPM, 30 / Khartoosha.PPM); //set size rendered texture
 
         if (isLight)
         {

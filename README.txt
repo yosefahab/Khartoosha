@@ -188,3 +188,10 @@ Bassel, 27 Jan
 - Reduced the opacity and density of moving background in map 2
 /* check out box2dlights, very simple and can do really cool stuff */
 
+Youssef, 30 Jan
+- modified bullet bounds to match init position, this should make initial bullet position dynamic
+- replaced sprites/TextureRegions in Hud, they're now implemented using Textures and drawn using game Batch
+- fixed bug where game crashed due to index out of bounds in lives array in Hud
+- some variables renamed
+- *physics bodies, weapons and characters textures' positions to be discussed*
+- added endGame() to be used to implement game ending

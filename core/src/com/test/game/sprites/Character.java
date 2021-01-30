@@ -35,11 +35,11 @@ public class Character extends Sprite
 
     private final float DEFAULT_SPEED = 2;
     public float speedCap = DEFAULT_SPEED;
-    private float speedScale = 0.4f;
+    private final float speedScale = 0.4f;
     public int ALLOWED_JUMPS = 2;
 
-    private final int  MAX_LIVES = 5;
-    public static int current_lives=0;
+    public static final int  MAX_LIVES = 5;
+    public static int current_lives;
     // indicator to be used to upgrade weapon for the opponent
     public boolean lostLife = false;
 
@@ -50,8 +50,6 @@ public class Character extends Sprite
     public final int[] CHARACTER_CONTROLS;
 
     public boolean isArmored = false;
-
-    private final int TextureNumber;
 
     private final int CHARACTER_ID;
 
@@ -68,7 +66,7 @@ public class Character extends Sprite
     private AI ai;
     private Bomb bomb;
 
-    public int current_char=0;
+    private int current_char=0;
     public boolean dead=false;
     /*
     @param x starting x-coordinate on pack
@@ -83,8 +81,7 @@ public class Character extends Sprite
 
         this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 637, 513, 637);
         this.jumping =  new TextureRegion(getTexture(),(7 * 513),(TextureNumber-1)* 637, 513, 637);
-
-        setBounds(physicsBody.getPosition().x,physicsBody.getPosition().y, 120 /Khartoosha.PPM, 150 /Khartoosha.PPM);
+        setBounds(physicsBody.getPosition().x,physicsBody.getPosition().y, 120 /Khartoosha.PPM, 100 /Khartoosha.PPM);
         setRegion(idle);
     }
     public int current_char()
@@ -96,7 +93,6 @@ public class Character extends Sprite
     {
         super(screen.getAtlas().findRegion("johnnySprite")); //for some reason it doesnt make a difference which string is passed
         this.world = world;
-        this.TextureNumber = TextureNumber;
         this.isAI = isAI;
         this.bomb = new Bomb(world);
         this.spawnLocation = spawnLocation;
@@ -157,7 +153,7 @@ public class Character extends Sprite
 
         handleInput();
         weapon.update(delta);
-        setPosition((float) (physicsBody.getPosition().x- (2.5)*getWidth()/5), physicsBody.getPosition().y-getHeight()/3);
+        setPosition(physicsBody.getPosition().x - getWidth()/2 , physicsBody.getPosition().y-getHeight()/2);
 
         //if body falls, reset position and decrease lives
         // Hit timer (logic explained in start Hit timer function)
@@ -195,7 +191,7 @@ public class Character extends Sprite
         {
             System.out.println("Player " + CHARACTER_ID + " lost");
             current_lives = MAX_LIVES;
-            soundsManager.gameOver();
+            PlayScreen.endGame(this.getCHARACTER_ID());
             //TODO: reset game
         }
 
@@ -215,7 +211,7 @@ public class Character extends Sprite
             isTimerStarted = false;
         }
 
-
+        //TODO: redundant null check?
         if (enemy != null && enemy.lostLife)
         {
             if (weapon.type < Weapon.MAX_TYPE)
@@ -333,6 +329,9 @@ public class Character extends Sprite
 
     public void dispose()
     {
+        //getTexture().dispose();
+        //jumping.getTexture().dispose();
+        //idle.getTexture().dispose();
     }
     // Speed boost pup
     public void setSpeedCap(float speedCap)
@@ -359,8 +358,6 @@ public class Character extends Sprite
     public int getMAX_LIVES() {return  this.MAX_LIVES;}
 
 
-
-
     /**
      * When a player hits an opponent a hit timer is started
      * if the opponent dies before this timer reaches a
@@ -368,23 +365,22 @@ public class Character extends Sprite
      * and his weapon is upgraded, this prevents self kills
      * from upgrading the weapon's opponent
      */
-    public void startHitTimer()
-    {
+    public void startHitTimer() {
         //System.out.println("Hit timer started");
         hitTimer = 0;
         isTimerStarted = true;
     }
 
-
-
-    public void render()
-    {
+    public void render() {
         draw(Khartoosha.batch);
         weapon.draw(Khartoosha.batch);
         weapon.render(Khartoosha.batch);
+        //TODO: implement game ending
+//        if (PlayScreen.gameOver) {
+//            BitmapFont font = new BitmapFont();
+//            font.draw(Khartoosha.batch, "GAME OVER!", Khartoosha.Gwidth / 2, Khartoosha.Gheight / 2);
+//        }
     }
-
-
 
     // Had to be done separately not in the constructor because the AI needs the character
     // to have an enemy assigned and since the set enemy is done separately this had to be

@@ -42,8 +42,9 @@ public class PlayScreen implements Screen
     //Pause menu
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
+    public static boolean gameOver;
 
-    public HUD H;
+    public Hud H;
 
     public static RayHandler rayHandler;
 
@@ -51,7 +52,7 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapNum)
     {
         this.game = game;
-
+        gameOver= false;
         soundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
         //soundsManager.playGameMusic();
@@ -86,15 +87,15 @@ public class PlayScreen implements Screen
         isGamePaused = false;
         goToMainMenu = false;
 
-        H = new HUD();
+        H = new Hud();
     }
 
     // 1 Player constructor
-    public PlayScreen(Khartoosha game, int mapNum, int char1Num)
+    public PlayScreen(Khartoosha game, int mapNum, int textureNumber)
     {
         this(game, mapNum);
 
-        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
+        character1 = new Character(box2dWorld, this,  textureNumber,true, false, map.getSpawnPoints().get(0));
         Random rand = new Random();
         character2 = new Character(box2dWorld, this,  rand.nextInt(3)+1,false, true, map.getSpawnPoints().get(1));
         character1.setEnemy(character2);
@@ -105,16 +106,24 @@ public class PlayScreen implements Screen
     }
 
     // 2 Players constructor
-    public PlayScreen(Khartoosha game, int mapNum, int char1Num, int char2Num)
+    public PlayScreen(Khartoosha game, int mapNum, int player1Texture, int player2Texture)
     {
         this(game, mapNum);
-        character1 = new Character(box2dWorld, this,  char1Num,true, false, map.getSpawnPoints().get(0));
-        character2 = new Character(box2dWorld, this,  char2Num,false, false, map.getSpawnPoints().get(1));
+        character1 = new Character(box2dWorld, this,  player1Texture,true, false, map.getSpawnPoints().get(0));
+        character2 = new Character(box2dWorld, this,  player2Texture,false, false, map.getSpawnPoints().get(1));
 
         character1.setEnemy(character2);
         character2.setEnemy(character1);
 
     }
+
+    public static void endGame(int character_id) {
+        //TODO: finalise dispose methods
+        gameOver= true;
+        soundsManager.gameOver();
+
+    }
+
     /**
      * Handles all powerups related operations
      *  Spawns pup if it's available
@@ -162,7 +171,7 @@ public class PlayScreen implements Screen
     {
         map.dispose();
         character1.dispose();
-        if (character2!= null){character2.dispose();}
+        character2.dispose();
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
     }
