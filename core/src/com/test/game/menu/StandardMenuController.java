@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.test.game.Khartoosha;
+import com.test.game.soundsManager;
 
 import java.util.HashMap;
 
@@ -20,98 +22,112 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public abstract class StandardMenuController {
+    protected Khartoosha game;
     Stage stage;
-    Table table;
+    public Stage getStage() {
+        return stage;
+    }
+
+    protected Table table;
+    public Table getTable() {
+        return table;
+    }
 
     final int numOfButtons;
-    public String[] stringButtonNames;
+    public String[] textButtonNames;
     java.util.Map<String, TextButton> textButtonMap;
 
     MenuStyle menuStyle;
 
-    int currButton;
+    int currTextButton;
 
     float buttonScale;
 
-    public StandardMenuController(int numOfButtons) {
+    public StandardMenuController(int numOfButtons, Khartoosha game) {
+        this.game = game;
         this.numOfButtons = numOfButtons;
         buttonScale = 1f; //buttons scale doesn't change
 
-        stringButtonNames = new String[numOfButtons + 1];
+        textButtonNames = new String[numOfButtons + 1];
 
         menuStyle = new MenuStyle();
         //initialize map
         textButtonMap = new HashMap<>();
 
-        currButton = 0;
+        currTextButton = 0;
     }
-    public StandardMenuController(int numOfButtons, float buttonScale) {
-        this(numOfButtons);
+    public StandardMenuController(int numOfButtons, Khartoosha game, float buttonScale) {
+        this(numOfButtons, game);
         this.buttonScale = buttonScale;
     }
 
-    public void initializeButtonMap() { // must be called int the constructor of the child screen AFTER the textButtonNames are set manually
+    public void initializeTextButtonMap() { // must be called int the constructor of the child screen AFTER the textButtonNames are set manually
         for (int i = 1; i <= numOfButtons; i++) {
-            textButtonMap.put(stringButtonNames[i], new TextButton(stringButtonNames[i], menuStyle.getButtonStyle()));
-            final TextButton textButton = textButtonMap.get(stringButtonNames[i]);
+            textButtonMap.put(textButtonNames[i], new TextButton(textButtonNames[i], menuStyle.getTextButtonStyle()));
+            final TextButton textButton = textButtonMap.get(textButtonNames[i]);
             final int finalI = i; //just setting i as final to be able to pass it
             textButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosen(finalI);
+                    chosen(textButtonNames[finalI], finalI);
                 }
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    currButton = finalI;
-                    setActiveButton(finalI);
+                    soundsManager.click();
+                    currTextButton = finalI;
+                    setActiveButton(textButtonNames[finalI]);
                 }
 
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    currButton = 0;
-                    setActiveButton(0);
+                    currTextButton = 0;
+                    setActiveButton("");
                 }
             });
         }
     }
 
-    public abstract void chosen(int finalI);
+    public abstract void chosen(String chosenButton, int chosenIndex);
 
-    void handleKeyboard() {
+     void handleKeyboard() {
         stage.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.DOWN) {
-                    if (currButton == stringButtonNames.length - 1) {
-                        currButton = 0;
+                    if (currTextButton == textButtonNames.length - 1) {
+                        currTextButton = 0;
                     }
-                    currButton++;
+                    currTextButton++;
                     System.out.println("down");
                 }
                 if (keycode == Input.Keys.UP) {
-                    if (currButton == 1) {
-                        currButton = stringButtonNames.length;
+                    if (currTextButton <= 1) {
+                        currTextButton = textButtonNames.length;
                     }
-                    currButton--;
+                    currTextButton--;
                     System.out.println("up");
                 }
-                setActiveButton(currButton);
+                setActiveButton(textButtonNames[currTextButton]);
                 if (keycode == Input.Keys.ENTER) {
-                    chosen(currButton);
+                    chosen(textButtonNames[currTextButton], currTextButton);
                 }
                 return true;
             }
         });
     }
 
-    public void setActiveButton(int buttonIndex) {
+    public void deActivateAllTextButtons() {
         TextButton button;
         for (int i = 1; i <= numOfButtons; i++) {
-            button = textButtonMap.get(stringButtonNames[i]);
+            button = textButtonMap.get(textButtonNames[i]);
             button.setChecked(false);
         }
-        if (buttonIndex > 0 && buttonIndex < stringButtonNames.length) {
-            button = textButtonMap.get(stringButtonNames[buttonIndex]);
+    }
+    public void setActiveButton(String buttonName) {
+         deActivateAllTextButtons();
+        TextButton button;
+        if (textButtonMap.containsKey(buttonName)) {
+            button = textButtonMap.get(buttonName);
             button.setChecked(true);
         }
     }
@@ -131,6 +147,12 @@ public abstract class StandardMenuController {
         })));
     }
 
+    public void renderMenuBG() {
+        Khartoosha.batch.begin();
+        MovingBackground.displayMenuBG();
+        Khartoosha.batch.end();
+    }
+
     public void menuControllerShow() {
         stage = new Stage();
         table = new Table();
@@ -147,13 +169,17 @@ public abstract class StandardMenuController {
 
         //adding buttons to table
         for (int i = 1; i <= numOfButtons; i++) {
-            TextButton button = textButtonMap.get(stringButtonNames[i]);
+            TextButton button = textButtonMap.get(textButtonNames[i]);
             button.getLabel().setFontScale(buttonScale);
+            //Texture texture = new Texture("menu/menu_char1_inactive.png");
+
+            //Sprite sprite = new Sprite(texture);
+            //table.add();
             table.add(button);
             table.getCell(button).spaceBottom(40);
             table.row();
         }
-        stage.addActor(table);
+
     }
 
     public void menuControllerRender(float delta) {

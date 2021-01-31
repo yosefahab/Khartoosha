@@ -3,37 +3,39 @@ package com.test.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.test.game.Khartoosha;
+import com.test.game.menu.ChoiceImage;
+import com.test.game.menu.ChoiceMenuController;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.StandardMenuController;
 
 public class NewPlayMenuScreen extends StandardMenuController implements Screen {
 
-
     static final int NUM_OF_BUTTONS = 3;
 
     static final float BUTTONS_SCALE = 0.6f;
 
-    public NewPlayMenuScreen() {
-        super(NUM_OF_BUTTONS, BUTTONS_SCALE);
+    public NewPlayMenuScreen(Khartoosha game) {
+        super(NUM_OF_BUTTONS, game, BUTTONS_SCALE);
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
-        stringButtonNames[1] = "1 player";
-        stringButtonNames[2] = "2 players";
-        stringButtonNames[3] = "back";
-        initializeButtonMap();
+        textButtonNames[1] = "1 player";
+        textButtonNames[2] = "2 players";
+        textButtonNames[3] = "back";
+        initializeTextButtonMap();
     }
-    public void chosen(int chosenIndex) {
-        switch (stringButtonNames[chosenIndex]) {
+    public void chosen(String chosenButton, int chosenIndex) {
+        switch (chosenButton) {
             case "1 player":
-                //TODO: uncomment when new character choice menu is ready
-                //setScreen(new CharacterChoiceMenuScreen(game, false), this);
+                setScreen(new NewCharacterChoiceMenuScreen(false, game), this);
                 break;
             case "2 players":
-                //TODO: uncomment when new character choice menu is ready
-                //setScreen(new CharacterChoiceMenuScreen(game, true), this);
+                setScreen(new NewCharacterChoiceMenuScreen(true, game), this);
                 break;
             case "back":
-                setScreen(new NewMainMenu(), this);
+                setScreen(new NewMainMenu(game), this);
                 break;
         }
     }
@@ -41,6 +43,7 @@ public class NewPlayMenuScreen extends StandardMenuController implements Screen 
     @Override
     public void show() {
         menuControllerShow();
+
     }
 
     @Override
@@ -52,6 +55,8 @@ public class NewPlayMenuScreen extends StandardMenuController implements Screen 
         Khartoosha.batch.end();
 
         menuControllerRender(delta);
+        //getTable().add(imageButton);
+        getStage().addActor(getTable());
     }
 
     @Override

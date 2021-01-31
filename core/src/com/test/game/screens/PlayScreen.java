@@ -64,7 +64,7 @@ public class PlayScreen implements Screen
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(2);
+        map.loadMap(3);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();

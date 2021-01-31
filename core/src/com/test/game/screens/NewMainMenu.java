@@ -11,18 +11,18 @@ public class NewMainMenu extends StandardMenuController implements Screen {
 
     static final int NUM_OF_BUTTONS = 3;
 
-    public NewMainMenu() {
-        super(NUM_OF_BUTTONS);
+    public NewMainMenu(Khartoosha game) {
+        super(NUM_OF_BUTTONS, game);
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
-        stringButtonNames[1] = "play";
-        stringButtonNames[2] = "settings";
-        stringButtonNames[3] = "exit";
-        initializeButtonMap();
+        textButtonNames[1] = "play";
+        textButtonNames[2] = "settings";
+        textButtonNames[3] = "exit";
+        initializeTextButtonMap();
     }
-    public void chosen(int chosenIndex) {
-        switch (stringButtonNames[chosenIndex]) {
+    public void chosen(String chosenButton, int chosenIndex) {
+        switch (chosenButton) {
             case "play":
-                setScreen(new NewPlayMenuScreen(), this);
+                setScreen(new NewPlayMenuScreen(game), this);
                 break;
             case "settings":
                 setScreen(new NewSettingsMenuScreen(), this);
@@ -31,9 +31,10 @@ public class NewMainMenu extends StandardMenuController implements Screen {
                 this.dispose();
                 Gdx.app.exit();
                 break;
+            default:
+
         }
     }
-
 
 
     @Override
@@ -48,11 +49,10 @@ public class NewMainMenu extends StandardMenuController implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Khartoosha.batch.begin();
-        MovingBackground.displayMenuBG();
-        Khartoosha.batch.end();
+        renderMenuBG();
 
         menuControllerRender(delta);
+        getStage().addActor(getTable());
     }
 
     @Override
