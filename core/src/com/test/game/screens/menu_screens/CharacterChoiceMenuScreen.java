@@ -6,8 +6,8 @@ import com.test.game.menu.ChoiceMenuController;
 import com.test.game.screens.PlayScreen;
 
 import java.util.ArrayList;
-
-public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
+//TODO: characters are pixelated when they are not active
+public class CharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
     int mapID;
 
     static final int NUM_OF_BUTTONS = 1;
@@ -19,7 +19,7 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
     boolean isFirstCharChosen;
     ArrayList<Integer> chosenCharacters;
 
-    public NewCharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game) {
+    public CharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game) {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
         textButtonNames[1] = "back";
         initializeTextButtonMap();
@@ -63,7 +63,7 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
         } else {
             switch (chosenButton) {
                 case "back":
-                    setScreen(new NewPlayMenuScreen(game), this);
+                    setScreen(new MapChoiceMenuScreen(isTwoPlayers, game), this);
                     break;
             }
         }

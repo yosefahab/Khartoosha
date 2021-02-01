@@ -37,11 +37,11 @@ public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen 
     @Override
     public void chosen(String chosenButton, int chosenIndex) {
         if(chosenButton.contains(CHOICE_NAME)) {
-            setScreen(new NewCharacterChoiceMenuScreen(isTwoPlayers, chosenIndex, game), this);
+            setScreen(new CharacterChoiceMenuScreen(isTwoPlayers, chosenIndex, game), this);
         } else {
             switch (chosenButton) {
                 case "back":
-                    setScreen(new NewPlayMenuScreen(game), this);
+                    setScreen(new PlayMenuScreen(game), this);
                     break;
             }
         }

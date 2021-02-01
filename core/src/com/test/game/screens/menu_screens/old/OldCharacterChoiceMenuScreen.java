@@ -13,7 +13,7 @@ import com.test.game.menu.MenuTextures;
 import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
 
-public class CharacterChoiceMenuScreen extends MovingBackground implements Screen, MenuTextures
+public class OldCharacterChoiceMenuScreen extends MovingBackground implements Screen, MenuTextures
 {
     private static final int MARGIN = 50;
 
@@ -72,7 +72,7 @@ public class CharacterChoiceMenuScreen extends MovingBackground implements Scree
     private boolean firstTime;
 
 
-    public CharacterChoiceMenuScreen(Khartoosha game, boolean twoPlayers)
+    public OldCharacterChoiceMenuScreen(Khartoosha game, boolean twoPlayers)
     {
         super(new Texture("menu/menu_bg_darker1.png"));
         this.game = game;
@@ -178,7 +178,7 @@ public class CharacterChoiceMenuScreen extends MovingBackground implements Scree
     public void chosenTexture(int dynamicTextureNum) {
         if(dynamicTextureNum == NUM_OF_DYNAMIC_TEXTURES){ //back was clicked
             this.dispose();
-            game.setScreen(new PlayMenuScreen(game));
+            game.setScreen(new OldPlayMenuScreen(game));
         }
     }
     public void chosenCharacter(int charNum) {

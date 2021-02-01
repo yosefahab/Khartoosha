@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.StandardMenuController;
+import com.test.game.screens.menu_screens.old.OldSettingsMenuScreen;
 
-public class NewMainMenu extends StandardMenuController implements Screen {
+public class MainMenuScreen extends StandardMenuController implements Screen {
 
     static final int NUM_OF_BUTTONS = 3;
 
-    public NewMainMenu(Khartoosha game) {
+    public MainMenuScreen(Khartoosha game) {
         super(NUM_OF_BUTTONS, game);
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "play";
@@ -22,10 +23,11 @@ public class NewMainMenu extends StandardMenuController implements Screen {
     public void chosen(String chosenButton, int chosenIndex) {
         switch (chosenButton) {
             case "play":
-                setScreen(new NewPlayMenuScreen(game), this);
+                setScreen(new PlayMenuScreen(game), this);
                 break;
             case "settings":
-                setScreen(new NewSettingsMenuScreen(), this);
+                //TODO: replace OldSettingsMenuScreen with the new one once ready
+                setScreen(new OldSettingsMenuScreen(game), this);
                 break;
             case "exit":
                 this.dispose();

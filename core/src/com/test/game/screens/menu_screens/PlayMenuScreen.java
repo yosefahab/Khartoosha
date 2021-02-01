@@ -7,13 +7,13 @@ import com.test.game.Khartoosha;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.StandardMenuController;
 
-public class NewPlayMenuScreen extends StandardMenuController implements Screen {
+public class PlayMenuScreen extends StandardMenuController implements Screen {
 
     static final int NUM_OF_BUTTONS = 3;
 
     static final float BUTTONS_SCALE = 0.6f;
 
-    public NewPlayMenuScreen(Khartoosha game) {
+    public PlayMenuScreen(Khartoosha game) {
         super(NUM_OF_BUTTONS, game, BUTTONS_SCALE);
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "1 player";
@@ -30,7 +30,7 @@ public class NewPlayMenuScreen extends StandardMenuController implements Screen 
                 setScreen(new MapChoiceMenuScreen(true, game), this);
                 break;
             case "back":
-                setScreen(new NewMainMenu(game), this);
+                setScreen(new MainMenuScreen(game), this);
                 break;
         }
     }

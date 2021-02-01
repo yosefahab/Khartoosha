@@ -195,3 +195,14 @@ Youssef, 30 Jan
 - some variables renamed
 - *physics bodies, weapons and characters textures' positions to be discussed*
 - added endGame() to be used to implement game ending
+
+Shehab, 1 Feb
+- menu is completely redone (even though it looks the same)
+- map choice menu is ready
+- menu is built on scene2D, some playlists to it:
+        • https://www.youtube.com/watch?v=EJwXzmUQChg&list=PLXY8okVWvwZ0JOwHiH1TntAdq-UDPnC2L  (main menu videos)
+        • https://www.youtube.com/watch?v=Huifd-C2KrI&list=PLS9MbmO_ssyCZ9Tjfay2tOQoaOVoG59Iy (scene2D videos)
+- all old menu classes and assets still exist till menu is completely finalized
+- the new settings menu screen is yet to be implemented
+- some minor features and effects will be added
+- in the character choice menu the characters are a bit pixelated, this will be solved later

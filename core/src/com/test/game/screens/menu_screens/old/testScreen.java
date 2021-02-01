@@ -18,6 +18,7 @@ import com.test.game.menu.ChoiceImage;
 import com.test.game.menu.MenuStyle;
 
 public class testScreen implements Screen {
+    //TODO: delete once done
     boolean once = false;
     Stage stage;
     Table table;

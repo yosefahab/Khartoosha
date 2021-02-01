@@ -172,7 +172,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
         for (int i = 1; i <= numOfChoices; i++) {
             final int finalI = i;
 
-            imageButtonPath = "menu/menu_" + imageButtonNames[i] + "_inactive.png";
+            imageButtonPath = "menu/menu_" + imageButtonNames[i] + ".png";
             menuStyle.setImageButtonStyle(imageButtonPath, imageButtonActiveBgPath);
 
             choicesImageButtonsMap.put(imageButtonNames[i], new ImageButton(menuStyle.getImageButtonStyle()));
