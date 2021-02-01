@@ -44,9 +44,10 @@ public class PlayScreen implements Screen
 
      public HUD H;
     // General constructor
-    public PlayScreen(Khartoosha game, int mapNum)
+    public PlayScreen(Khartoosha game, int mapID)
     {
         this.game = game;
+        mapID--; // because mapID is zero based
 
         soundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
@@ -64,7 +65,7 @@ public class PlayScreen implements Screen
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(3);
+        map.loadMap(mapID);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();

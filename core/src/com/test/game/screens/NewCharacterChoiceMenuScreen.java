@@ -7,6 +7,7 @@ import com.test.game.menu.ChoiceMenuController;
 import java.util.ArrayList;
 
 public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
+    int mapID;
 
     static final int NUM_OF_BUTTONS = 1;
     static final int NUM_OF_CHOICES = 3;
@@ -17,12 +18,13 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
     boolean isFirstCharChosen;
     ArrayList<Integer> chosenCharacters;
 
-    public NewCharacterChoiceMenuScreen(boolean isTwoPlayers, Khartoosha game) {
+    public NewCharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game) {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
         textButtonNames[1] = "back";
         initializeTextButtonMap();
 
         this.isTwoPlayers = isTwoPlayers;
+        this.mapID = mapID;
 
         //customize label (heading)
         if (isTwoPlayers){
@@ -33,10 +35,7 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
             heading.setFontScale(0.4f);
         }
 
-        //initialize image buttons names
-        for (int i = 1; i <= NUM_OF_CHOICES; i++) {
-            imageButtonNames[i] = "char" + i;
-        }
+
 
         //initialize imageButton's map and style
         initializeImageButtonMap("menu/menu_char_choice_active.png");
@@ -47,9 +46,9 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
 
     @Override
     public void chosen(String chosenButton, int chosenIndex) {
-        if(chosenButton.contains("char")) {
+        if(chosenButton.contains(CHOICE_NAME)) {
             if(!isTwoPlayers){
-                setScreen(new PlayScreen(game, 0, chosenIndex), this);
+                setScreen(new PlayScreen(game, mapID, chosenIndex), this);
             } else {
                 if(!isFirstCharChosen) {
                     chosenCharacters.add(chosenIndex);
@@ -57,9 +56,8 @@ public class NewCharacterChoiceMenuScreen extends ChoiceMenuController implement
                     isFirstCharChosen = true;
                 } else {
                     chosenCharacters.add(chosenIndex);
-                    setScreen(new PlayScreen(game, 0, chosenCharacters.get(0), chosenCharacters.get(1)), this);
+                    setScreen(new PlayScreen(game, mapID, chosenCharacters.get(0), chosenCharacters.get(1)), this);
                 }
-
             }
         } else {
             switch (chosenButton) {

@@ -29,10 +29,10 @@ public class NewPlayMenuScreen extends StandardMenuController implements Screen 
     public void chosen(String chosenButton, int chosenIndex) {
         switch (chosenButton) {
             case "1 player":
-                setScreen(new NewCharacterChoiceMenuScreen(false, game), this);
+                setScreen(new MapChoiceMenuScreen(false, game), this);
                 break;
             case "2 players":
-                setScreen(new NewCharacterChoiceMenuScreen(true, game), this);
+                setScreen(new MapChoiceMenuScreen(true, game), this);
                 break;
             case "back":
                 setScreen(new NewMainMenu(game), this);

@@ -23,7 +23,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public abstract class StandardMenuController {
     protected Khartoosha game;
-    Stage stage;
+    protected Stage stage;
     public Stage getStage() {
         return stage;
     }
@@ -35,7 +35,7 @@ public abstract class StandardMenuController {
 
     final int numOfButtons;
     public String[] textButtonNames;
-    java.util.Map<String, TextButton> textButtonMap;
+    protected java.util.Map<String, TextButton> textButtonMap;
 
     MenuStyle menuStyle;
 

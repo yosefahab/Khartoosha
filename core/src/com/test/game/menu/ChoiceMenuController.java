@@ -28,7 +28,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
     protected String[] imageButtonNames;
     //String imageButtonActiveBgPath;
     String imageButtonPath;
-    Map<String, ImageButton> choicesImageButtonsMap;
+    protected Map<String, ImageButton> choicesImageButtonsMap;
 
     protected Label heading;
 
@@ -45,6 +45,11 @@ public abstract class ChoiceMenuController extends StandardMenuController{
 
         //constructing imageButtonNames array
         imageButtonNames = new String[numOfChoices + 1];
+
+        //initialize image buttons names
+        for (int i = 1; i <= numOfChoices; i++) {
+            imageButtonNames[i] = choiceName + i;
+        }
 
         currImageButton = 1;
     }
@@ -65,7 +70,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
         return "";
     }
 
-     void handleKeyboard() {
+     protected void handleKeyboard() {
         stage.addListener(new InputListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

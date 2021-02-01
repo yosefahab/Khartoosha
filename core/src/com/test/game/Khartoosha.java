@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.test.game.menu.ChoiceMenuController;
+import com.test.game.screens.MapChoiceMenuScreen;
 import com.test.game.screens.NewCharacterChoiceMenuScreen;
 import com.test.game.screens.NewMainMenu;
 import com.test.game.screens.testScreen;
@@ -37,6 +38,7 @@ public class Khartoosha extends Game
 
 		soundsManager.playMenuMusic();
 
+		//this.setScreen(new MapChoiceMenuScreen(this));
 		//this.setScreen(new testScreen());
 		//this.setScreen(new ChoiceMenuController(1,3));
 		this.setScreen(new NewMainMenu(this));
