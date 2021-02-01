@@ -1,4 +1,4 @@
-package com.test.game.screens;
+package com.test.game.screens.menu_screens.old;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,6 +10,7 @@ import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
+import com.test.game.screens.PlayScreen;
 import com.test.game.soundsManager;
 
 public class CharacterChoiceMenuScreen extends MovingBackground implements Screen, MenuTextures

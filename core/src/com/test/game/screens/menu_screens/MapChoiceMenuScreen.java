@@ -1,8 +1,7 @@
-package com.test.game.screens;
+package com.test.game.screens.menu_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -10,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.test.game.Khartoosha;
 import com.test.game.menu.ChoiceMenuController;
-
-import java.util.ArrayList;
 
 public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen {
 

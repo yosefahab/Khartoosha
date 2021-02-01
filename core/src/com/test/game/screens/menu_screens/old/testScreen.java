@@ -1,4 +1,4 @@
-package com.test.game.screens;
+package com.test.game.screens.menu_screens.old;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

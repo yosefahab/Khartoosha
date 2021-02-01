@@ -1,4 +1,4 @@
-package com.test.game.screens;
+package com.test.game.screens.menu_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,7 @@ import com.test.game.menu.MenuTextureDim;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
+import com.test.game.screens.menu_screens.old.MainMenuScreen;
 import com.test.game.soundsManager;
 
 

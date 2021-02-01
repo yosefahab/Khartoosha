@@ -1,8 +1,9 @@
-package com.test.game.screens;
+package com.test.game.screens.menu_screens;
 
 import com.badlogic.gdx.Screen;
 import com.test.game.Khartoosha;
 import com.test.game.menu.ChoiceMenuController;
+import com.test.game.screens.PlayScreen;
 
 import java.util.ArrayList;
 
