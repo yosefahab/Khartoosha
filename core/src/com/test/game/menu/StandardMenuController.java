@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.test.game.Khartoosha;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 import java.util.HashMap;
 
@@ -74,7 +74,7 @@ public abstract class StandardMenuController {
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    soundsManager.click();
+                    SoundsManager.click();
                     currTextButton = finalI;
                     setActiveButton(textButtonNames[finalI]);
                 }

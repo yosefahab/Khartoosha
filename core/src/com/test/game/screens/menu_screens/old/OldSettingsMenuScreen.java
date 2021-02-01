@@ -11,8 +11,7 @@ import com.test.game.menu.MenuTextureDim;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.screens.menu_screens.old.OldMainMenuScreen;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 
 public class OldSettingsMenuScreen extends MovingBackground implements Screen, MenuTextures {
@@ -99,12 +98,12 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
 
     public static void initializeSettings(){
         //setting the on off buttons according to the set values in soundsManager(music) and soundsManager(sfx vol)
-        if(soundsManager.menuMusic.isPlaying()){
+        if(SoundsManager.menuMusic.isPlaying()){
             isOn[1] = true;
         } else{
             isOn[1] = false;
         }
-        if (soundsManager.soundVolume > 0f){
+        if (SoundsManager.soundVolume > 0f){
             isOn[2] = true;
         } else{
             isOn[2] = false;
@@ -121,7 +120,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             chosenTexture(NUM_OF_DYNAMIC_TEXTURES); //click back
-            soundsManager.click();
+            SoundsManager.click();
 
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -176,17 +175,17 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
         isOn[onOffTextureNum] = !isOn[onOffTextureNum];
         if (onOffTextureNum == 1) { //if its music onOff button
             if (isOn[onOffTextureNum]){
-                soundsManager.playMenuMusic();
-                soundsManager.musicVolume = soundsManager.DEFAULT_MUSIC_VOL;
+                SoundsManager.playMenuMusic();
+                SoundsManager.musicVolume = SoundsManager.DEFAULT_MUSIC_VOL;
             } else{
-                soundsManager.stopMenuMusic();
+                SoundsManager.stopMenuMusic();
             }
         }
         if (onOffTextureNum == 2) { //if its soundfx onOff button
             if (isOn[onOffTextureNum]){
-                soundsManager.soundVolume = soundsManager.DEFAULT_SOUND_VOL;
+                SoundsManager.soundVolume = SoundsManager.DEFAULT_SOUND_VOL;
             } else{
-                soundsManager.soundVolume = 0f;
+                SoundsManager.soundVolume = 0f;
             }
         }
     }
@@ -209,7 +208,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
                 Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     chosenTexture(dynamicTextureNum);
-                    soundsManager.click();
+                    SoundsManager.click();
 
                 }
             } else {
@@ -221,10 +220,10 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
     public void checkBoundsAndDrawOnOff(MenuTextureDim[] dim){
         for (int onOffTextureNum = 1; onOffTextureNum <= NUM_OF_ON_OFF_BUTTONS; onOffTextureNum++) {
             if(isOn[onOffTextureNum]){
-                soundsManager.soundVolume =1;
+                SoundsManager.soundVolume =1;
                 Khartoosha.batch.draw(on, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             } else {
-                soundsManager.soundVolume =0;
+                SoundsManager.soundVolume =0;
                 Khartoosha.batch.draw(off, dim[onOffTextureNum].getX(), dim[onOffTextureNum].getY(), dim[onOffTextureNum].getWIDTH(), dim[onOffTextureNum].getHEIGHT());
             }
 
@@ -234,7 +233,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
             ) {
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     chosenOnOff(onOffTextureNum);
-                    soundsManager.click();
+                    SoundsManager.click();
                 }
             }
         }
@@ -242,7 +241,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
 
     void handleKeyboard(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            soundsManager.click();
+            SoundsManager.click();
             if(currDynamicTexture <= 1){
                 currDynamicTexture = NUM_OF_DYNAMIC_TEXTURES;
             } else {
@@ -250,7 +249,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
-            soundsManager.click();
+            SoundsManager.click();
 
             if(currDynamicTexture >= NUM_OF_DYNAMIC_TEXTURES){
                 currDynamicTexture = 1;
@@ -264,7 +263,7 @@ public class OldSettingsMenuScreen extends MovingBackground implements Screen, M
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             chosenTexture(currDynamicTexture);
-            soundsManager.click();
+            SoundsManager.click();
         }
     }
     public static boolean isMusicOn(){

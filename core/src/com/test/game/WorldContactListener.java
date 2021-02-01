@@ -3,7 +3,6 @@ package com.test.game;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.test.game.Weapons.Bomb;
 import com.test.game.Weapons.Bullet;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.PowerUps.Armor;
@@ -179,7 +178,7 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         {
             p.setContacted(true);
             p.attachedChar = character;
-            soundsManager.powerUp();
+            SoundsManager.powerUp();
             //System.out.println("Pup char contact 1");
         }
 

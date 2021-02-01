@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-public class soundsManager
+public final class SoundsManager
 {
     public static final float DEFAULT_MUSIC_VOL = 0;
     public static final float DEFAULT_SOUND_VOL = 1f;
@@ -18,7 +18,8 @@ public class soundsManager
     public static float musicVolume;
     public static Music mapBackgroundMusic;
 
-    public soundsManager()
+    public SoundsManager() {}
+    public static void init()
     {
 
         player1Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt1.ogg"));
@@ -111,7 +112,7 @@ public class soundsManager
         mapBackgroundMusic.dispose();
     }
 
-    public void dispose()
+    public static void dispose()
     {
         sniperShoot.dispose();
         pistolShoot.dispose();

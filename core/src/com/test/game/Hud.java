@@ -2,7 +2,6 @@ package com.test.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 
@@ -10,16 +9,10 @@ import java.util.Vector;
 
 public class Hud
 {
-
-
     //The hearts stuff
     private final Vector<Sprite> lives1 = new Vector<>(Character.MAX_LIVES);
     private final Vector<Sprite> lives2 = new Vector<>(Character.MAX_LIVES);
     private final Sprite s = new Sprite();
-
-
-    //current weapon stuff
-
 
     private final Texture player1Hud;
     private final Texture player2Hud;
@@ -32,12 +25,10 @@ public class Hud
         player1Hud = new Texture("Hud/Player1Hud.png");
         player2Hud = new Texture("Hud/Player2Hud.png");
 
-
         heads = new Texture[3];
         heads[0] = new Texture("Hud/johnnyHead.png");
         heads[1] = new Texture("Hud/johnnyHead.png");
         heads[2] = new Texture("Hud/johnnyHead.png");
-
 
         Texture heartTexture = new Texture("Hud/Hearts.png");
         s.setRegion(heartTexture);

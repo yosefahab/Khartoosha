@@ -9,7 +9,7 @@ import com.test.game.Khartoosha;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.MenuTextureDimDynamic;
 import com.test.game.menu.MenuTextures;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 public class OldPlayMenuScreen extends MovingBackground implements Screen, MenuTextures {
     private static final int ONE_PLAYER_BUTTON_WIDTH = 350;
@@ -107,7 +107,7 @@ public class OldPlayMenuScreen extends MovingBackground implements Screen, MenuT
             Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
-                soundsManager.click();
+                SoundsManager.click();
             }
         } else {
 

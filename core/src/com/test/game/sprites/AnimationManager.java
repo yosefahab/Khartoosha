@@ -8,30 +8,30 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class AnimationManager {
-    public enum State { STANDING, JUMPING, RUNNING }
+    private enum State { STANDING, JUMPING, RUNNING }
 
-    public State currentState;
-    public State previousState;
+    private State currentState;
+    private State previousState;
+
     private boolean faceRight;
     private float stateTimer;
-    private Array<TextureRegion> frames;
-    private final Character player;
+    private final Character character;
     private final Texture texture;
-    public AnimationManager(boolean faceRight, Texture texture, Character player) {
+    public AnimationManager(boolean faceRight, Texture texture, Character character) {
         this.faceRight = faceRight;
         this.currentState = State.STANDING;
         this.previousState = State.STANDING;
-        this.player = player;
+        this.character = character;
         this.texture = texture;
 
     }
     //@param charNum number of character in pack image, depends on which character selected
-    public Animation<TextureRegion> runAnimation(int charNum){
-        frames = new Array<>();
-        for (int i=1;i<7;i++){
-            frames.add(new TextureRegion(this.texture, (i * 513),(charNum-1)*637,513,637 ));
+    public Animation<TextureRegion> runAnimation(int charNum) {
+        Array<TextureRegion> frames = new Array<>();
+        for (int i = 1; i < 7; i++) {
+            frames.add(new TextureRegion(this.texture, (i * 513), (charNum - 1) * 637, 513, 637));
         }
-        return new Animation<> (player.speedCap*0.08f,frames);
+        return new Animation<>(character.getSpeedCap() * 0.08f, frames);
     }
 
     public TextureRegion getFrame(float delta){
@@ -39,20 +39,20 @@ public class AnimationManager {
         TextureRegion region;
         switch(currentState){
             case RUNNING:
-                region = (TextureRegion) player.runAnimation.getKeyFrame(stateTimer,true);
+                region = (TextureRegion) character.runAnimation.getKeyFrame(stateTimer,true);
                 break;
             case JUMPING:
-                region = player.jumping;
+                region = character.jumping;
                 break;
             case STANDING:
             default:
-                region = player.idle;
+                region = character.idle;
         }
-        if ((player.physicsBody.getLinearVelocity().x < 0 || !faceRight) && !region.isFlipX()){
+        if ((character.physicsBody.getLinearVelocity().x < 0 || !faceRight) && !region.isFlipX()){
             region.flip(true,false);
             faceRight=false;
         }
-        else if ((player.physicsBody.getLinearVelocity().x >0 || faceRight) && region.isFlipX()){
+        else if ((character.physicsBody.getLinearVelocity().x >0 || faceRight) && region.isFlipX()){
             region.flip(true,false);
             faceRight=true;
         }
@@ -61,11 +61,10 @@ public class AnimationManager {
         return region;
     }
     public State getState(){
-        if (player.physicsBody.getLinearVelocity().y > 0)
+        if (character.physicsBody.getLinearVelocity().y > 0)
             return State.JUMPING;
-        if (player.physicsBody.getLinearVelocity().x!= 0)
+        if (character.physicsBody.getLinearVelocity().x!= 0)
             return State.RUNNING;
         else return State.STANDING;
     }
-    public void clearFrames(){frames.clear();}
 }

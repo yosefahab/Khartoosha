@@ -11,7 +11,7 @@ import com.test.game.menu.MovingBackground;
 import com.test.game.menu.MenuTextureDimStatic;
 import com.test.game.menu.MenuTextures;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 public class OldCharacterChoiceMenuScreen extends MovingBackground implements Screen, MenuTextures
 {
@@ -109,7 +109,7 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
         {   //if the back or any other dynamic texture is active, don't accept right or left buttons (to avoid making character and texture both active at the same time)
             if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
             {
-                soundsManager.click();
+                SoundsManager.click();
                 if (currCharacter <= 1)
                 {
                     currCharacter = Khartoosha.NUM_OF_CHARS;
@@ -120,7 +120,7 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
             {
-                soundsManager.click();
+                SoundsManager.click();
                 if (currCharacter >= Khartoosha.NUM_OF_CHARS)
                 {
                     currCharacter = 1;
@@ -138,14 +138,14 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
 
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && currDynamicTexture > 0) {
-            soundsManager.click();
+            SoundsManager.click();
             currDynamicTexture--;
             if(currDynamicTexture == 0){
                 currCharacter = 1;
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            soundsManager.click();
+            SoundsManager.click();
             currDynamicTexture++; //back button
             currCharacter = 0;
             if(currDynamicTexture > NUM_OF_DYNAMIC_TEXTURES){
@@ -157,12 +157,12 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
-            soundsManager.click();
+            SoundsManager.click();
             chosenTexture(NUM_OF_DYNAMIC_TEXTURES); //click back
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-            soundsManager.click();
+            SoundsManager.click();
             if (currDynamicTexture != 0)
             {
                 chosenTexture(currDynamicTexture);
@@ -230,7 +230,7 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
             Khartoosha.batch.draw(dim[dynamicTextureNum].getActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenTexture(dynamicTextureNum);
-                soundsManager.click();
+                SoundsManager.click();
             }
         } else {
             Khartoosha.batch.draw(dim[dynamicTextureNum].getInActive(), dim[dynamicTextureNum].getX(), dim[dynamicTextureNum].getY(), dim[dynamicTextureNum].getWIDTH(), dim[dynamicTextureNum].getHEIGHT());
@@ -251,7 +251,7 @@ public class OldCharacterChoiceMenuScreen extends MovingBackground implements Sc
 
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 chosenCharacter(charNum);
-                soundsManager.click();
+                SoundsManager.click();
             }
         }
         else {

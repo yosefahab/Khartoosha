@@ -20,7 +20,6 @@ public class Khartoosha extends Game
 
 	public static SpriteBatch batch;
 	public static ShapeRenderer shapeRenderer;
-	public soundsManager soundManager;
 
 	@Override
 	public void create ()
@@ -29,9 +28,8 @@ public class Khartoosha extends Game
 		batch = new SpriteBatch();
 		//musicVolume = DEFAULT_MUSIC_VOL;
 
-		soundManager = new soundsManager();
-
-		soundsManager.playMenuMusic();
+		SoundsManager.init();
+		SoundsManager.playMenuMusic();
 
 		this.setScreen(new MainMenuScreen(this));
 //		this.setScreen(new PlayScreen(this, 1, 1, 2));
@@ -47,8 +45,8 @@ public class Khartoosha extends Game
 	@Override
 	public void dispose ()
 	{
+		SoundsManager.dispose();
 		batch.dispose();
 		super.dispose();
-		soundManager.dispose();
 	}
 }

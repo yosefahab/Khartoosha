@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.test.game.Khartoosha;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 import com.test.game.sprites.Camera;
 //TODO: menu: add sound clicks when moving in menu options and clicking
 public class PauseMenu{
@@ -238,28 +238,28 @@ public class PauseMenu{
         isOn[onOffTextureNum] = !isOn[onOffTextureNum];
         if (onOffTextureNum == 1) { //if its music onOff button
             if (isOn[onOffTextureNum]){
-                soundsManager.playGameMusic();
-                soundsManager.musicVolume = soundsManager.DEFAULT_MUSIC_VOL;
+                SoundsManager.playGameMusic();
+                SoundsManager.musicVolume = SoundsManager.DEFAULT_MUSIC_VOL;
             } else{
-                soundsManager.stopGameMusic();
+                SoundsManager.stopGameMusic();
             }
         }
         if (onOffTextureNum == 2) { //if its soundfx onOff button
             if (isOn[onOffTextureNum]){
-                soundsManager.soundVolume = soundsManager.DEFAULT_SOUND_VOL;
+                SoundsManager.soundVolume = SoundsManager.DEFAULT_SOUND_VOL;
             } else{
-                soundsManager.soundVolume = 0f;
+                SoundsManager.soundVolume = 0f;
             }
         }
     }
     public static void initializeSettings(){
         //setting the on off buttons according to the set values in soundsManager(music) and soundsManager(sfx vol)
-        if(soundsManager.gameMusic.isPlaying()){
+        if(SoundsManager.gameMusic.isPlaying()){
             isOn[1] = true;
         } else{
             isOn[1] = false;
         }
-        if (soundsManager.soundVolume > 0f){
+        if (SoundsManager.soundVolume > 0f){
             isOn[2] = true;
         } else{
             isOn[2] = false;

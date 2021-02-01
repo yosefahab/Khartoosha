@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.test.game.Khartoosha;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +78,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
                 {   //if the back or any other textButton is active, don't accept right or left buttons (to avoid making choices and textButtons both active at the same time)
                     if (keycode == Input.Keys.LEFT)
                     {
-                        soundsManager.click();
+                        SoundsManager.click();
                         if (currImageButton <= 1)
                         {
                             currImageButton = numOfChoices;
@@ -89,7 +89,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
                     }
                     if (keycode == Input.Keys.RIGHT)
                     {
-                        soundsManager.click();
+                        SoundsManager.click();
                         if (currImageButton >= numOfChoices)
                         {
                             currImageButton = 1;
@@ -104,14 +104,14 @@ public abstract class ChoiceMenuController extends StandardMenuController{
                     }
                 }
                 if(keycode == Input.Keys.UP && currTextButton > 0) {
-                    soundsManager.click();
+                    SoundsManager.click();
                     currTextButton--;
                     if(currTextButton == 0){
                         currImageButton = 1;
                     }
                 }
                 if(keycode == Input.Keys.DOWN) {
-                    soundsManager.click();
+                    SoundsManager.click();
                     currTextButton++; //back button
                     currImageButton = 0;
                     if(currTextButton > numOfButtons){
@@ -125,12 +125,12 @@ public abstract class ChoiceMenuController extends StandardMenuController{
                 }
                 if(keycode == Input.Keys.ESCAPE)
                 {
-                    soundsManager.click();
+                    SoundsManager.click();
                     chosen("back", numOfButtons); //click back
                 }
 
                 if(keycode == Input.Keys.ENTER){
-                    soundsManager.click();
+                    SoundsManager.click();
                     if (currTextButton != 0)
                     {
                         chosen(textButtonNames[currTextButton], currTextButton);

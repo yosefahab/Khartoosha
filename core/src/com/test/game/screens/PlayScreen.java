@@ -55,7 +55,7 @@ public class PlayScreen implements Screen
         this.game = game;
         gameOver= false;
         mapID--; // because mapID is zero based
-        soundsManager.stopMenuMusic();
+        SoundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
         //soundsManager.playGameMusic();
 
@@ -122,7 +122,7 @@ public class PlayScreen implements Screen
     public static void endGame(int character_id) {
         //TODO: finalise dispose methods
         gameOver= true;
-        soundsManager.gameOver();
+        SoundsManager.gameOver();
 
     }
 

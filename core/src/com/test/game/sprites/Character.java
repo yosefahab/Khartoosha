@@ -12,7 +12,7 @@ import com.test.game.Khartoosha;
 import com.test.game.Weapons.Bomb;
 import com.test.game.Weapons.Weapon;
 import com.test.game.screens.PlayScreen;
-import com.test.game.soundsManager;
+import com.test.game.SoundsManager;
 
 
 import java.util.Random;
@@ -20,21 +20,21 @@ import java.util.Random;
 
 public class Character extends Sprite
 {
-
     // Physics world
-    public World world;
+    private final World world;
     public Body physicsBody;
+
     public final int SHAPE_WIDTH = 15;
     public final int SHAPE_HEIGHT = 40;
 
-    public TextureRegion idle,jumping;
+    protected TextureRegion idle,jumping;
     private final AnimationManager animationManager;
-    public Animation<?> runAnimation;
+    protected Animation<?> runAnimation;
 
     public boolean isGoingDown;
 
     private final float DEFAULT_SPEED = 2;
-    public float speedCap = DEFAULT_SPEED;
+    private float speedCap = DEFAULT_SPEED;
     private final float speedScale = 0.4f;
     public int ALLOWED_JUMPS = 2;
 
@@ -47,13 +47,11 @@ public class Character extends Sprite
     private static int NUMBER_OF_CHARACTERS;
 
     // Array of input key codes contains either WASD or arrows
-    public final int[] CHARACTER_CONTROLS;
+    private final int[] CHARACTER_CONTROLS;
 
     public boolean isArmored = false;
 
     private final int CHARACTER_ID;
-
-
 
     // attaching weapon to character
     public Weapon weapon;
@@ -123,14 +121,13 @@ public class Character extends Sprite
         loadCharacter(TextureNumber); //select character based on menu selection
         animationManager = new AnimationManager(player1,getTexture(),this);
         runAnimation = animationManager.runAnimation(TextureNumber);
-        animationManager.clearFrames();
 
         current_lives = MAX_LIVES;
 
         weapon = new Weapon(world,this);
     }
 
-    public void defineCharacterPhysics()
+    private void defineCharacterPhysics()
     {
         BodyDef bodyDefinition = new BodyDef();
         bodyDefinition.position.set(spawnLocation);
@@ -153,6 +150,7 @@ public class Character extends Sprite
 
         handleInput();
         weapon.update(delta);
+        //Control texture position here
         setPosition(physicsBody.getPosition().x - getWidth()/2 , physicsBody.getPosition().y-getHeight()/2);
 
         //if body falls, reset position and decrease lives
@@ -250,9 +248,9 @@ public class Character extends Sprite
 
     public void takeDamage(){
         if (CHARACTER_ID==1)
-            soundsManager.player1Grunt();
+            SoundsManager.player1Grunt();
         else
-            soundsManager.player2Grunt();
+            SoundsManager.player2Grunt();
     }
     public void jump()
     {
@@ -288,7 +286,7 @@ public class Character extends Sprite
         isGoingDown = true;
     }
 
-    public void handleInput()
+    private void handleInput()
     {
         if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[0]))
         {
@@ -340,6 +338,7 @@ public class Character extends Sprite
         if (this.speedCap <  DEFAULT_SPEED * 2)
             this.speedCap *= speedCap;
     }
+    public float getSpeedCap(){ return this.speedCap; }
 
     public void resetSpeedCap() {
         speedCap = DEFAULT_SPEED;
@@ -355,7 +354,7 @@ public class Character extends Sprite
     }
     public Character getEnemy() {return this.enemy;}
 
-    public int getMAX_LIVES() {return  this.MAX_LIVES;}
+    public int getMAX_LIVES() {return MAX_LIVES;}
 
 
     /**
