@@ -49,10 +49,11 @@ public class PlayScreen implements Screen
     public static RayHandler rayHandler;
 
     // General constructor
-    public PlayScreen(Khartoosha game, int mapNum)
+    public PlayScreen(Khartoosha game, int mapID)
     {
         this.game = game;
         gameOver= false;
+        mapID--; // because mapID is zero based
         soundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
         //soundsManager.playGameMusic();
@@ -68,7 +69,7 @@ public class PlayScreen implements Screen
 
         // Initialize map
         map = new Map(box2dWorld);
-        map.loadMap(0);
+        map.loadMap(mapID);
 
         // Contact listener
         WorldContactListener collisionHandler = new WorldContactListener();
