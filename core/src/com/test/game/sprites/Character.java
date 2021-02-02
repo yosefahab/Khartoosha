@@ -57,7 +57,7 @@ public class Character extends Sprite
     public Weapon weapon;
     public float hitTimer = 0;
     private boolean isTimerStarted = false;
-    private Vector2 spawnLocation;
+    private final Vector2 spawnLocation;
 
     private Character enemy;
     public boolean isAI;
@@ -188,9 +188,10 @@ public class Character extends Sprite
         if (current_lives == 0)
         {
             System.out.println("Player " + CHARACTER_ID + " lost");
+            PlayScreen.winner = (CHARACTER_ID-1)%2;
             current_lives = MAX_LIVES;
-            PlayScreen.endGame(this.getCHARACTER_ID());
-            //TODO: reset game
+            PlayScreen.gameOver = true;
+            SoundsManager.gameOver();
         }
 
         if (current_lives > MAX_LIVES)
@@ -319,17 +320,13 @@ public class Character extends Sprite
         {
             bomb.KA(this);
         }
-
-
-
-
     }
 
     public void dispose()
     {
-        //getTexture().dispose();
-        //jumping.getTexture().dispose();
-        //idle.getTexture().dispose();
+        getTexture().dispose();
+        jumping.getTexture().dispose();
+        idle.getTexture().dispose();
     }
     // Speed boost pup
     public void setSpeedCap(float speedCap)
@@ -347,7 +344,6 @@ public class Character extends Sprite
     public void setEnemy(Character enemy)
     {
         this.enemy = enemy;
-
         // if wondering about placement here check com+ent above the function
         if (isAI)
             initAI();
@@ -355,7 +351,6 @@ public class Character extends Sprite
     public Character getEnemy() {return this.enemy;}
 
     public int getMAX_LIVES() {return MAX_LIVES;}
-
 
     /**
      * When a player hits an opponent a hit timer is started
@@ -374,11 +369,6 @@ public class Character extends Sprite
         draw(Khartoosha.batch);
         weapon.draw(Khartoosha.batch);
         weapon.render(Khartoosha.batch);
-        //TODO: implement game ending
-//        if (PlayScreen.gameOver) {
-//            BitmapFont font = new BitmapFont();
-//            font.draw(Khartoosha.batch, "GAME OVER!", Khartoosha.Gwidth / 2, Khartoosha.Gheight / 2);
-//        }
     }
 
     // Had to be done separately not in the constructor because the AI needs the character

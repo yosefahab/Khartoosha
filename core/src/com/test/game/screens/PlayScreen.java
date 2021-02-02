@@ -22,28 +22,29 @@ import java.util.Random;
 public class PlayScreen implements Screen
 {
 
-    private TextureAtlas atlas,powerupAtlas;
+
+    public static int winner;
+    public static boolean gameOver=false;
+
+    private final TextureAtlas atlas, powerupAtlas;
     public static Character character1,character2;
     public float delta = Gdx.graphics.getDeltaTime();
 
     // Tiled map variables
-    private Map map;
+    private final Map map;
 
     // Box2d variables
-    private World box2dWorld;
-    private Box2DDebugRenderer box2dDebugRenderer;
+    private final World box2dWorld;
+    private final Box2DDebugRenderer box2dDebugRenderer;
 
     public static Camera camera;
-    private Khartoosha game;
+    private final Khartoosha game;
 
-    //Powerups array that contains 1 of each type
-    private PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
     PowerUpsHandler powerUpsHandler;
 
     //Pause menu
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
-    public static boolean gameOver;
 
     public Hud H;
 
@@ -53,7 +54,6 @@ public class PlayScreen implements Screen
     public PlayScreen(Khartoosha game, int mapID)
     {
         this.game = game;
-        gameOver= false;
         mapID--; // because mapID is zero based
         SoundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
@@ -81,6 +81,8 @@ public class PlayScreen implements Screen
         camera.init();
 
         // Powerups
+        //Powerups array that contains 1 of each type
+        PowerUp[] PUPs = new PowerUp[PowerUp.MAXPUPS];
         powerUpsHandler = new PowerUpsHandler(PUPs, box2dWorld, this);
         powerUpsHandler.init();
 
@@ -119,13 +121,6 @@ public class PlayScreen implements Screen
 
     }
 
-    public static void endGame(int character_id) {
-        //TODO: finalise dispose methods
-        gameOver= true;
-        SoundsManager.gameOver();
-
-    }
-
     /**
      * Handles all powerups related operations
      *  Spawns pup if it's available
@@ -139,6 +134,7 @@ public class PlayScreen implements Screen
         box2dWorld.step(1/60F, 6, 2);
 
         character1.update();
+        //TODO: remove redundant null check?
         if (character2 != null)
         {
             character2.update();
@@ -171,9 +167,12 @@ public class PlayScreen implements Screen
     @Override
     public void dispose()
     {
+        //TODO: call all classes' dispose methods from here
         map.dispose();
         character1.dispose();
         character2.dispose();
+        SoundsManager.dispose();
+        Hud.dispose();
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
     }
@@ -214,18 +213,21 @@ public class PlayScreen implements Screen
             H.Gun_pos(camera , character1,character2);
             H.bullet_pos(camera,character1,character2);
         }
-        if(isGamePaused)
+        if (gameOver){
+            isGamePaused = true;
+            Hud.endGame(winner);
+        }
+        if(isGamePaused && !gameOver)
         {
             if(goToMainMenu)
             {
                 //this.dispose();
-
                 game.setScreen(new OldMainMenuScreen(game));
             }
             PauseMenu.displayPauseScreen(camera);
         }
-        Khartoosha.batch.end();
 
+        Khartoosha.batch.end();
     }
 
     @Override

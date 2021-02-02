@@ -210,3 +210,10 @@ Shehab, 1 Feb
 Yahia, 2 Feb
 -Added bullets counter to hud
 -Adjusted bullets/weapon position to fit the new size
+
+youssef, 2 Feb
+- modified hud bullets' positions
+- added end game state, using gameOver boolean in PlayScreen,
+dispose methods should be worked on to be able to transition back to main menu screen,
+and a back button should be added on game ending.
+- check TODOS as some things need to be looked into.
