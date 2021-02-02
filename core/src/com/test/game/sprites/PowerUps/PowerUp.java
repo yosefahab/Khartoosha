@@ -109,7 +109,7 @@ public abstract class PowerUp extends Sprite {
     {
         if (pupBody.getPosition().y < - 2)
             resetPupPosition();
-        setPosition(pupBody.getPosition().x-getWidth()/5, pupBody.getPosition().y-getHeight()/3);
+        setPosition(pupBody.getPosition().x-12/Khartoosha.PPM, pupBody.getPosition().y-getHeight()/3);
 
         if (isContacted)
         {
