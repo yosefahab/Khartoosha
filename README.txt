@@ -206,3 +206,7 @@ Shehab, 1 Feb
 - the new settings menu screen is yet to be implemented
 - some minor features and effects will be added
 - in the character choice menu the characters are a bit pixelated, this will be solved later
+
+Yahia, 2 Feb
+-Added bullets counter to hud
+-Adjusted bullets/weapon position to fit the new size

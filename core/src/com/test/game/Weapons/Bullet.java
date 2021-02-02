@@ -77,10 +77,10 @@ public class Bullet extends Sprite
         addedDistanceX += velocity.x;
         addedDistanceY += velocity.y;
 
-        setPosition(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY); //update position of texture
+        setPosition(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY-0.3f); //update position of texture
 
         // attach physics body for collision
-        bulletPhysicsBody.setTransform(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY, 0);
+        bulletPhysicsBody.setTransform(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY-0.2f, 0);
         //remove bullet on contact
         if
         (

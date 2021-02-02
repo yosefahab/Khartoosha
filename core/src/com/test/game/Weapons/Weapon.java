@@ -80,7 +80,7 @@ public class Weapon extends Sprite
         }
         if (stopFalling)
         {
-            yPos = character.getBodyPosition().y + 0.4f;
+            yPos = character.getBodyPosition().y+0.05f;
             canShoot=true;
         }
         if (yPos < character.getBodyPosition().y + 0.3)
@@ -131,7 +131,7 @@ public class Weapon extends Sprite
 
     public int getAmmo()
     {
-        return MAX_AMMO;
+        return CURRENT_AMMO;
     }
 
     public void switchWeapon()

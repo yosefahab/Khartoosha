@@ -54,8 +54,4 @@ public class WeaponManager
         weapon.extraPos=-0.3f;
     }
 
-
-
-
-
 }

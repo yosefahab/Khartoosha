@@ -12,7 +12,9 @@ public class Hud
     //The hearts stuff
     private final Vector<Sprite> lives1 = new Vector<>(Character.MAX_LIVES);
     private final Vector<Sprite> lives2 = new Vector<>(Character.MAX_LIVES);
+    private final Vector<Sprite> bullets = new Vector<>(30);
     private final Sprite s = new Sprite();
+    private final Sprite bulletSprite = new Sprite();
 
     private final Texture player1Hud;
     private final Texture player2Hud;
@@ -30,13 +32,18 @@ public class Hud
         heads[1] = new Texture("Hud/johnnyHead.png");
         heads[2] = new Texture("Hud/johnnyHead.png");
 
-        Texture heartTexture = new Texture("Hud/Hearts.png");
-        s.setRegion(heartTexture);
+        s.setRegion(new Texture("Hud/Hearts.png"));
         s.setSize(25 / Khartoosha.PPM, 25 / Khartoosha.PPM);
+        bulletSprite.setRegion(new Texture ("Hud/bulletCount.png"));
+        bulletSprite.setSize(25/Khartoosha.PPM, 25/Khartoosha.PPM);
         for (int i = 0; i < Character.MAX_LIVES; i++)
         {
             lives1.add(s);
             lives2.add(s);
+        }
+        for (int i=0; i<30; i++)
+        {
+            bullets.add(bulletSprite);
         }
     }
 
@@ -80,7 +87,6 @@ public class Hud
             lives1.elementAt(i).setPosition(-.2f + camera.getCamPos().x - ((Khartoosha.Gwidth / Khartoosha.PPM) / 2) + l, camera.getCamPos().y + ((Khartoosha.Gheight / Khartoosha.PPM) / 2) - 5.95f);
             lives1.elementAt(i).draw(Khartoosha.batch);
         }
-
         l = 0;
         for (int i = 0; i < lives2.size(); i++)
         {
@@ -89,6 +95,28 @@ public class Hud
             lives2.elementAt(i).draw(Khartoosha.batch);
 
         }
+    }
+    public void bullet_pos(Camera camera, Character character1, Character character2)
+    {
+        float consta=0;
+        for (int i=0; i<character1.weapon.getAmmo(); i++)
+        {
+            consta+=.2f;
+            bullets.elementAt(i).setFlip(false,false);
+            bullets.elementAt(i).setPosition(camera.getCamPos().x - ((Khartoosha.Gwidth / Khartoosha.PPM) / 2), camera.getCamPos().y - ((Khartoosha.Gheight / Khartoosha.PPM) / 2)+1f+consta);
+            bullets.elementAt(i).draw(Khartoosha.batch);
+
+        }
+        consta=0;
+        for (int i=0; i<character2.weapon.getAmmo(); i++)
+        {
+            consta+=.2f;
+            bullets.elementAt(i).setFlip(true,false);
+            bullets.elementAt(i).setPosition(-0.27f+camera.getCamPos().x + ((Khartoosha.Gwidth / Khartoosha.PPM) / 2), camera.getCamPos().y - ((Khartoosha.Gheight / Khartoosha.PPM) / 2)+1f+consta);
+            bullets.elementAt(i).draw(Khartoosha.batch);
+
+        }
+
     }
 
     public void Hud_pos(Camera camera)
