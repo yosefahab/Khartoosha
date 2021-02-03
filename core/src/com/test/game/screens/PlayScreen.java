@@ -209,13 +209,18 @@ public class PlayScreen implements Screen
 
             H.Hearts_pos(camera);
             H.Hud_pos(camera);
-            H.char_pos(camera ,character1 , character2);
+            H.heads_pos(camera ,character1 , character2);
             H.Gun_pos(camera , character1,character2);
             H.bullet_pos(camera,character1,character2);
         }
         if (gameOver){
             isGamePaused = true;
             Hud.endGame(winner);
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))
+            {
+                //this.dispose();
+                //game.setScreen((new OldMainMenuScreen(game)));
+            }
         }
         if(isGamePaused && !gameOver)
         {

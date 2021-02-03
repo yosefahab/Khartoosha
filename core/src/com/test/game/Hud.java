@@ -1,6 +1,7 @@
 package com.test.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.test.game.screens.PlayScreen;
 import com.test.game.sprites.Camera;
@@ -22,6 +23,7 @@ public class Hud
     private int size2 = 5;
 
     private static Texture[] heads;
+    private static Texture[] heads2;
     public Hud()
     {
         player1Hud = new Texture("Hud/Player1Hud.png");
@@ -29,8 +31,13 @@ public class Hud
 
         heads = new Texture[3];
         heads[0] = new Texture("Hud/johnnyHead.png");
-        heads[1] = new Texture("Hud/johnnyHead.png");
-        heads[2] = new Texture("Hud/johnnyHead.png");
+        heads[1] = new Texture("Hud/bruceHead.png");
+        heads[2] = new Texture("Hud/mandoHead.png");
+
+        heads2 = new Texture[3];
+        heads2[0] = new Texture("Hud/johnnyHead.png");
+        heads2[1] = new Texture("Hud/bruceHead.png");
+        heads2[2] = new Texture("Hud/mandoHead.png");
 
         s.setRegion(new Texture("Hud/Hearts.png"));
         s.setSize(25 / Khartoosha.PPM, 25 / Khartoosha.PPM);
@@ -55,14 +62,18 @@ public class Hud
 
         if (winner==1){
         Khartoosha.batch.draw(player1Hud,xPos- (200/Khartoosha.PPM)/2,yPos-(200/Khartoosha.PPM)/2,200/Khartoosha.PPM,200/Khartoosha.PPM);
+        Khartoosha.batch.draw(heads[PlayScreen.character1.current_char()-1],xPos-(100/Khartoosha.PPM)/2,yPos-(100/Khartoosha.PPM)/2,100/Khartoosha.PPM,100/Khartoosha.PPM);
+
         }
 
         else{
             Khartoosha.batch.draw(player2Hud,xPos- (200/Khartoosha.PPM)/2,yPos-(200/Khartoosha.PPM)/2,200/Khartoosha.PPM,200/Khartoosha.PPM);
+            Khartoosha.batch.draw(heads[PlayScreen.character2.current_char()-1],xPos-(100/Khartoosha.PPM)/2,yPos-(100/Khartoosha.PPM)/2,100/Khartoosha.PPM,100/Khartoosha.PPM);
 
         }
-        Khartoosha.batch.draw(heads[winner],xPos-(100/Khartoosha.PPM)/2,yPos-(100/Khartoosha.PPM)/2,100/Khartoosha.PPM,100/Khartoosha.PPM);
         Khartoosha.batch.draw(new Texture("Hud/gameEnd.png"), xPos-(200/Khartoosha.PPM)/2,yPos-(200/Khartoosha.PPM)/2,200/Khartoosha.PPM,200/Khartoosha.PPM);
+        Khartoosha.batch.draw(new Texture("Hud/text.png"), xPos-(500/Khartoosha.PPM)/2,yPos-(400/Khartoosha.PPM)/2,500/Khartoosha.PPM,100/Khartoosha.PPM);
+
     }
 
     public void Lose_life(Character character1, Character character2)
@@ -139,10 +150,10 @@ public class Hud
         Khartoosha.batch.draw(player2Hud,-.9f + camera.getCamPos().x + ((Khartoosha.Gwidth / Khartoosha.PPM) / 2),camera.getCamPos().y - ((Khartoosha.Gheight / Khartoosha.PPM) / 2) + .04f,80f / Khartoosha.PPM, 75f / Khartoosha.PPM);
     }
 
-    public void char_pos(Camera camera, Character character1, Character character2)
+    public void heads_pos(Camera camera, Character character1, Character character2)
     {
         Khartoosha.batch.draw(heads[character1.current_char()-1],.2f + camera.getCamPos().x - ((Khartoosha.Gwidth / Khartoosha.PPM) / 2), camera.getCamPos().y + ((Khartoosha.Gheight / Khartoosha.PPM) / 2) - 6.7f,50/Khartoosha.PPM,50/Khartoosha.PPM);
-        Khartoosha.batch.draw(heads[character2.current_char()-1],9.8f + camera.getCamPos().x - ((Khartoosha.Gwidth / Khartoosha.PPM) / 2), camera.getCamPos().y + ((Khartoosha.Gheight / Khartoosha.PPM) / 2) - 6.7f,-50/Khartoosha.PPM,50/Khartoosha.PPM);
+        Khartoosha.batch.draw(heads2[character2.current_char()-1],9.8f + camera.getCamPos().x - ((Khartoosha.Gwidth / Khartoosha.PPM) / 2), camera.getCamPos().y + ((Khartoosha.Gheight / Khartoosha.PPM) / 2) - 6.7f,-50/Khartoosha.PPM,50/Khartoosha.PPM);
     }
 
     public void Gun_pos(Camera camera, Character character1, Character character2)
