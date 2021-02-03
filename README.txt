@@ -224,3 +224,8 @@ Shehab, 3 Feb
     • characters are no longer pixelated in character choice menu screen.
 - The SettingsMenuScreen is completely redone with scene2D.
 - General bug fixed and menu stuff modified.
+- Pause Menu is completely redone with scene2D.
+- IMPORTANT: when exiting from pause menu now the menu appears, even though the background is still big (this caused by the PPM),
+    everything works fine till you go into another game (without restarting the game), it appears that menu keys still register
+    even though the InputProcessor is set to null.
+- Removed all old menu classes and assets, looks neat i know right.

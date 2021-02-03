@@ -1,21 +1,15 @@
-package com.test.game.screens.menu_screens.old;
+package com.test.game.screens.menu_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.test.game.menu.ChoiceImage;
-import com.test.game.menu.MenuStyle;
+
 
 public class testScreen implements Screen {
     //TODO: delete once done
@@ -27,7 +21,6 @@ public class testScreen implements Screen {
 
     public testScreen() {
         imageButtonStyle = new ImageButton.ImageButtonStyle();
-        ChoiceImage choiceImage = new ChoiceImage("menu/menu_char1_inactive.png", "menu/menu_char_choice_active.png", false);
         /*imageButtonStyle.over = choiceImage;
         choiceImage.setChecked(true);
         imageButtonStyle.down = choiceImage;

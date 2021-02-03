@@ -3,18 +3,18 @@ package com.test.game.screens.menu_screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.menu.MovingBackground;
 import com.test.game.menu.StandardMenuController;
-import com.test.game.screens.menu_screens.old.OldSettingsMenuScreen;
 
 public class MainMenuScreen extends StandardMenuController implements Screen {
 
     static final int NUM_OF_BUTTONS = 3;
-
+    MovingBackground mbg;
     public MainMenuScreen(Khartoosha game) {
         super(NUM_OF_BUTTONS, game);
-        MovingBackground.setBg(MovingBackground.initializeMenuBG());
+         mbg = new MovingBackground(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "play";
         textButtonNames[2] = "settings";
         textButtonNames[3] = "exit";
@@ -26,7 +26,6 @@ public class MainMenuScreen extends StandardMenuController implements Screen {
                 setScreen(new PlayMenuScreen(game), this);
                 break;
             case "settings":
-                //TODO: replace OldSettingsMenuScreen with the new one once ready
                 setScreen(new SettingsMenuScreen(game), this);
                 break;
             case "exit":
@@ -51,7 +50,10 @@ public class MainMenuScreen extends StandardMenuController implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        renderMenuBG();
+//        renderMenuBG();
+        Khartoosha.batch.begin();
+        MovingBackground.displayMenuBG();
+        Khartoosha.batch.end();
 
         menuControllerRender(delta);
         getStage().addActor(getTable());

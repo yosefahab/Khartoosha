@@ -20,7 +20,6 @@ import java.util.HashMap;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-//TODO: soundManager.click() is being called in game
 public abstract class StandardMenuController {
     protected Khartoosha game;
     protected Stage stage;

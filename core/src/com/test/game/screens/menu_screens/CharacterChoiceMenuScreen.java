@@ -6,7 +6,6 @@ import com.test.game.menu.ChoiceMenuController;
 import com.test.game.screens.PlayScreen;
 
 import java.util.ArrayList;
-//TODO: characters are pixelated when they are not active
 public class CharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
     int mapID;
 

@@ -99,9 +99,6 @@ public class MenuStyle {
         imageButtonStyle.up = choiceDrawable;
         imageButtonStyle.checked = choiceBackgroundDrawable;
         imageButtonStyle.imageChecked = choiceDrawable;
-        //TODO: delete after handleKeyboard() is implemented in ChoiceMenuController
-        /*imageButtonStyle.over = choiceBackgroundDrawable;
-        imageButtonStyle.imageOver = choiceDrawable;*/
     }
 
     public void dispose() {

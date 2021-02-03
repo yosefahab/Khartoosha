@@ -1,5 +1,6 @@
 package com.test.game.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
 import com.test.game.sprites.Map;
@@ -21,9 +22,9 @@ public class MovingBackground
         {
             bgOffset = 0;
         }
-        Khartoosha.batch.draw(bg, -bgOffset, 0, 900, Khartoosha.Gheight);
-        Khartoosha.batch.draw(bg, -bgOffset + 900, 0, 900, Khartoosha.Gheight);
-        Khartoosha.batch.draw(bg, -bgOffset + 900 + 900, 0, 900, Khartoosha.Gheight);
+        Khartoosha.batch.draw(bg, -bgOffset, 0, 900, Gdx.graphics.getHeight());
+        Khartoosha.batch.draw(bg, -bgOffset + 900, 0, 900, Gdx.graphics.getHeight());
+        Khartoosha.batch.draw(bg, -bgOffset + 900 + 900, 0, 900, Gdx.graphics.getHeight());
     }
 
     public void displayBG()

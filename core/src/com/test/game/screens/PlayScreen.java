@@ -3,6 +3,7 @@ package com.test.game.screens;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.*;
 import com.test.game.menu.PauseMenu;
-import com.test.game.screens.menu_screens.old.OldMainMenuScreen;
+import com.test.game.screens.menu_screens.MainMenuScreen;
 import com.test.game.sprites.Camera;
 import com.test.game.sprites.Character;
 import com.test.game.sprites.Map;
@@ -50,10 +51,13 @@ public class PlayScreen implements Screen
 
     public static RayHandler rayHandler;
 
+    PauseMenu pauseMenu;
+
     // General constructor
     public PlayScreen(Khartoosha game, int mapID)
     {
         this.game = game;
+        Gdx.input.setInputProcessor(null); // because menu uses setInputProcessor()
         mapID--; // because mapID is zero based
         SoundsManager.stopMenuMusic();
         //TODO: uncomment if you want game music to start by default
@@ -87,7 +91,7 @@ public class PlayScreen implements Screen
         powerUpsHandler.init();
 
         //Pause Menu
-        PauseMenu.alloc();
+        pauseMenu = new PauseMenu(game, this);
         isGamePaused = false;
         goToMainMenu = false;
 
@@ -175,6 +179,7 @@ public class PlayScreen implements Screen
         Hud.dispose();
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
+        pauseMenu.menuControllerDispose();
     }
 
     @Override
@@ -227,9 +232,12 @@ public class PlayScreen implements Screen
             if(goToMainMenu)
             {
                 //this.dispose();
-                game.setScreen(new OldMainMenuScreen(game));
+                game.setScreen(new MainMenuScreen(game));
             }
-            PauseMenu.displayPauseScreen(camera);
+            //PauseMenu.displayPauseScreen(camera);
+
+            pauseMenu.showPauseMenu();
+            pauseMenu.renderPauseMenu(delta);
         }
 
         Khartoosha.batch.end();
