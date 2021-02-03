@@ -217,3 +217,10 @@ youssef, 2 Feb
 dispose methods should be worked on to be able to transition back to main menu screen,
 and a back button should be added on game ending.
 - check TODOS as some things need to be looked into.
+
+Shehab, 3 Feb
+- Bug Fixes:
+    • menu sounds no longer appear in PlayScreen.
+    • characters are no longer pixelated in character choice menu screen.
+- The SettingsMenuScreen is completely redone with scene2D.
+- General bug fixed and menu stuff modified.

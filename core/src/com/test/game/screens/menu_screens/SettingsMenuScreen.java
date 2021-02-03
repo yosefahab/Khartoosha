@@ -64,25 +64,28 @@ public class SettingsMenuScreen extends StandardMenuController implements Screen
 
     @Override
     public void chosen(String chosenButton, int chosenIndex) {
-        OnOffLabel onOfflabel = onOffLabelMap.get(chosenButton);
-        onOfflabel.setIsOn(!onOfflabel.getIsOn());
-        if (chosenButton.equals("music")) { //if its music onOff button
-            if (onOfflabel.getIsOn()){
-                SoundsManager.playMenuMusic();
-                SoundsManager.musicVolume = SoundsManager.DEFAULT_MUSIC_VOL;
-            } else{
-                SoundsManager.stopMenuMusic();
+        if(chosenIndex <= NUM_OF_ON_OFF_BUTTONS) {
+            OnOffLabel onOfflabel = onOffLabelMap.get(chosenButton);
+            onOfflabel.setIsOn(!onOfflabel.getIsOn());
+            if (chosenButton.equals("music")) { //if its music onOff button
+                if (onOfflabel.getIsOn()) {
+                    SoundsManager.playMenuMusic();
+                    SoundsManager.musicVolume = SoundsManager.DEFAULT_MUSIC_VOL;
+                } else {
+                    SoundsManager.stopMenuMusic();
+                }
+            } else if (chosenButton.equals("soundfx")) { //if its soundfx onOff button
+                if (onOfflabel.getIsOn()) {
+                    SoundsManager.soundVolume = SoundsManager.DEFAULT_SOUND_VOL;
+                } else {
+                    SoundsManager.soundVolume = 0f;
+                }
             }
         }
-        else if (chosenButton.equals("soundfx")) { //if its soundfx onOff button
-            if (onOfflabel.getIsOn()){
-                SoundsManager.soundVolume = SoundsManager.DEFAULT_SOUND_VOL;
-            } else{
-                SoundsManager.soundVolume = 0f;
+        else {
+            if (chosenButton.equals("back")) {
+                setScreen(new MainMenuScreen(game), this);
             }
-        }
-        else if (chosenButton.equals("back")) {
-            setScreen(new MainMenuScreen(game), this);
         }
     }
 

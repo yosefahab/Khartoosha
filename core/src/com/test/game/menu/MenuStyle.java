@@ -91,6 +91,7 @@ public class MenuStyle {
         choiceWithTransparency.setAlpha(0.5f);*/
 
         //choiceBackground.setScale(choice.getScaleX(), choice.getScaleY());
+        choice.setSize(choice.getWidth()-35,choice.getHeight()-35);
         choiceBackground.setSize(choice.getWidth()+35, choice.getHeight()+35);
         SpriteDrawable choiceDrawable = new SpriteDrawable(choice);
         SpriteDrawable choiceBackgroundDrawable = new SpriteDrawable(choiceBackground);
