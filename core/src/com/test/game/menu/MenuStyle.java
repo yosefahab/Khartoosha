@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -26,14 +25,23 @@ public class MenuStyle {
         this.font = destroyFont;
     }
 
-    //label style
-    private Label.LabelStyle labelStyle;
-    public Label.LabelStyle getLabelStyle() {
-        return labelStyle;
+    //heading label style
+    private Label.LabelStyle headingLabelStyle;
+    public Label.LabelStyle getHeadingLabelStyle() {
+        return headingLabelStyle;
     }
-    public void setLabelStyle(Label.LabelStyle labelStyle) {
-        this.labelStyle = labelStyle;
+    public void setHeadingLabelStyle(Label.LabelStyle headingLabelStyle) {
+        this.headingLabelStyle = headingLabelStyle;
     }
+
+    /*//on off label style
+    private Label.LabelStyle onOffLabelStyle;
+    public Label.LabelStyle getOnOffLabelStyle() {
+        return onOffLabelStyle;
+    }
+    public void setOnOffLabelStyle(Label.LabelStyle onOffLabelStyle) {
+        this.onOffLabelStyle = onOffLabelStyle;
+    }*/
 
     //text button style
     private TextButton.TextButtonStyle textButtonStyle;
@@ -54,9 +62,13 @@ public class MenuStyle {
         //initialize font
         font = new BitmapFont(Gdx.files.internal("fonts/destroy.fnt"),false);
 
-        //initialize label style
-        labelStyle = new Label.LabelStyle(font, MenuStyle.inActive);
-        labelStyle.fontColor = MenuStyle.pressed;
+        //initialize heading label style
+        headingLabelStyle = new Label.LabelStyle(font, MenuStyle.inActive);
+        headingLabelStyle.fontColor = MenuStyle.pressed;
+
+        /*//initialize on off label style
+        onOffLabelStyle = new Label.LabelStyle(font, MenuStyle.inActive);
+        onOffLabelStyle.fontColor = MenuStyle.pressed;*/
 
         //initialize text button style
         textButtonStyle = new TextButton.TextButtonStyle();

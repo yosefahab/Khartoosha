@@ -20,7 +20,7 @@ import java.util.HashMap;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-
+//TODO: soundManager.click() is being called in game
 public abstract class StandardMenuController {
     protected Khartoosha game;
     protected Stage stage;
@@ -37,7 +37,7 @@ public abstract class StandardMenuController {
     public String[] textButtonNames;
     protected java.util.Map<String, TextButton> textButtonMap;
 
-    MenuStyle menuStyle;
+    protected MenuStyle menuStyle;
 
     int currTextButton;
 
@@ -90,7 +90,7 @@ public abstract class StandardMenuController {
 
     public abstract void chosen(String chosenButton, int chosenIndex);
 
-     void handleKeyboard() {
+     protected void handleKeyboard() {
         stage.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.DOWN) {
@@ -142,6 +142,7 @@ public abstract class StandardMenuController {
             @Override
             public void run() {
                 currScreen.dispose();
+                Gdx.input.setInputProcessor(null);
                 ((Game) Gdx.app.getApplicationListener()).setScreen(screen);
             }
         })));
@@ -161,9 +162,6 @@ public abstract class StandardMenuController {
         Gdx.input.setInputProcessor(stage);
 
         handleKeyboard();
-
-
-        Label label = new Label("esht8l", menuStyle.getLabelStyle());
 
         //table.debug();
 

@@ -41,7 +41,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
 
         //initialize heading
-        heading = new Label("" ,menuStyle.getLabelStyle());
+        heading = new Label("" ,menuStyle.getHeadingLabelStyle());
 
         //constructing imageButtonNames array
         imageButtonNames = new String[numOfChoices + 1];
@@ -232,7 +232,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
             table.add(imageButton);
             table.getCell(imageButton).spaceRight(120);
         }
-        table.debug();
+        //table.debug();
         TextButton button = textButtonMap.get(textButtonNames[1]); //TODO: change the hardcoded values
         button.getLabel().setFontScale(0.5f);
 

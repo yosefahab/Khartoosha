@@ -27,7 +27,7 @@ public class MainMenuScreen extends StandardMenuController implements Screen {
                 break;
             case "settings":
                 //TODO: replace OldSettingsMenuScreen with the new one once ready
-                setScreen(new OldSettingsMenuScreen(game), this);
+                setScreen(new SettingsMenuScreen(game), this);
                 break;
             case "exit":
                 this.dispose();
@@ -43,8 +43,8 @@ public class MainMenuScreen extends StandardMenuController implements Screen {
     public void show() {
         menuControllerShow();
         //setting custom button scaling
-        setCustomButtonScale("settings", 0.6f);
-        setCustomButtonScale("exit", 0.6f);
+        setCustomButtonScale("settings", 0.5f);
+        setCustomButtonScale("exit", 0.7f);
     }
 
     @Override
