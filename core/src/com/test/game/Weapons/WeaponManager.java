@@ -17,6 +17,7 @@ public class WeaponManager
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/pistol/shooting.png");
         weapon.BULLET_TEXTURE = new Texture ("vfx/weapons/pistol/bullet.png");
         weapon.extraPos = 0;
+        weapon.FALLING_BULLET_TEXTURE = new Texture("vfx/weapons/pistol/bullet.png");
     }
 
     protected static void initMG(Weapon weapon)

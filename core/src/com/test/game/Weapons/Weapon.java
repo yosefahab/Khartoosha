@@ -20,6 +20,7 @@ public class Weapon extends Sprite
 {
     private Vector2 position;
     public ArrayList<Bullet> bullets;
+    public ArrayList<FallingBullets> fallingBullets;
     private final World box2dWorld;
     private final BodyDef weaponBody = new BodyDef();
     private Body physicsBodyWeapon;
@@ -47,6 +48,7 @@ public class Weapon extends Sprite
     protected float FIRING_RATE;
     public Texture TEXTURE_IDLE;
     public Texture BULLET_TEXTURE;
+    public Texture FALLING_BULLET_TEXTURE;
     protected Texture TEXTURE_SHOOTING;
     public boolean canShoot = false;
 
@@ -57,6 +59,7 @@ public class Weapon extends Sprite
         this.position = character.getBodyPosition();
         position.y += 4f;
         bullets = new ArrayList<>();
+        fallingBullets = new ArrayList<>();
         this.character = character;
         switchWeapon();
         setTexture(TEXTURE_IDLE);
@@ -87,7 +90,6 @@ public class Weapon extends Sprite
             stopFalling = true;
         if (!stopFalling)
             yPos -= 0.098f;
-
         removeBullets();
 
     }
@@ -117,6 +119,10 @@ public class Weapon extends Sprite
             }
             if (type != 3)
                 bullet.draw(sb);
+        }
+        for (FallingBullets fallingBullet:fallingBullets)
+        {
+            fallingBullet.draw(sb);
         }
 
     }
@@ -212,7 +218,8 @@ public class Weapon extends Sprite
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
                 bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
             }
-
+            FallingBullets fallingBullet = new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),FALLING_BULLET_TEXTURE);
+            fallingBullets.add(fallingBullet);
         }
 
     }
@@ -238,9 +245,25 @@ public class Weapon extends Sprite
             }
         }
         bullets.removeAll(bulletsToBeRemoved);
+
+
+        ArrayList<FallingBullets> fallingBulletsToBeRemoved = new ArrayList<>();
+        for (FallingBullets bullet : fallingBullets)
+        {
+            bullet.update();
+            if (bullet.removeFromArray)
+            {
+                System.out.println("AMEEN YA RAYES");
+                fallingBulletsToBeRemoved.add(bullet);
+            }
+        }
+        fallingBullets.removeAll(fallingBulletsToBeRemoved);
+
+
     }
-
-
-
+   public Vector2 getPosition()
+   {
+       return position;
+   }
 
 }
