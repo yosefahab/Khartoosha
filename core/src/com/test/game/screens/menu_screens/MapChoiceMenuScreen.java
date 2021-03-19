@@ -18,7 +18,8 @@ public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen 
 
     boolean isTwoPlayers;
 
-    public MapChoiceMenuScreen(boolean isTwoPlayers, Khartoosha game) {
+    public MapChoiceMenuScreen(boolean isTwoPlayers, Khartoosha game)
+    {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
         textButtonNames[1] = "back";
         initializeTextButtonMap();
@@ -36,10 +37,14 @@ public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen 
 
     @Override
     public void chosen(String chosenButton, int chosenIndex) {
-        if(chosenButton.contains(CHOICE_NAME)) {
+        if(chosenButton.contains(CHOICE_NAME))
+        {
             setScreen(new CharacterChoiceMenuScreen(isTwoPlayers, chosenIndex, game), this);
-        } else {
-            switch (chosenButton) {
+        }
+        else
+        {
+            switch (chosenButton)
+            {
                 case "back":
                     setScreen(new PlayMenuScreen(game), this);
                     break;

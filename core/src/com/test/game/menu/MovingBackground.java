@@ -3,7 +3,7 @@ package com.test.game.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.test.game.Khartoosha;
-import com.test.game.sprites.Map;
+import com.test.game.screens.play_screen.Map;
 
 public class MovingBackground
 {

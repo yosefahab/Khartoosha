@@ -3,10 +3,12 @@ package com.test.game.screens.menu_screens;
 import com.badlogic.gdx.Screen;
 import com.test.game.Khartoosha;
 import com.test.game.menu.ChoiceMenuController;
-import com.test.game.screens.PlayScreen;
+import com.test.game.screens.play_screen.PlayScreen;
 
 import java.util.ArrayList;
-public class CharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
+
+public class CharacterChoiceMenuScreen extends ChoiceMenuController implements Screen
+{
     int mapID;
 
     static final int NUM_OF_BUTTONS = 1;
@@ -18,7 +20,8 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
     boolean isFirstCharChosen;
     ArrayList<Integer> chosenCharacters;
 
-    public CharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game) {
+    public CharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game)
+    {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
         textButtonNames[1] = "back";
         initializeTextButtonMap();
@@ -27,14 +30,15 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
         this.mapID = mapID;
 
         //customize label (heading)
-        if (isTwoPlayers){
+        if (isTwoPlayers)
+        {
             heading.setText("1st character");
             heading.setFontScale(0.5f);
-        } else {
+        } else
+        {
             heading.setText("choose your character");
             heading.setFontScale(0.4f);
         }
-
 
 
         //initialize imageButton's map and style
@@ -45,22 +49,33 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
     }
 
     @Override
-    public void chosen(String chosenButton, int chosenIndex) {
-        if(chosenButton.contains(CHOICE_NAME)) {
-            if(!isTwoPlayers){
+    public void chosen(String chosenButton, int chosenIndex)
+    {
+        if (chosenButton.contains(CHOICE_NAME))
+        {
+            if (!isTwoPlayers)
+            {
                 setScreen(new PlayScreen(game, mapID, chosenIndex), this);
-            } else {
-                if(!isFirstCharChosen) {
+                System.out.println("h");
+            }
+            else
+            {
+                if (!isFirstCharChosen)
+                {
                     chosenCharacters.add(chosenIndex);
                     heading.setText("2nd character");
                     isFirstCharChosen = true;
-                } else {
+                } else
+                {
                     chosenCharacters.add(chosenIndex);
                     setScreen(new PlayScreen(game, mapID, chosenCharacters.get(0), chosenCharacters.get(1)), this);
                 }
             }
-        } else {
-            switch (chosenButton) {
+        }
+        else
+        {
+            switch (chosenButton)
+            {
                 case "back":
                     setScreen(new MapChoiceMenuScreen(isTwoPlayers, game), this);
                     break;
@@ -69,37 +84,44 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
         menuControllerShow();
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         menuControllerRender(delta);
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
 
     }
 }

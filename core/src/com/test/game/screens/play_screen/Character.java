@@ -1,4 +1,4 @@
-package com.test.game.sprites;
+package com.test.game.screens.play_screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,13 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.test.game.AI;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Bomb;
 import com.test.game.Weapons.Weapon;
-import com.test.game.screens.PlayScreen;
 import com.test.game.SoundsManager;
-
 
 import java.util.Random;
 
@@ -75,7 +72,7 @@ public class Character extends Sprite
     */
     private void loadCharacter(int TextureNumber)
     {
-         current_char=TextureNumber;
+        current_char=TextureNumber;
 
         this.idle = new TextureRegion(getTexture(),0,(TextureNumber-1)* 637, 513, 637);
         this.jumping =  new TextureRegion(getTexture(),(7 * 513),(TextureNumber-1)* 637, 513, 637);
@@ -101,7 +98,7 @@ public class Character extends Sprite
         CHARACTER_ID = NUMBER_OF_CHARACTERS;
         defineCharacterPhysics();
 
-        if (NUMBER_OF_CHARACTERS == 1)
+        if (CHARACTER_ID == 1)
         {
             CHARACTER_CONTROLS[0] = Input.Keys.W;
             CHARACTER_CONTROLS[1] = Input.Keys.A;
@@ -109,13 +106,18 @@ public class Character extends Sprite
             CHARACTER_CONTROLS[3] = Input.Keys.D;
             CHARACTER_CONTROLS[4] = Input.Keys.CONTROL_LEFT;
         }
-        else if (NUMBER_OF_CHARACTERS == 2)
+        else if (CHARACTER_ID == 2)
         {
             CHARACTER_CONTROLS[0] = Input.Keys.UP;
             CHARACTER_CONTROLS[1] = Input.Keys.LEFT;
             CHARACTER_CONTROLS[2] = Input.Keys.DOWN;
             CHARACTER_CONTROLS[3] = Input.Keys.RIGHT;
             CHARACTER_CONTROLS[4] = Input.Keys.SPACE;
+        }
+        else
+        {
+            System.out.println("a7a 555555555");
+            System.out.println(NUMBER_OF_CHARACTERS);
         }
 
         loadCharacter(TextureNumber); //select character based on menu selection
@@ -165,7 +167,7 @@ public class Character extends Sprite
             physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
             takeDamage();
-              dead=true;
+            dead=true;
 
 
             //don't upgrade opponent on self kill
@@ -210,8 +212,7 @@ public class Character extends Sprite
             isTimerStarted = false;
         }
 
-        //TODO: redundant null check?
-        if (enemy != null && enemy.lostLife)
+        if (enemy.lostLife)
         {
             if (weapon.type < Weapon.MAX_TYPE)
             {
@@ -266,7 +267,7 @@ public class Character extends Sprite
 
     public void moveRight()
     {
-       if (this.physicsBody.getLinearVelocity().x <= speedCap)
+        if (this.physicsBody.getLinearVelocity().x <= speedCap)
         {
             this.physicsBody.applyLinearImpulse(new Vector2(speedScale, 0), this.physicsBody.getWorldCenter(), true);
         }

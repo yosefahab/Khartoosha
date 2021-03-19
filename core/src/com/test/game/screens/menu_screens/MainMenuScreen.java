@@ -12,7 +12,8 @@ public class MainMenuScreen extends StandardMenuController implements Screen {
 
     static final int NUM_OF_BUTTONS = 3;
     MovingBackground mbg;
-    public MainMenuScreen(Khartoosha game) {
+    public MainMenuScreen(Khartoosha game)
+    {
         super(NUM_OF_BUTTONS, game);
          mbg = new MovingBackground(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "play";

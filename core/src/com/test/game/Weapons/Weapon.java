@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.SoundsManager;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.Character;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,10 @@
-package com.test.game;
+package com.test.game.screens.play_screen;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.test.game.sprites.Character;
-import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.Khartoosha;
+import com.test.game.screens.play_screen.Powerups.PowerUp;
 
 import java.util.Random;
 
