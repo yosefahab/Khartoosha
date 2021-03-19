@@ -10,28 +10,32 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 
 public class FallingBullets extends Sprite {
-    World box2dWorld;
-    Vector2 initialPosition;
+    private World box2dWorld;
+    private Vector2 initialPosition;
     public boolean removeFromArray = false;
-    FallingBullets(World world, Vector2 position, Texture texture)
+    private int direction;
+    FallingBullets(World world, Vector2 position, Texture texture, int direction)
     {
         this.box2dWorld = world;
         initialPosition=position;
+        this.direction=direction;
         setTexture(texture);
-        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 544, 122); //define region of certain texture in png
+        TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 258, 734); //define region of certain texture in png
         setRegion(textureRegion);
-        setBounds(position.x, position.y, 120 / Khartoosha.PPM, 30 / Khartoosha.PPM); //set size rendered texture
+        setBounds(position.x, position.y, 5 / Khartoosha.PPM, 15 / Khartoosha.PPM); //set size rendered texture
     }
     private float fallingDistance;
+    private float windBlow;
     public void update()
     {
         final float GRAVITY=-0.098f;
+        final float wind=0.05f;
+        windBlow+=wind;
         fallingDistance+=GRAVITY;
-        setPosition(initialPosition.x,initialPosition.y+fallingDistance);
+        setPosition(initialPosition.x+(windBlow*direction),initialPosition.y-0.5f+fallingDistance);
         if (-getY() > Khartoosha.Gheight/Khartoosha.PPM)
         {
             removeFromArray=true;
-            System.out.println("ANA BARA TMAM?");
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.Q))
         {
@@ -43,17 +47,4 @@ public class FallingBullets extends Sprite {
     {
 
     }
-    /*protected boolean isOutOfRange(float range, boolean includeVerticalRange)
-    {
-        Vector2 currentPosition = getCurrentPosition();
-        Vector2 initialPosition = getInitialPosition();
-
-        float distanceX = Math.abs(currentPosition.x - initialPosition.x);
-        float distanceY = Math.abs(currentPosition.y - initialPosition.y);
-
-        if (!includeVerticalRange)
-            return distanceX >= range;
-
-        return distanceX >= range || distanceY >= range;
-    }*/
 }

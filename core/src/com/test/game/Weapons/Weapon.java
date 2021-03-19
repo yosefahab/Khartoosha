@@ -81,6 +81,8 @@ public class Weapon extends Sprite
             setPosition(position.x - 2f - extraPos, yPos);
 
         }
+
+        //Weapons spawning
         if (stopFalling)
         {
             yPos = character.getBodyPosition().y+0.05f;
@@ -196,6 +198,7 @@ public class Weapon extends Sprite
 
             if (CURRENT_AMMO < 1)
             {
+                //Reload in case the weapon is the least obtainable weapon
                 if (type == 0)
                     refillAmmo();
                 else
@@ -208,8 +211,8 @@ public class Weapon extends Sprite
             if (faceRight)
             {
                 bulletFlipped = false;
-                Bullet bullet = new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type);
-                bullets.add(bullet);
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),FALLING_BULLET_TEXTURE,-1));
 
             } else
             {
@@ -217,19 +220,19 @@ public class Weapon extends Sprite
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
                 bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x -0.8f, position.y + 0.4f),FALLING_BULLET_TEXTURE,1));
             }
-            FallingBullets fallingBullet = new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),FALLING_BULLET_TEXTURE);
-            fallingBullets.add(fallingBullet);
+
         }
 
     }
-
+    //Removing unnecessary bullets once they're out of the game range
     private void removeBullets()
     {
         ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
         for (Bullet bullet : bullets)
         {
-            bullet.update(Gdx.graphics.getDeltaTime());
+            bullet.update();
 
             if (bullet.removeFromArray)
             {
@@ -237,6 +240,7 @@ public class Weapon extends Sprite
                 bulletsToBeRemoved.add(bullet);
             }
         }
+
         if (Bullet.isLight)
         {
             for (Bullet bullet : bulletsToBeRemoved)
@@ -253,7 +257,6 @@ public class Weapon extends Sprite
             bullet.update();
             if (bullet.removeFromArray)
             {
-                System.out.println("AMEEN YA RAYES");
                 fallingBulletsToBeRemoved.add(bullet);
             }
         }

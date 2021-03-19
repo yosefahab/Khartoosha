@@ -13,12 +13,12 @@ import com.test.game.screens.play_screen.Map;
 public class Bullet extends Sprite
 {
 
-    BodyDef bulletBodyDef = new BodyDef();
-    Body bulletPhysicsBody;
-    World box2dWorld;
-    Vector2 initialPosition;
+    private BodyDef bulletBodyDef = new BodyDef();
+    private Body bulletPhysicsBody;
+    private World box2dWorld;
+    private Vector2 initialPosition;
     public boolean removeFromArray = false;
-    protected Vector2 velocity;
+    private Vector2 velocity;
     public Vector2 force;
     public boolean isContacted = false;
     private int weaponType;
@@ -71,7 +71,7 @@ public class Bullet extends Sprite
     private float addedDistanceX = 0;
     private float addedDistanceY = 0;
 
-    public void update(float delta)
+    public void update()
     {
 
         addedDistanceX += velocity.x;

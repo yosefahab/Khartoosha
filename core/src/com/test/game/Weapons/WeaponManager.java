@@ -17,7 +17,8 @@ public class WeaponManager
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/pistol/shooting.png");
         weapon.BULLET_TEXTURE = new Texture ("vfx/weapons/pistol/bullet.png");
         weapon.extraPos = 0;
-        weapon.FALLING_BULLET_TEXTURE = new Texture("vfx/weapons/pistol/bullet.png");
+        weapon.FALLING_BULLET_TEXTURE = new Texture("vfx/bulletTrail.png");
+
     }
 
     protected static void initMG(Weapon weapon)
@@ -30,6 +31,8 @@ public class WeaponManager
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/mg/shooting.png");
         weapon.BULLET_TEXTURE = new Texture ("vfx/weapons/mg/bullet.png");
         weapon.extraPos=0;
+        weapon.FALLING_BULLET_TEXTURE = new Texture("vfx/bulletTrail.png");
+
     }
 
     protected static void initSniper(Weapon weapon)
@@ -42,6 +45,7 @@ public class WeaponManager
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/sniper/shooting.png");
         weapon.BULLET_TEXTURE = new Texture ("vfx/weapons/sniper/bullet.png");
         weapon.extraPos=-0.4f;
+        weapon.FALLING_BULLET_TEXTURE = new Texture("vfx/bulletTrail.png");
     }
 
     protected static void initShotgun(Weapon weapon)
@@ -53,6 +57,8 @@ public class WeaponManager
         weapon.TEXTURE_IDLE = new Texture("vfx/weapons/shotgun/idle.png");
         weapon.TEXTURE_SHOOTING = new Texture("vfx/weapons/shotgun/shooting.png");
         weapon.extraPos=-0.3f;
+        weapon.FALLING_BULLET_TEXTURE = new Texture("fallingBullet.png");
+
     }
 
 }

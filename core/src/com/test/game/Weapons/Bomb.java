@@ -122,7 +122,7 @@ public class Bomb extends Sprite
                 if (b != null)
                 {
                     cnt++;
-                    b.update(delta);
+                    b.update();
                     if (b.isOutOfRange(WeaponManager.BOMB_RANGE, true))
                     {
                         b.dispose();
