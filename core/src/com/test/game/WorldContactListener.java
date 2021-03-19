@@ -4,9 +4,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.Weapons.Bullet;
-import com.test.game.sprites.Character;
-import com.test.game.sprites.PowerUps.Armor;
-import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.screens.play_screen.Character;
+import com.test.game.screens.play_screen.Powerups.Armor;
+import com.test.game.screens.play_screen.Powerups.PowerUp;
 
 public class WorldContactListener implements com.badlogic.gdx.physics.box2d.ContactListener
 {

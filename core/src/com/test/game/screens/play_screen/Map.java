@@ -1,4 +1,4 @@
-package com.test.game.sprites;
+package com.test.game.screens.play_screen;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
 import com.test.game.Weapons.Bullet;
 import com.test.game.menu.MovingBackground;
-import com.test.game.screens.PlayScreen;
+import com.test.game.screens.play_screen.PlayScreen;
 
 public class Map
 {
@@ -76,7 +76,6 @@ public class Map
             if (object != null)
             {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                //System.out.println(rect.getX()+ "  " + rect.getY());
                 jumpPoints.add(rect);
                 jumpDirections.add((Integer) object.getProperties().get("jumpDirection"));
             }
@@ -160,8 +159,6 @@ public class Map
         if (ID == 2)
         {
             movingBackground = new MovingBackground(new Texture("maps/map_resources/map2_moving_background.png"));
-           // soundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/map2.wav"));
-           // soundsManager.playMapBackgroundSounds();
         }
         if (ID == 3)
         {
@@ -184,10 +181,7 @@ public class Map
 
         if (ID == 3)
         {
-            if (Gdx.input.isKeyPressed(Input.Keys.Q))
-            {
-                imageLayerFlip();
-            }
+            imageLayerFlip();
             rayHandler.setCombinedMatrix(PlayScreen.camera.gameCam);
             rayHandler.updateAndRender();
         }
@@ -207,33 +201,6 @@ public class Map
         }
     }
 
-    /*
-    fades in / out lights
-    may become useful sometime later
-    private void fadeInOut()
-    {
-        fadeInOutTimer += Gdx.graphics.getDeltaTime();
-        if (fadeInOutTimer > 0.01)
-        {
-            Color color = new Color(pointLight.getColor());
-            System.out.println(color.a);
-            if (fadeOut)
-            {
-                color.a -= 0.1f;
-                if (color.a <= 0)
-                    fadeOut = false;
-            }
-            else
-            {
-                color.a += 0.1f;
-                if (color.a >= 1)
-                    fadeOut = true;
-            }
-            pointLight.setColor(color);
-            fadeInOutTimer = 0;
-        }
-    }
-     */
 
 
 }

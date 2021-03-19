@@ -5,12 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
+import com.test.game.screens.play_screen.PlayScreen;
 import com.test.game.screens.menu_screens.MainMenuScreen;
 
 //TODO: optimize
@@ -30,7 +29,8 @@ public class PauseMenu extends StandardMenuController{
         initializeTextButtonMap();
     }
 
-    public void showPauseMenu() {
+    public void showPauseMenu()
+    {
         stage = new Stage();
         table = new Table();
         final float subtractFromWidth = 300, subtractFromHeight = 100;

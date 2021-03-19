@@ -1,4 +1,4 @@
-package com.test.game.sprites.PowerUps;
+package com.test.game.screens.play_screen.Powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.Character;
 
 import java.util.Random;
 

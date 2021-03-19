@@ -1,12 +1,12 @@
-package com.test.game.sprites.PowerUps;
+package com.test.game.screens.play_screen.Powerups;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.PlayScreen;
+import com.test.game.screens.play_screen.Character;
 
 /**
  * Add Extra life to character if not at max lives

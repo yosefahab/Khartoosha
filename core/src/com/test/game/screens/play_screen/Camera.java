@@ -1,4 +1,4 @@
-package com.test.game.sprites;
+package com.test.game.screens.play_screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

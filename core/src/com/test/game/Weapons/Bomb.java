@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.Utils;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.Character;
 
 public class Bomb extends Sprite
 {
@@ -126,7 +126,6 @@ public class Bomb extends Sprite
                     if (b.isOutOfRange(WeaponManager.BOMB_RANGE, true))
                     {
                         b.dispose();
-                        b.pointLight.remove();
                         bullets[cnt - 1] = null;
                     }
 

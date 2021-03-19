@@ -229,3 +229,9 @@ Shehab, 3 Feb
     everything works fine till you go into another game (without restarting the game), it appears that menu keys still register
     even though the InputProcessor is set to null.
 - Removed all old menu classes and assets, looks neat i know right.
+
+
+Bassel, 19 Feb
+- removed useless commented code / useless comments 
+- regrouped classes and packages 
+- temporarily disabled bombs as they are currently unstable 
