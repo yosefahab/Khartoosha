@@ -192,6 +192,8 @@ public class WorldContactListener implements com.badlogic.gdx.physics.box2d.Cont
         Character character = (Character) o2;
 
         character.ALLOWED_JUMPS = 2;
+
+        // enables AI to get data from map about which platforms it can drop from
         if (character.isAI)
             character.getAi().canDrop = (boolean) mapObject.getProperties().get("droppable");
     }

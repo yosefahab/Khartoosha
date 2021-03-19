@@ -69,7 +69,7 @@ public class PauseMenu extends StandardMenuController{
             //TODO: figure a way to update settings
 //            initializeSettings();
             pauseMenuPageNum = 2;
-            System.out.println(pauseMenuPageNum);
+            //System.out.println(pauseMenuPageNum);
         } else if(chosenButton.equals("exit")) { //if exit is clicked
             //TODO: when uncommenting the game crashes?
             //currScreen.dispose();

@@ -12,9 +12,10 @@ import com.test.game.screens.play_screen.Character;
 import java.util.Random;
 
 public abstract class PowerUp extends Sprite {
+
     public World world;
     public Body pupBody;
-    protected Random rand = new Random(); // Random generator
+    protected Random rand = new Random();
 
     public static final int MAXPUPS = 5; // max allowed spawned pups
     public static int currentPups = 0; //number of spawned pups at any moment
@@ -26,7 +27,7 @@ public abstract class PowerUp extends Sprite {
     private boolean isActive = false;
     protected boolean isContacted = false;
     private boolean isOneShot = false; //Indicator for powerups that don't run for certain time (Extra life, upgrade weapon, etc..)
-    public final int MAX_PLATFORMS = 6;
+    protected final int MAX_PLATFORMS = 4;
     public int platforms_To_Skip = rand.nextInt(MAX_PLATFORMS);
 
     // a random number less than max_rate is generated if it's larger than spawn_rate then it's spawned
@@ -51,15 +52,12 @@ public abstract class PowerUp extends Sprite {
     private void initPup()
     {
         BodyDef bdef = new BodyDef();
-        //initial position is set randomly in game world
-        //bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 150) / Khartoosha.PPM + (100 / Khartoosha.PPM) , Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
-//        bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 400) / Khartoosha.PPM +(400 / Khartoosha.PPM),
-//                Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
         bdef.position.set(rand.nextInt((int)Khartoosha.Gwidth - 400) / Khartoosha.PPM +(200 / Khartoosha.PPM),
-                Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM));
+                Khartoosha.Gheight / Khartoosha.PPM + (500 / Khartoosha.PPM));
 
         bdef.type = BodyDef.BodyType.StaticBody;
         pupBody = world.createBody(bdef);
+
     }
 
     /**
@@ -107,8 +105,10 @@ public abstract class PowerUp extends Sprite {
      */
     public void update()
     {
+        // pup fallen off screen without contacting platforms
         if (pupBody.getPosition().y < - 2)
             resetPupPosition();
+
         setPosition(pupBody.getPosition().x-12/Khartoosha.PPM, pupBody.getPosition().y-getHeight()/3);
 
         if (isContacted)
@@ -142,7 +142,8 @@ public abstract class PowerUp extends Sprite {
     public void resetPupPosition()
     {
         pupBody.setTransform(rand.nextInt((int)Khartoosha.Gwidth - 400) / Khartoosha.PPM + (400 / Khartoosha.PPM),
-                Khartoosha.Gheight / Khartoosha.PPM + 3,0);
+                Khartoosha.Gheight / Khartoosha.PPM + 7,0);
+        //pupBody.setTransform(4, Khartoosha.Gheight / Khartoosha.PPM + 3,0);
         pupBody.setType(BodyDef.BodyType.StaticBody);
     }
 

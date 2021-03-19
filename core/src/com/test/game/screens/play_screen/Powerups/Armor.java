@@ -28,7 +28,7 @@ public class Armor extends PowerUp {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(20 / Khartoosha.PPM);
+        shape.setRadius(15 / Khartoosha.PPM);
 
         fdef.shape = shape;
 
@@ -39,6 +39,7 @@ public class Armor extends PowerUp {
 
     @Override
     public void effect(Character player) {
+        setSpawned(false);
         //activate
         setActive(true);
         // reset pup Position

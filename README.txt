@@ -234,4 +234,12 @@ Shehab, 3 Feb
 Bassel, 19 Feb
 - removed useless commented code / useless comments 
 - regrouped classes and packages 
-- temporarily disabled bombs as they are currently unstable 
+- temporarily disabled bombs as they are currently unstable
+
+
+Ayman, 19 Mar
+
+    • Added AI difficulty controls
+    • Changed player and pup spawn height
+    • Added getDistance function in Util class
+

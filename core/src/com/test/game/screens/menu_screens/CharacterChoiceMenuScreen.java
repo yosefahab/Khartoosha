@@ -56,7 +56,7 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
             if (!isTwoPlayers)
             {
                 setScreen(new PlayScreen(game, mapID, chosenIndex), this);
-                System.out.println("h");
+                //System.out.println("h");
             }
             else
             {

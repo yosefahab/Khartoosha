@@ -2,6 +2,7 @@ package com.test.game.screens.play_screen.Powerups;
 
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
 import com.test.game.screens.play_screen.PlayScreen;
 
@@ -34,14 +35,6 @@ public class PowerUpsHandler
         PUPs[4] = new RefillAmmo(box2dWorld,playScreen);
 
 
-//        for (int i = 0; i < 5; i++)
-//        {
-//            PUPs[i]  = new SpeedBoost(box2dWorld,playScreen);
-//        }
-
-
-
-
     }
 
     public void update()
@@ -58,7 +51,7 @@ public class PowerUpsHandler
 
         for (PowerUp pup:PUPs)
         {
-            if (pup.isSpawned())
+            if (pup.isSpawned() || pup.isActive())
                 pup.update();
 
         }
@@ -78,5 +71,17 @@ public class PowerUpsHandler
 
     public PowerUp[] getPUPs() {
         return PUPs;
+    }
+
+    public Array<PowerUp> getSpawnedPups()
+    {
+        Array<PowerUp> spawnedPups = new Array<>();
+        for(PowerUp pup:PUPs)
+        {
+            if (pup.isSpawned() && !pup.isActive())
+                spawnedPups.add(pup);
+        }
+
+        return spawnedPups;
     }
 }

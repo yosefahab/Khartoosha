@@ -28,7 +28,7 @@ public class ExtraLife extends PowerUp {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(10 / Khartoosha.PPM);
+        shape.setRadius(15 / Khartoosha.PPM);
 
         fdef.shape = shape;
 

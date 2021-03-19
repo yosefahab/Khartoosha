@@ -189,7 +189,7 @@ public abstract class ChoiceMenuController extends StandardMenuController{
                     currTextButton = 0;
                     currImageButton = finalI;
                     setActiveImageButton(finalI);
-                    System.out.println("enter");
+                    //System.out.println("enter");
                 }
 
                 @Override

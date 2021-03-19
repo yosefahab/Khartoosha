@@ -116,8 +116,8 @@ public class Character extends Sprite
         }
         else
         {
-            System.out.println("a7a 555555555");
-            System.out.println(NUMBER_OF_CHARACTERS);
+            //System.out.println("a7a 555555555");
+            //System.out.println(NUMBER_OF_CHARACTERS);
         }
 
         loadCharacter(TextureNumber); //select character based on menu selection
@@ -164,7 +164,7 @@ public class Character extends Sprite
             Random rand = new Random();
             float spawnX = rand.nextInt((int)Khartoosha.Gwidth - 100) / Khartoosha.PPM + (150 / Khartoosha.PPM);
             physicsBody.setLinearVelocity(new Vector2(0,0));
-            physicsBody.setTransform(new Vector2(spawnX, 2000 / Khartoosha.PPM ),physicsBody.getAngle());
+            physicsBody.setTransform(new Vector2(spawnX, 1100 / Khartoosha.PPM ),physicsBody.getAngle());
             current_lives--;
             takeDamage();
             dead=true;
@@ -312,15 +312,15 @@ public class Character extends Sprite
             weapon.shoot();
         }
 
-        if (CHARACTER_ID == 1 && Gdx.input.isKeyJustPressed(Input.Keys.G))
-        {
-            bomb.KA(this);
-        }
-
-        if (CHARACTER_ID == 2 && Gdx.input.isKeyJustPressed(Input.Keys.F))
-        {
-            bomb.KA(this);
-        }
+//        if (CHARACTER_ID == 1 && Gdx.input.isKeyJustPressed(Input.Keys.G))
+//        {
+//            bomb.KA(this);
+//        }
+//
+//        if (CHARACTER_ID == 2 && Gdx.input.isKeyJustPressed(Input.Keys.F))
+//        {
+//            bomb.KA(this);
+//        }
     }
 
     public void dispose()
@@ -377,7 +377,7 @@ public class Character extends Sprite
     // separated too
     private void initAI()
     {
-        ai = new AI(this, 1f);
+        ai = new AI(this);
     }
 
     public int getCHARACTER_ID() {

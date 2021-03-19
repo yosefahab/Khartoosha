@@ -35,7 +35,7 @@ public class SpeedBoost  extends PowerUp
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(10 / Khartoosha.PPM);
+        shape.setRadius(15 / Khartoosha.PPM);
 
         fdef.shape = shape;
 
@@ -47,6 +47,7 @@ public class SpeedBoost  extends PowerUp
 
     @Override
     public void effect(Character player) {
+        setSpawned(false);
         //activate
         setActive(true);
         // reset pup Position
@@ -61,7 +62,6 @@ public class SpeedBoost  extends PowerUp
     @Override
     public void reset() {
         active_time = 0;
-        setSpawned(false);
         setActive(false);
         if (attachedChar != null)
             attachedChar.resetSpeedCap();
