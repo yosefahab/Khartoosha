@@ -13,7 +13,8 @@ public class PlayMenuScreen extends StandardMenuController implements Screen {
 
     private static final float BUTTONS_SCALE = 0.6f;
 
-    public PlayMenuScreen(Khartoosha game) {
+    public PlayMenuScreen(Khartoosha game)
+    {
         super(NUM_OF_BUTTONS, game, BUTTONS_SCALE);
         MovingBackground.setBg(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "1 player";

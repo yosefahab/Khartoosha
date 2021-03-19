@@ -106,7 +106,7 @@
     <property name="droppable" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="21" type="platform" x="183.652" y="290" width="170.362">
+  <object id="21" type="platform" x="183.652" y="290" width="168.695">
    <properties>
     <property name="droppable" type="bool" value="true"/>
    </properties>

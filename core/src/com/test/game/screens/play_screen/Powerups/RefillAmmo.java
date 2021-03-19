@@ -1,12 +1,12 @@
-package com.test.game.sprites.PowerUps;
+package com.test.game.screens.play_screen.Powerups;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
-import com.test.game.screens.PlayScreen;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.PlayScreen;
+import com.test.game.screens.play_screen.Character;
 
 
 /**
@@ -23,7 +23,7 @@ public class RefillAmmo extends PowerUp {
 
     public RefillAmmo(World world, PlayScreen screen) {
 
-        super(world,screen.GetAtlas().findRegion("ammoPowerup"), 9990, 10000, 0);
+        super(world,screen.GetAtlas().findRegion("ammoPowerup"), 9970, 10000, 0);
 
         this.powerupTexture = new TextureRegion(getTexture(),3*434 ,0, 434, 418);
         setBounds(0,0, 55 / Khartoosha.PPM, 45 /Khartoosha.PPM);

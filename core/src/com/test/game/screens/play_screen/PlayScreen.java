@@ -1,21 +1,18 @@
-package com.test.game.screens;
+package com.test.game.screens.play_screen;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.test.game.*;
+import com.test.game.screens.play_screen.Powerups.PowerUp;
+import com.test.game.screens.play_screen.Powerups.PowerUpsHandler;
 import com.test.game.menu.PauseMenu;
 import com.test.game.screens.menu_screens.MainMenuScreen;
-import com.test.game.sprites.Camera;
-import com.test.game.sprites.Character;
-import com.test.game.sprites.Map;
-import com.test.game.sprites.PowerUps.*;
 
 import java.util.Random;
 
@@ -171,7 +168,6 @@ public class PlayScreen implements Screen
     @Override
     public void dispose()
     {
-        //TODO: call all classes' dispose methods from here
         map.dispose();
         character1.dispose();
         character2.dispose();
@@ -180,6 +176,7 @@ public class PlayScreen implements Screen
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
         pauseMenu.menuControllerDispose();
+
     }
 
     @Override
@@ -218,7 +215,8 @@ public class PlayScreen implements Screen
             H.Gun_pos(camera , character1,character2);
             H.bullet_pos(camera,character1,character2);
         }
-        if (gameOver){
+        if (gameOver)
+        {
             isGamePaused = true;
             Hud.endGame(winner);
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))
@@ -231,10 +229,10 @@ public class PlayScreen implements Screen
         {
             if(goToMainMenu)
             {
-                //this.dispose();
+                System.out.println("D>D>D");
+                this.dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
-            //PauseMenu.displayPauseScreen(camera);
 
             pauseMenu.showPauseMenu();
             pauseMenu.renderPauseMenu(delta);

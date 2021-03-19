@@ -1,10 +1,10 @@
-package com.test.game;
+package com.test.game.screens.play_screen;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.test.game.sprites.Character;
-import com.test.game.sprites.PowerUps.PowerUp;
+import com.test.game.Khartoosha;
+import com.test.game.screens.play_screen.Powerups.PowerUp;
 
 import java.util.Random;
 
@@ -30,6 +30,8 @@ public class AI {
     private boolean atPeace = true;
     private final float GAME_START_PEACE = 1f;
     private float gameStartTimer;
+
+    // Navigation
     private Array<Rectangle> jumpPoints;
     private Array<Integer> jumpDirections;
     private boolean jumped = false;
@@ -38,7 +40,21 @@ public class AI {
     public boolean canDrop;
     public PowerUp[] PUPs;
 
-    public AI(Character character, float SWITCH_INTERVAL)
+    // Difficulty control
+
+    //chance to idle while playing (between 1 and 1000), higher = less idling = more difficult
+    private final int idle_chance = 880;
+
+    /*
+    chance to move towards player when getting shot (between 1 and 100)
+    lower =  more chasing = more difficult
+    */
+    private final int chase_chance = 60;
+
+    // Util
+    private final Random rand = new Random();
+
+    public AI(Character character)
     {
         this.character = character;
         this.SWITCH_INTERVAL = 0.5f;
@@ -63,13 +79,9 @@ public class AI {
             //change state when a certain time threshold passed
             if (switch_timer > SWITCH_INTERVAL)
             {
-                //reset timer
+                //reset timer and update state
                 switch_timer = 0;
-                //update state
                 currentState = stateManager();
-                //System.out.println("Current State : " + currentState);
-
-
             }
 
 
@@ -77,7 +89,7 @@ public class AI {
             switch (currentState){
                 case IDLE_STATE: break;
                 case ATTACK_STATE:
-                    attack(); // ATTACK
+                    attack();
                     break;
                 case CHASE_STATE:
                     chase();
@@ -87,8 +99,8 @@ public class AI {
         }
 
 
-        //when getting shot move towards character
-        if (character.hitTimer <= 1 && character.hitTimer > 0)
+        //chance to move towards enemy when getting shot at
+        if ( (character.hitTimer <= 1 && character.hitTimer > 0) &&  (rand.nextInt() % 100 > chase_chance) )
         {
             chase();
         }
@@ -97,25 +109,32 @@ public class AI {
 
     private int stateManager()
     {
+
+
+
         // character in shooting range
         // TODO: add weapon range consideration
         jumped = false;
         if (inShootingRange())
             return ATTACK_STATE;
 
-        //the following will probably be changed
+
+        // Chance to randomly return IDLE state (mimics real life pausing to think state)
+        if (rand.nextInt() % 1000 > idle_chance)
+        {
+            return IDLE_STATE;
+        }
+
 
         // if the character is away a certain distance and not in shooting range chase him
+
         float distanceX = abs(character.getBodyPosition().x - enemy.getBodyPosition().x);
         float distanceY = character.getBodyPosition().y - enemy.getBodyPosition().y;
 
-        Random rand = new Random();
+
         // changes the distance that triggers the chase state
         float y_distance_epsilon = rand.nextInt(100) / Khartoosha.PPM;
         float x_distance_epsilon = rand.nextInt(200) / Khartoosha.PPM;
-
-
-
 
         if ( abs(distanceY) > y_distance_epsilon || distanceX > x_distance_epsilon )
             return CHASE_STATE;
@@ -134,7 +153,7 @@ public class AI {
 
     private void chase()
     {
-        Random rand = new Random();
+
         float y_distance_epsilon = rand.nextInt(50)  / Khartoosha.PPM;
         float x_distance_epsilon = (rand.nextInt(200) + 200) / Khartoosha.PPM;
 
@@ -192,16 +211,9 @@ public class AI {
         }
 
 
-
         return  false;
     }
 
-    public void setJumpPoints(Array<Rectangle> jumpPoints) {
-        this.jumpPoints = jumpPoints;
-    }
-    public void setJumpDirections(Array<Integer> jumpDirections) {
-        this.jumpDirections = jumpDirections;
-    }
 
 
     /**
@@ -277,6 +289,13 @@ public class AI {
         rect_indx_pair[0] = closestPoint;
         rect_indx_pair[1] =  pointIndx;
         return rect_indx_pair;
+    }
+
+    public void setJumpPoints(Array<Rectangle> jumpPoints) {
+        this.jumpPoints = jumpPoints;
+    }
+    public void setJumpDirections(Array<Integer> jumpDirections) {
+        this.jumpDirections = jumpDirections;
     }
 
 }

@@ -1,11 +1,11 @@
-package com.test.game;
+package com.test.game.screens.play_screen;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.test.game.screens.PlayScreen;
-import com.test.game.sprites.Camera;
-import com.test.game.sprites.Character;
+import com.test.game.Khartoosha;
+import com.test.game.screens.play_screen.PlayScreen;
+import com.test.game.screens.play_screen.Camera;
+import com.test.game.screens.play_screen.Character;
 
 import java.util.Vector;
 

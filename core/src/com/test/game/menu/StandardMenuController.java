@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -98,14 +97,14 @@ public abstract class StandardMenuController {
                         currTextButton = 0;
                     }
                     currTextButton++;
-                    System.out.println("down");
+                    //System.out.println("down");
                 }
                 if (keycode == Input.Keys.UP) {
                     if (currTextButton <= 1) {
                         currTextButton = textButtonNames.length;
                     }
                     currTextButton--;
-                    System.out.println("up");
+                    //System.out.println("up");
                 }
                 setActiveButton(textButtonNames[currTextButton]);
                 if (keycode == Input.Keys.ENTER) {

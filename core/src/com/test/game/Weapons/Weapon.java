@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.test.game.Khartoosha;
 import com.test.game.SoundsManager;
-import com.test.game.sprites.Character;
+import com.test.game.screens.play_screen.Character;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,7 @@ public class Weapon extends Sprite
 {
     private Vector2 position;
     public ArrayList<Bullet> bullets;
+    public ArrayList<FallingBullets> fallingBullets;
     private final World box2dWorld;
     private final BodyDef weaponBody = new BodyDef();
     private Body physicsBodyWeapon;
@@ -57,6 +58,7 @@ public class Weapon extends Sprite
         this.position = character.getBodyPosition();
         position.y += 4f;
         bullets = new ArrayList<>();
+        fallingBullets = new ArrayList<>();
         this.character = character;
         switchWeapon();
         setTexture(TEXTURE_IDLE);
@@ -78,6 +80,8 @@ public class Weapon extends Sprite
             setPosition(position.x - 2f - extraPos, yPos);
 
         }
+
+        //Weapons spawning
         if (stopFalling)
         {
             yPos = character.getBodyPosition().y+0.05f;
@@ -87,7 +91,6 @@ public class Weapon extends Sprite
             stopFalling = true;
         if (!stopFalling)
             yPos -= 0.098f;
-
         removeBullets();
 
     }
@@ -117,6 +120,10 @@ public class Weapon extends Sprite
             }
             if (type != 3)
                 bullet.draw(sb);
+        }
+        for (FallingBullets fallingBullet:fallingBullets)
+        {
+            fallingBullet.draw(sb);
         }
 
     }
@@ -190,6 +197,7 @@ public class Weapon extends Sprite
 
             if (CURRENT_AMMO < 1)
             {
+                //Reload in case the weapon is the least obtainable weapon
                 if (type == 0)
                     refillAmmo();
                 else
@@ -202,8 +210,8 @@ public class Weapon extends Sprite
             if (faceRight)
             {
                 bulletFlipped = false;
-                Bullet bullet = new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type);
-                bullets.add(bullet);
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),-1));
 
             } else
             {
@@ -211,18 +219,19 @@ public class Weapon extends Sprite
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
                 bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x -0.8f, position.y + 0.4f),1));
             }
 
         }
 
     }
-
+    //Removing unnecessary bullets once they're out of the game range
     private void removeBullets()
     {
         ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
         for (Bullet bullet : bullets)
         {
-            bullet.update(Gdx.graphics.getDeltaTime());
+            bullet.update();
 
             if (bullet.removeFromArray)
             {
@@ -230,6 +239,7 @@ public class Weapon extends Sprite
                 bulletsToBeRemoved.add(bullet);
             }
         }
+
         if (Bullet.isLight)
         {
             for (Bullet bullet : bulletsToBeRemoved)
@@ -238,9 +248,24 @@ public class Weapon extends Sprite
             }
         }
         bullets.removeAll(bulletsToBeRemoved);
+
+
+        ArrayList<FallingBullets> fallingBulletsToBeRemoved = new ArrayList<>();
+        for (FallingBullets bullet : fallingBullets)
+        {
+            bullet.update();
+            if (bullet.removeFromArray)
+            {
+                fallingBulletsToBeRemoved.add(bullet);
+            }
+        }
+        fallingBullets.removeAll(fallingBulletsToBeRemoved);
+
+
     }
-
-
-
+   public Vector2 getPosition()
+   {
+       return position;
+   }
 
 }

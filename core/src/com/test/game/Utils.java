@@ -12,4 +12,15 @@ public  class Utils
         reversedVector.x *= -1;
         return reversedVector;
     }
+
+    /**
+     *
+     * @param p1 Vector2 of point
+     * @param p2 Vector2 of point 2
+     * @return Euclidean Distance between the two points
+     */
+    public static float getDistance(Vector2 p1, Vector2 p2)
+    {
+        return (float) Math.sqrt(( (p1.x - p2.x) * (p1.x - p2.x) ) + ((p1.y - p2.y) * (p1.y - p2.y)));
+    }
 }
