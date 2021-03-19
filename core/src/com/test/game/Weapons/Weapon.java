@@ -48,7 +48,6 @@ public class Weapon extends Sprite
     protected float FIRING_RATE;
     public Texture TEXTURE_IDLE;
     public Texture BULLET_TEXTURE;
-    public Texture FALLING_BULLET_TEXTURE;
     protected Texture TEXTURE_SHOOTING;
     public boolean canShoot = false;
 
@@ -212,7 +211,7 @@ public class Weapon extends Sprite
             {
                 bulletFlipped = false;
                 bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type));
-                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),FALLING_BULLET_TEXTURE,-1));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),-1));
 
             } else
             {
@@ -220,7 +219,7 @@ public class Weapon extends Sprite
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
                 bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
-                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x -0.8f, position.y + 0.4f),FALLING_BULLET_TEXTURE,1));
+                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x -0.8f, position.y + 0.4f),1));
             }
 
         }

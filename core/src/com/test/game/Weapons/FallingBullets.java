@@ -14,12 +14,12 @@ public class FallingBullets extends Sprite {
     private Vector2 initialPosition;
     public boolean removeFromArray = false;
     private int direction;
-    FallingBullets(World world, Vector2 position, Texture texture, int direction)
+    FallingBullets(World world, Vector2 position, int direction)
     {
         this.box2dWorld = world;
         initialPosition=position;
         this.direction=direction;
-        setTexture(texture);
+        setTexture(new Texture("vfx/bulletTrail.png"));
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 258, 734); //define region of certain texture in png
         setRegion(textureRegion);
         setBounds(position.x, position.y, 5 / Khartoosha.PPM, 15 / Khartoosha.PPM); //set size rendered texture
