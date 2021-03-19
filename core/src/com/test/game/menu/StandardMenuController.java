@@ -32,15 +32,15 @@ public abstract class StandardMenuController {
         return table;
     }
 
-    final int numOfButtons;
+    protected final int numOfButtons;
     public String[] textButtonNames;
     protected java.util.Map<String, TextButton> textButtonMap;
 
     protected MenuStyle menuStyle;
 
-    int currTextButton;
+    protected int currTextButton;
 
-    float buttonScale;
+    protected float buttonScale;
 
     public StandardMenuController(int numOfButtons, Khartoosha game) {
         this.game = game;
@@ -68,6 +68,7 @@ public abstract class StandardMenuController {
             textButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    SoundsManager.pistolFire();
                     chosen(textButtonNames[finalI], finalI);
                 }
 

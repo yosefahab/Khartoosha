@@ -10,11 +10,10 @@ import com.test.game.menu.StandardMenuController;
 
 public class MainMenuScreen extends StandardMenuController implements Screen {
 
-    static final int NUM_OF_BUTTONS = 3;
-    MovingBackground mbg;
+    private static final int NUM_OF_BUTTONS = 3;
     public MainMenuScreen(Khartoosha game) {
         super(NUM_OF_BUTTONS, game);
-         mbg = new MovingBackground(MovingBackground.initializeMenuBG());
+        MovingBackground.setBg(MovingBackground.initializeMenuBG());
         textButtonNames[1] = "play";
         textButtonNames[2] = "settings";
         textButtonNames[3] = "exit";

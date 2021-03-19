@@ -9,9 +9,9 @@ import com.test.game.menu.StandardMenuController;
 
 public class PlayMenuScreen extends StandardMenuController implements Screen {
 
-    static final int NUM_OF_BUTTONS = 3;
+    private static final int NUM_OF_BUTTONS = 3;
 
-    static final float BUTTONS_SCALE = 0.6f;
+    private static final float BUTTONS_SCALE = 0.6f;
 
     public PlayMenuScreen(Khartoosha game) {
         super(NUM_OF_BUTTONS, game, BUTTONS_SCALE);
@@ -45,9 +45,7 @@ public class PlayMenuScreen extends StandardMenuController implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Khartoosha.batch.begin();
-        MovingBackground.displayMenuBG();
-        Khartoosha.batch.end();
+        renderMenuBG();
 
         menuControllerRender(delta);
         //getTable().add(imageButton);

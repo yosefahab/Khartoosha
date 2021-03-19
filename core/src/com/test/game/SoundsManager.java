@@ -24,7 +24,7 @@ public final class SoundsManager
 
         player1Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt1.ogg"));
         player2Grunt = Gdx.audio.newSound(Gdx.files.internal("sfx/player/grunt2.ogg"));
-        click = Gdx.audio.newSound(Gdx.files.internal("sfx/menu/click.ogg"));
+        click = Gdx.audio.newSound(Gdx.files.internal("sfx/pistol/reload.ogg")); //Gdx.audio.newSound(Gdx.files.internal("sfx/menu/click.ogg"));
         powerUp = Gdx.audio.newSound(Gdx.files.internal("sfx/powerUp.ogg"));
         gameOver = Gdx.audio.newSound(Gdx.files.internal("sfx/menu/gameOver.ogg"));
 
@@ -58,6 +58,7 @@ public final class SoundsManager
     }
 
     public static void click() {
+        click.stop();
         click.play(soundVolume);
     }
 

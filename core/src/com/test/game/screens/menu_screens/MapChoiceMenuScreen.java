@@ -12,11 +12,11 @@ import com.test.game.menu.ChoiceMenuController;
 
 public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen {
 
-    static final int NUM_OF_BUTTONS = 1;
-    static final int NUM_OF_CHOICES = 4;
-    static final String CHOICE_NAME = "map";
+    private static final int NUM_OF_BUTTONS = 1;
+    private static final int NUM_OF_CHOICES = 4;
+    private static final String CHOICE_NAME = "map";
 
-    boolean isTwoPlayers;
+    private boolean isTwoPlayers;
 
     public MapChoiceMenuScreen(boolean isTwoPlayers, Khartoosha game) {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
@@ -104,6 +104,6 @@ public class MapChoiceMenuScreen extends ChoiceMenuController implements Screen 
 
     @Override
     public void dispose() {
-
+        menuControllerDispose();
     }
 }

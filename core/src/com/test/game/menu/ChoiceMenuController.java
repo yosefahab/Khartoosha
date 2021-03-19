@@ -22,17 +22,17 @@ import java.util.Map;
 public abstract class ChoiceMenuController extends StandardMenuController{
 //VERY IMPORTANT: here the character buttons are image buttons so they have their own string names array and map
 
-    int numOfChoices;
-    int currImageButton;
+    protected int numOfChoices;
+    protected int currImageButton;
 
     protected String[] imageButtonNames;
     //String imageButtonActiveBgPath;
-    String imageButtonPath;
+    protected String imageButtonPath;
     protected Map<String, ImageButton> choicesImageButtonsMap;
 
     protected Label heading;
 
-    String choiceName;
+    protected String choiceName;
     public ChoiceMenuController(final int numOfButtons, int numOfChoices, String choiceName, Khartoosha game) {
         super(numOfButtons, game);
         this.numOfChoices = numOfChoices;

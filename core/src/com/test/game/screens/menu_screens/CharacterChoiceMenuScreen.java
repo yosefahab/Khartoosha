@@ -9,14 +9,14 @@ import java.util.ArrayList;
 public class CharacterChoiceMenuScreen extends ChoiceMenuController implements Screen {
     int mapID;
 
-    static final int NUM_OF_BUTTONS = 1;
-    static final int NUM_OF_CHOICES = 3;
-    static final String CHOICE_NAME = "char";
+    private static final int NUM_OF_BUTTONS = 1;
+    private static final int NUM_OF_CHOICES = 3;
+    private static final String CHOICE_NAME = "char";
 
-    boolean isTwoPlayers;
+    private boolean isTwoPlayers;
 
-    boolean isFirstCharChosen;
-    ArrayList<Integer> chosenCharacters;
+    private boolean isFirstCharChosen;
+    private final ArrayList<Integer> chosenCharacters;
 
     public CharacterChoiceMenuScreen(boolean isTwoPlayers, int mapID, Khartoosha game) {
         super(NUM_OF_BUTTONS, NUM_OF_CHOICES, CHOICE_NAME, game);
@@ -100,6 +100,6 @@ public class CharacterChoiceMenuScreen extends ChoiceMenuController implements S
 
     @Override
     public void dispose() {
-
+        menuControllerDispose();
     }
 }
