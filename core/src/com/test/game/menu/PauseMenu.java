@@ -13,14 +13,17 @@ import com.test.game.screens.play_screen.PlayScreen;
 import com.test.game.screens.menu_screens.MainMenuScreen;
 
 //TODO: optimize
-public class PauseMenu extends StandardMenuController{
+public class PauseMenu extends StandardMenuController
+{
     static final int NUM_OF_BUTTONS = 3;
     static final float BUTTON_SCALE = 0.6f;
 
     public static int pauseMenuPageNum = 1;
 
     PlayScreen currScreen;
-    public PauseMenu(Khartoosha game, PlayScreen currPlayScreen) {
+
+    public PauseMenu(Khartoosha game, PlayScreen currPlayScreen)
+    {
         super(NUM_OF_BUTTONS, game, BUTTON_SCALE);
         this.currScreen = currPlayScreen;
         textButtonNames[1] = "resume";
@@ -34,7 +37,7 @@ public class PauseMenu extends StandardMenuController{
         stage = new Stage();
         table = new Table();
         final float subtractFromWidth = 300, subtractFromHeight = 100;
-        table.setBounds(subtractFromWidth/2, subtractFromHeight/2, Gdx.graphics.getWidth() - subtractFromWidth, Gdx.graphics.getHeight() - subtractFromHeight);
+        table.setBounds(subtractFromWidth / 2, subtractFromHeight / 2, Gdx.graphics.getWidth() - subtractFromWidth, Gdx.graphics.getHeight() - subtractFromHeight);
         table.setFillParent(false);
         Gdx.input.setInputProcessor(stage);
         Sprite bg = new Sprite(new Texture("menu/menu_pauseBG-WIDE2.png"));
@@ -45,7 +48,8 @@ public class PauseMenu extends StandardMenuController{
         //table.debug();
 
         //adding buttons to table
-        for (int i = 1; i <= numOfButtons; i++) {
+        for (int i = 1; i <= numOfButtons; i++)
+        {
             TextButton button = textButtonMap.get(textButtonNames[i]);
             button.getLabel().setFontScale(buttonScale);
             table.add(button);
@@ -56,23 +60,30 @@ public class PauseMenu extends StandardMenuController{
         stage.addActor(table);
     }
 
-    public void renderPauseMenu(float delta) {
+    public void renderPauseMenu(float delta)
+    {
         stage.act(delta);
         stage.draw();
     }
 
     @Override
-    public void chosen(String chosenButton, int chosenIndex) {
-        if(chosenButton.equals("resume")) { //if resume is clicked
+    public void chosen(String chosenButton, int chosenIndex)
+    {
+        if (chosenButton.equals("resume"))
+        { //if resume is clicked
             PlayScreen.isGamePaused = false;
-        } else if(chosenButton.equals("settings")){ //if settings is clicked
+        }
+        else if (chosenButton.equals("settings"))
+        { //if settings is clicked
             //TODO: figure a way to update settings
 //            initializeSettings();
             pauseMenuPageNum = 2;
             //System.out.println(pauseMenuPageNum);
-        } else if(chosenButton.equals("exit")) { //if exit is clicked
+        }
+        else if (chosenButton.equals("exit"))
+        { //if exit is clicked
             //TODO: when uncommenting the game crashes?
-            //currScreen.dispose();
+            currScreen.dispose();
             ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
         }
     }
