@@ -41,7 +41,7 @@ public class Character extends Sprite
     public boolean lostLife = false;
 
     // character input keys will be determined based on the value of this variable
-    private static int NUMBER_OF_CHARACTERS;
+    public static int NUMBER_OF_CHARACTERS;
 
     // Array of input key codes contains either WASD or arrows
     private final int[] CHARACTER_CONTROLS;
@@ -112,12 +112,7 @@ public class Character extends Sprite
             CHARACTER_CONTROLS[1] = Input.Keys.LEFT;
             CHARACTER_CONTROLS[2] = Input.Keys.DOWN;
             CHARACTER_CONTROLS[3] = Input.Keys.RIGHT;
-            CHARACTER_CONTROLS[4] = Input.Keys.SPACE;
-        }
-        else
-        {
-            //System.out.println("a7a 555555555");
-            //System.out.println(NUMBER_OF_CHARACTERS);
+            CHARACTER_CONTROLS[4] = Input.Keys.SHIFT_RIGHT;
         }
 
         loadCharacter(TextureNumber); //select character based on menu selection
@@ -311,20 +306,11 @@ public class Character extends Sprite
         {
             weapon.shoot();
         }
-
-//        if (CHARACTER_ID == 1 && Gdx.input.isKeyJustPressed(Input.Keys.G))
-//        {
-//            bomb.KA(this);
-//        }
-//
-//        if (CHARACTER_ID == 2 && Gdx.input.isKeyJustPressed(Input.Keys.F))
-//        {
-//            bomb.KA(this);
-//        }
     }
 
     public void dispose()
     {
+        NUMBER_OF_CHARACTERS--;
         getTexture().dispose();
         jumping.getTexture().dispose();
         idle.getTexture().dispose();
@@ -361,7 +347,6 @@ public class Character extends Sprite
      * from upgrading the weapon's opponent
      */
     public void startHitTimer() {
-        //System.out.println("Hit timer started");
         hitTimer = 0;
         isTimerStarted = true;
     }

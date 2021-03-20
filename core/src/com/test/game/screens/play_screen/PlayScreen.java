@@ -1,6 +1,6 @@
 package com.test.game.screens.play_screen;
 
-import box2dLight.RayHandler;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -44,9 +44,8 @@ public class PlayScreen implements Screen
     public static boolean isGamePaused;
     public static boolean goToMainMenu;
 
-    public Hud H;
+    public Hud hud;
 
-    public static RayHandler rayHandler;
 
     PauseMenu pauseMenu;
 
@@ -63,9 +62,7 @@ public class PlayScreen implements Screen
         atlas = new TextureAtlas("Characters.pack");
         powerupAtlas = new TextureAtlas("powerups.pack");
 
-        // Create our Box2D world, setting no gravity in X, -1 gravity in Y, and allow bodies to sleep
         box2dWorld = new World(new Vector2(0, -10), true);
-        // Allows for debug lines of our box2d world.
         box2dDebugRenderer = new Box2DDebugRenderer();
 
 
@@ -92,7 +89,7 @@ public class PlayScreen implements Screen
         isGamePaused = false;
         goToMainMenu = false;
 
-        H = new Hud();
+        hud = new Hud();
     }
 
     // 1 Player constructor
@@ -132,6 +129,7 @@ public class PlayScreen implements Screen
     public void update()
     {
         // Update physics world
+        if (!isGamePaused)
         box2dWorld.step(1/60F, 6, 2);
 
         character1.update();
@@ -159,7 +157,7 @@ public class PlayScreen implements Screen
         }
 
         powerUpsHandler.update();
-        H.Lose_life(character1, character2);
+        hud.Lose_life(character1, character2);
 
     }
 
@@ -171,10 +169,10 @@ public class PlayScreen implements Screen
         map.dispose();
         character1.dispose();
         character2.dispose();
-        SoundsManager.dispose();
         Hud.dispose();
         box2dDebugRenderer.dispose();
         box2dWorld.dispose();
+        if (!gameOver)
         pauseMenu.menuControllerDispose();
 
     }
@@ -193,6 +191,7 @@ public class PlayScreen implements Screen
             isGamePaused = !isGamePaused;
             PauseMenu.pauseMenuPageNum = 1;
         }
+
         if(!isGamePaused)
         {
             update();
@@ -200,7 +199,7 @@ public class PlayScreen implements Screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render();
-        box2dDebugRenderer.render(box2dWorld, camera.gameCam.combined);
+        // box2dDebugRenderer.render(box2dWorld, camera.gameCam.combined);
         Khartoosha.batch.setProjectionMatrix(camera.gameCam.combined);
         Khartoosha.batch.begin();
         powerUpsHandler.render();
@@ -209,11 +208,11 @@ public class PlayScreen implements Screen
         {
             character2.render();
 
-            H.Hearts_pos(camera);
-            H.Hud_pos(camera);
-            H.heads_pos(camera ,character1 , character2);
-            H.Gun_pos(camera , character1,character2);
-            H.bullet_pos(camera,character1,character2);
+            hud.Hearts_pos(camera);
+            hud.Hud_pos(camera);
+            hud.heads_pos(camera ,character1 , character2);
+            hud.Gun_pos(camera , character1,character2);
+            hud.bullet_pos(camera,character1,character2);
         }
         if (gameOver)
         {
@@ -221,19 +220,12 @@ public class PlayScreen implements Screen
             Hud.endGame(winner);
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))
             {
-                //this.dispose();
-                //game.setScreen((new OldMainMenuScreen(game)));
+                this.dispose();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         }
-        if(isGamePaused && !gameOver)
+        if (isGamePaused && !gameOver)
         {
-            if(goToMainMenu)
-            {
-                System.out.println("D>D>D");
-                this.dispose();
-                game.setScreen(new MainMenuScreen(game));
-            }
-
             pauseMenu.showPauseMenu();
             pauseMenu.renderPauseMenu(delta);
         }
@@ -264,7 +256,7 @@ public class PlayScreen implements Screen
     {
 
     }
-    //TODO: implement functions unfala7i
+
     public TextureAtlas getAtlas(){return atlas;}
     public TextureAtlas GetAtlas(){return powerupAtlas;}
 

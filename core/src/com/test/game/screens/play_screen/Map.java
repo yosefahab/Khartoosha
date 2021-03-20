@@ -108,7 +108,6 @@ public class Map
     {
         mapRenderer.dispose();
         map.dispose();
-        box2dWorld.dispose();
     }
 
     private void createRectanglePlatform(Rectangle rect, int platformIndex, Object object)
