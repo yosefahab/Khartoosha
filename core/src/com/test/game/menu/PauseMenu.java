@@ -82,7 +82,6 @@ public class PauseMenu extends StandardMenuController
         }
         else if (chosenButton.equals("exit"))
         { //if exit is clicked
-            //TODO: when uncommenting the game crashes?
             currScreen.dispose();
             ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
         }

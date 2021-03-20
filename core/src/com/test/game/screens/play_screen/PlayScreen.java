@@ -52,6 +52,8 @@ public class PlayScreen implements Screen
     // General constructor
     public PlayScreen(Khartoosha game, int mapID)
     {
+        isGamePaused = false;
+        gameOver = false;
         this.game = game;
         Gdx.input.setInputProcessor(null); // because menu uses setInputProcessor()
         mapID--; // because mapID is zero based
