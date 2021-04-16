@@ -92,6 +92,8 @@ public class Bomb extends Sprite
         bullets[3] = new Bullet(world, pos, Utils.flipVectorX(VELOCITY_VECTORS[2]), Utils.flipVectorX(VELOCITY_VECTORS[2]),new Texture("bomb.png"), 4);
         bullets[4] = new Bullet(world, pos, VELOCITY_VECTORS[2], FORCE_VECTORS[2],new Texture("bomb.png"), 4);
 
+        for (Bullet b : bullets)
+            b.isBomb = true;
 
         bombBody.setTransform(Khartoosha.Gwidth / Khartoosha.PPM + (200 / Khartoosha.PPM),
                 Khartoosha.Gheight / Khartoosha.PPM + (300 / Khartoosha.PPM), 0);
@@ -123,6 +125,7 @@ public class Bomb extends Sprite
                 {
                     cnt++;
                     b.update();
+
                     if (b.isOutOfRange(WeaponManager.BOMB_RANGE, true))
                     {
                         b.dispose();

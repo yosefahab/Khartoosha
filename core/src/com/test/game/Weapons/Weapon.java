@@ -1,6 +1,7 @@
 package com.test.game.Weapons;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -66,7 +67,7 @@ public class Weapon extends Sprite
         character.weapon = this;
 
         TextureRegion textureRegion = new TextureRegion(getTexture(), 0, 0, 1102, 217); //define region of certain texture in png
-        setBounds(0,0,160/ Khartoosha.PPM,28/Khartoosha.PPM); //set size rendered texture
+        setBounds(0, 0, 160 / Khartoosha.PPM, 28 / Khartoosha.PPM); //set size rendered texture
         setRegion(textureRegion);
     }
 
@@ -81,11 +82,11 @@ public class Weapon extends Sprite
 
         }
 
-        //Weapons spawning
+        // Weapons spawning
         if (stopFalling)
         {
-            yPos = character.getBodyPosition().y+0.05f;
-            canShoot=true;
+            yPos = character.getBodyPosition().y + 0.05f;
+            canShoot = true;
         }
         if (yPos < character.getBodyPosition().y + 0.3)
             stopFalling = true;
@@ -104,9 +105,7 @@ public class Weapon extends Sprite
         if (shootingTimer < 0.4f)
         {
             setTexture(TEXTURE_SHOOTING);
-        }
-
-        else if (shootingTimer > 0.4f)
+        } else if (shootingTimer > 0.4f)
         {
 
             setTexture(TEXTURE_IDLE);
@@ -121,7 +120,7 @@ public class Weapon extends Sprite
             if (type != 3)
                 bullet.draw(sb);
         }
-        for (FallingBullets fallingBullet:fallingBullets)
+        for (FallingBullets fallingBullet : fallingBullets)
         {
             fallingBullet.draw(sb);
         }
@@ -145,23 +144,28 @@ public class Weapon extends Sprite
     {
         yPos = position.y + 4f;
         stopFalling = false;
-        canShoot=false;
+        canShoot = false;
         switch (type)
         {
             case 0:
                 WeaponManager.initPistol(this);
                 SoundsManager.pistolReload();
+                Bullet.pointLight_color = new Color(116, 207, 205, 1);
                 break;
             case 1:
                 WeaponManager.initMG(this);
                 SoundsManager.mgReload();
+                Bullet.pointLight_color = new Color(0, 0, 128, 1);
                 break;
             case 2:
                 WeaponManager.initSniper(this);
                 SoundsManager.sniperReload();
+                Bullet.pointLight_color = new Color(255, 0, 0, 1);
                 break;
             case 3:
                 WeaponManager.initShotgun(this);
+                Bullet.pointLight_color = new Color(128, 0, 0, 1);
+
         }
         CURRENT_AMMO = MAX_AMMO;
 
@@ -210,22 +214,33 @@ public class Weapon extends Sprite
             if (faceRight)
             {
                 bulletFlipped = false;
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE,BULLET_TEXTURE, type));
-                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x + 0.4f, position.y + 0.4f),-1));
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), BULLET_VELOCITY, FORCE, BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x + 0.4f, position.y + 0.4f), -1));
+                if (type == 3)
+                {
+                    fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x + 0.0f, position.y + 0.0f), -1));
+                    fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x + -0.4f, position.y + -0.4f), -1));
+                }
 
             } else
             {
                 bulletFlipped = true;
                 Vector2 NEGATIVE_VELOCITY = new Vector2(BULLET_VELOCITY.x * -1f, 0);
                 Vector2 NEGATIVE_FORCE = new Vector2(FORCE.x * -1f, 0);
-                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE,BULLET_TEXTURE, type));
-                fallingBullets.add(new FallingBullets(box2dWorld,new Vector2(position.x -0.8f, position.y + 0.4f),1));
+                bullets.add(new Bullet(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), NEGATIVE_VELOCITY, NEGATIVE_FORCE, BULLET_TEXTURE, type));
+                fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x - 0.8f, position.y + 0.4f), 1));
+                if (type == 3)
+                {
+                    fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x - 0.12f, position.y + 0.0f), 1));
+                    fallingBullets.add(new FallingBullets(box2dWorld, new Vector2(position.x - 0.16f, position.y + -0.4f), 1));
+                }
             }
 
         }
 
     }
-    //Removing unnecessary bullets once they're out of the game range
+
+    // Removing unnecessary bullets once they're out of the game range
     private void removeBullets()
     {
         ArrayList<Bullet> bulletsToBeRemoved = new ArrayList<>();
@@ -260,12 +275,6 @@ public class Weapon extends Sprite
             }
         }
         fallingBullets.removeAll(fallingBulletsToBeRemoved);
-
-
     }
-   public Vector2 getPosition()
-   {
-       return position;
-   }
 
 }

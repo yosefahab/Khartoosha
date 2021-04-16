@@ -124,12 +124,5 @@ public class Camera
         gameCam.position.y = camY;
     }
 
-    public Vector2 getMid()
-    {
-        Vector2 vec = new Vector2();
-        vec.x = gameCam.position.x;
-        vec.y = gameCam.position.y;
-        return vec;
-    }
     public Vector2 getCamPos() {return new Vector2(gameCam.position.x,gameCam.position.y);}
 }

@@ -201,7 +201,7 @@ public class PlayScreen implements Screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.render();
-        // box2dDebugRenderer.render(box2dWorld, camera.gameCam.combined);
+        box2dDebugRenderer.render(box2dWorld, camera.gameCam.combined);
         Khartoosha.batch.setProjectionMatrix(camera.gameCam.combined);
         Khartoosha.batch.begin();
         powerUpsHandler.render();

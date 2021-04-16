@@ -94,7 +94,7 @@ public class Character extends Sprite
 
 
         NUMBER_OF_CHARACTERS++;
-        CHARACTER_CONTROLS = new int[5];
+        CHARACTER_CONTROLS = new int[6];
         CHARACTER_ID = NUMBER_OF_CHARACTERS;
         defineCharacterPhysics();
 
@@ -105,6 +105,7 @@ public class Character extends Sprite
             CHARACTER_CONTROLS[2] = Input.Keys.S;
             CHARACTER_CONTROLS[3] = Input.Keys.D;
             CHARACTER_CONTROLS[4] = Input.Keys.CONTROL_LEFT;
+            CHARACTER_CONTROLS[5] = Input.Keys.Z;
         }
         else if (CHARACTER_ID == 2)
         {
@@ -113,6 +114,7 @@ public class Character extends Sprite
             CHARACTER_CONTROLS[2] = Input.Keys.DOWN;
             CHARACTER_CONTROLS[3] = Input.Keys.RIGHT;
             CHARACTER_CONTROLS[4] = Input.Keys.SHIFT_RIGHT;
+            CHARACTER_CONTROLS[5] = Input.Keys.PERIOD;
         }
 
         loadCharacter(TextureNumber); //select character based on menu selection
@@ -306,6 +308,13 @@ public class Character extends Sprite
         {
             weapon.shoot();
         }
+
+        /*
+        if (Gdx.input.isKeyJustPressed(CHARACTER_CONTROLS[5]))
+        {
+            bomb.KA(this);
+        }
+        */
     }
 
     public void dispose()

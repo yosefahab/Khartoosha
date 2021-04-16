@@ -3,6 +3,7 @@ package com.test.game.screens.play_screen;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.test.game.Khartoosha;
+import com.test.game.SoundsManager;
 import com.test.game.Weapons.Bullet;
 import com.test.game.menu.MovingBackground;
 import com.test.game.screens.play_screen.PlayScreen;
@@ -94,7 +96,8 @@ public class Map
         }
 
         initSpecialBehavior();
-
+        initBackgroundMusic();
+        SoundsManager.playMapBackgroundSounds();
     }
 
     public void render()
@@ -108,6 +111,8 @@ public class Map
     {
         mapRenderer.dispose();
         map.dispose();
+        Bullet.isLight = false;
+        SoundsManager.stopMapBackgroundSounds();
     }
 
     private void createRectanglePlatform(Rectangle rect, int platformIndex, Object object)
@@ -169,6 +174,25 @@ public class Map
         }
     }
 
+
+    private void initBackgroundMusic()
+    {
+        switch (ID)
+        {
+            case 0:
+                SoundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/punk.mp3"));
+                break;
+            case 1:
+                SoundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/AMOGUS.mp3"));
+                break;
+            case 2:
+                SoundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/snow.mp3"));
+                break;
+            case 3:
+                SoundsManager.mapBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/maps/gebflos.mp3"));
+        }
+    }
+
     private void UpdateAndrenderSpecialBehavior()
     {
         if (ID == 2)
@@ -189,7 +213,7 @@ public class Map
     private void imageLayerFlip()
     {
         imageLayerFlipTimer += Gdx.graphics.getDeltaTime();
-        if (imageLayerFlipTimer > 0.05f)
+        if (imageLayerFlipTimer > 0.6)
         {
             if (map.getLayers().get("1").isVisible())
                 map.getLayers().get("1").setVisible(false);

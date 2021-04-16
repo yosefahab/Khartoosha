@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 
 public final class SoundsManager
 {
-    public static final float DEFAULT_MUSIC_VOL = 0;
+    public static final float DEFAULT_MUSIC_VOL = 0.2f;
     public static final float DEFAULT_SOUND_VOL = 1f;
     private static Sound player1Grunt, player2Grunt, click, gameOver,powerUp;
     private static Sound sniperShoot, pistolShoot, mgShoot, shotgunShoot, sniperReload, pistolReload, mgReload;
@@ -105,6 +105,7 @@ public final class SoundsManager
     public static void playMapBackgroundSounds()
     {
         mapBackgroundMusic.play();
+        mapBackgroundMusic.setVolume(musicVolume);
         mapBackgroundMusic.setLooping(true);
     }
     public static void stopMapBackgroundSounds()

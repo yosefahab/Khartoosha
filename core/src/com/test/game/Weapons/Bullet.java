@@ -2,6 +2,7 @@ package com.test.game.Weapons;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,7 +25,10 @@ public class Bullet extends Sprite
     private int weaponType;
 
     protected PointLight pointLight;
+    protected static Color pointLight_color;
+    protected static int pointLight_radius = 5;
     public static boolean isLight;
+    protected boolean isBomb;
 
     public Bullet(World world, Vector2 position, Vector2 velocity, Vector2 force, Texture bulletTexture, int weaponType)
     {
@@ -41,13 +45,12 @@ public class Bullet extends Sprite
 
         if (isLight)
         {
-            pointLight = new PointLight(Map.rayHandler, 20);
-            pointLight.setColor(0f, 0.2f, 0.8f, 1f);
+            pointLight = new PointLight(Map.rayHandler, pointLight_radius);
+            pointLight.setColor(pointLight_color);
             pointLight.setDistance(2);
         }
     }
 
-    // Shotgun constructor, only difference is that there is no bullet texture
 
 
     public void defineBulletPhysics()
@@ -77,23 +80,27 @@ public class Bullet extends Sprite
         addedDistanceX += velocity.x;
         addedDistanceY += velocity.y;
 
-        setPosition(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY-0.3f); //update position of texture
+        setPosition(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY - 0.3f); //update position of texture
 
         // attach physics body for collision
-        bulletPhysicsBody.setTransform(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY-0.2f, 0);
+        bulletPhysicsBody.setTransform(initialPosition.x + addedDistanceX, initialPosition.y + addedDistanceY - 0.2f, 0);
         //remove bullet on contact
         if
         (
-            isContacted  ||
-            isOutOfMap() ||
-           (isOutOfRange(WeaponManager.SHOTGUN_RANGE, false) && weaponType == 3) ||
-           (isOutOfRange(WeaponManager.BOMB_RANGE, true) && weaponType == 4)
+                isContacted ||
+                        isOutOfMap() ||
+                        (isOutOfRange(WeaponManager.SHOTGUN_RANGE, false) && weaponType == 3) ||
+                        (isOutOfRange(WeaponManager.BOMB_RANGE, true) && weaponType == 4)
         )
         {
             dispose();
         }
         if (isLight)
-        pointLight.attachToBody(bulletPhysicsBody);
+        {
+            float x = bulletPhysicsBody.getPosition().x + 0.6f;
+            float y = bulletPhysicsBody.getPosition().y;
+            pointLight.setPosition(x, y);
+        }
 
     }
 
@@ -112,8 +119,16 @@ public class Bullet extends Sprite
     // it only disposes of disposable attributes
     public void dispose()
     {
+
         if (!bulletPhysicsBody.getFixtureList().isEmpty())
+        {
             bulletPhysicsBody.destroyFixture(bulletPhysicsBody.getFixtureList().first());
+        }
+        if (pointLight != null && isBomb)
+        {
+            pointLight.remove();
+            pointLight = null;
+        }
         removeFromArray = true;
         isContacted = false;
     }
